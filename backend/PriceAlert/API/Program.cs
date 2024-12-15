@@ -1,5 +1,4 @@
-using System;
-using System.Linq;
+using API.DTOs;
 using Microsoft.AspNetCore.Builder;
 
 internal class Program
@@ -10,29 +9,19 @@ internal class Program
 
         var app = builder.Build();
 
-        var summaries = new[]
+        app.MapGet("/api/products/1", () =>
         {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+            var product = new Product()
+            {
+                Id = 1,
+                Url = "https://www.google.com",
+                Name = "A dummy product",
+                ImageUrl = "https://www.google.com/logos/doodles/2024/seasonal-holidays-2024-6753651837110333.4-s.png",
+            };
 
-        app.MapGet("/weatherforecast", () =>
-        {
-            var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-                .ToArray();
-            return forecast;
+            return product;
         });
 
         app.Run();
     }
-}
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
