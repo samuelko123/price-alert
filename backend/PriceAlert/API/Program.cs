@@ -6,9 +6,9 @@ using Microsoft.Extensions.Hosting;
 
 internal class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
-        var builder = WebApplication.CreateBuilder(args);
+        var builder = WebApplication.CreateBuilder();
 
         // Add services to the container.
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
