@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import Page from './page';
 
 describe('Page', () => {
-  it('renders a heading', () => {
+  it('displays Hello World', () => {
     render(<Page />);
 
     const element = screen.getByText("Hello World");
