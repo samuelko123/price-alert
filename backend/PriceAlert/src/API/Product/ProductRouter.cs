@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 
 namespace API.Product;
@@ -14,7 +12,7 @@ public static class ProductRouter
         return group;
     }
 
-    public static Results<Ok<Product>, NotFound> GetProduct()
+    public static Product GetProduct()
     {
         var product = new Product()
         {
@@ -23,6 +21,6 @@ public static class ProductRouter
             Name = "A dummy product",
         };
 
-        return TypedResults.Ok(product);
+        return product;
     }
 }
