@@ -1,0 +1,7 @@
+.git
+.gitignore
+*.md
+
+**/.next/
+**/coverage/
+**/node_modules/
