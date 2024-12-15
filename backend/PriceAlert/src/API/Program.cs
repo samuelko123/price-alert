@@ -1,4 +1,4 @@
-using API.DTOs;
+using API.Routers;
 using Microsoft.AspNetCore.Builder;
 
 internal class Program
@@ -9,17 +9,7 @@ internal class Program
 
         var app = builder.Build();
 
-        app.MapGet("/api/products/1", () =>
-        {
-            var product = new Product()
-            {
-                Id = 1,
-                Url = "https://www.google.com",
-                Name = "A dummy product",
-            };
-
-            return product;
-        });
+        app.MapGroup("/api/products").MapProduct();
 
         app.Run();
     }
