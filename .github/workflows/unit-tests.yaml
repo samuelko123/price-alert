@@ -25,4 +25,4 @@ jobs:
 
       - name: Run unit tests
         run: |
-          docker compose -f ./docker/docker-compose.yaml up web-test
+          docker compose -f ./docker/docker-compose.yaml up --exit-code-from web-test
