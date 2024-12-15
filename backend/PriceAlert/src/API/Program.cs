@@ -1,4 +1,4 @@
-using API.Routers;
+using API.Product;
 using Microsoft.AspNetCore.Builder;
 
 internal class Program

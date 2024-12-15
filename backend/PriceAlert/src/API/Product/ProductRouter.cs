@@ -1,17 +1,16 @@
-using API.DTOs;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 
-namespace API.Routers;
+namespace API.Product;
 
 public static class ProductRouter
 {
     public static RouteGroupBuilder MapProduct(this RouteGroupBuilder group)
     {
         group.MapGet("/1", GetProduct);
-        
+
         return group;
     }
 
