@@ -1,0 +1,28 @@
+name:  Tests
+
+on:
+  pull_request:
+    branches:
+      - "*"
+    paths-ignore:
+      - "./.vscode"
+      - ".gitignore"
+      - "*.md"
+      - "LICENSE"
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run unit tests
+        run: |
+          docker compose -f ./docker/docker-compose.yaml up web-test
