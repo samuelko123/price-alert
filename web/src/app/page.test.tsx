@@ -5,7 +5,7 @@ describe('Page', () => {
   it('displays Hello World', () => {
     render(<Page />);
 
-    const element = screen.getByText("Hello Worl");
+    const element = screen.getByText("Hello World");
 
     expect(element).toBeVisible();
   })
