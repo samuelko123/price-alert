@@ -1,6 +1,14 @@
 name: Unit Tests
 
 on:
+  push:
+    branches:
+      - "main"
+    paths-ignore:
+      - "./.vscode"
+      - ".gitignore"
+      - "*.md"
+      - "LICENSE"  
   pull_request:
     branches:
       - "main"
