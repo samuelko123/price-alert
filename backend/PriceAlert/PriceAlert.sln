@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "src\API\API.csproj", "{713B2C8B-BE8C-48EB-8E48-C46FA0ADDA1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.UnitTests", "tests\API.UnitTests\API.UnitTests.csproj", "{22066C20-444C-4337-AD62-8025C788EBC0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{713B2C8B-BE8C-48EB-8E48-C46FA0ADDA1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713B2C8B-BE8C-48EB-8E48-C46FA0ADDA1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713B2C8B-BE8C-48EB-8E48-C46FA0ADDA1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713B2C8B-BE8C-48EB-8E48-C46FA0ADDA1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22066C20-444C-4337-AD62-8025C788EBC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22066C20-444C-4337-AD62-8025C788EBC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22066C20-444C-4337-AD62-8025C788EBC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22066C20-444C-4337-AD62-8025C788EBC0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

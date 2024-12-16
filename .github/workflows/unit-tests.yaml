@@ -19,7 +19,7 @@ on:
       - "LICENSE"
 
 jobs:
-  unit-test:
+  web-test:
     runs-on: ubuntu-latest
 
     permissions:
@@ -33,4 +33,20 @@ jobs:
 
       - name: Run unit tests
         run: |
-          docker compose -f ./docker/docker-compose.yaml up --exit-code-from web-test
+          docker compose --file ./docker/docker-compose.yaml up web-test --exit-code-from web-test --build --remove-orphans
+
+  api-test:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run unit tests
+        run: |
+          docker compose --file ./docker/docker-compose.yaml up api-test --exit-code-from api-test --build --remove-orphans
