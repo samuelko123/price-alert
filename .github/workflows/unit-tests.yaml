@@ -20,7 +20,7 @@ on:
 
 jobs:
   web-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     permissions:
       contents: read
@@ -36,7 +36,7 @@ jobs:
           docker compose --file ./docker/docker-compose.yaml up web-test --exit-code-from web-test --build --remove-orphans
 
   api-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     permissions:
       contents: read
