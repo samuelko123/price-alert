@@ -16,3 +16,17 @@ services:
       target: test
     profiles:
       - test
+  api:
+    container_name: api
+    build:
+      context: ../backend/PriceAlert/
+      dockerfile: ../../docker/api.Dockerfile
+      target: production
+    environment:
+      ASPNETCORE_HTTP_PORTS: 5000
+    ports:
+      - app_protocol: http
+        target: 5000
+        published: 5000
+    profiles:
+      - production
