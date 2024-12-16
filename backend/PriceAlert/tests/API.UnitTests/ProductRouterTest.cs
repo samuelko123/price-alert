@@ -8,6 +8,6 @@ public class UnitTest1
     public void GetProduct_ReturnsProduct()
     {
         var product = ProductRouter.GetProduct();
-        Assert.Equal("A dummy produc", product.Name);
+        Assert.Equal("A dummy product", product.Name);
     }
 }
