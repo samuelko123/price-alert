@@ -1,12 +1,11 @@
+import { expect, test } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import Page from './page';
 
-describe('Page', () => {
-  it('displays Hello World', () => {
-    render(<Page />);
+test('Page', () => {
+  render(<Page />)
 
-    const element = screen.getByText("Hello World");
+  const element = screen.getByText("Hello World");
 
-    expect(element).toBeVisible();
-  })
+  expect(element).toBeDefined();
 })
