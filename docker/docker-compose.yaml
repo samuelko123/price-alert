@@ -6,3 +6,9 @@ services:
       context: ../web/
       dockerfile: ../docker/web.Dockerfile
       target: test
+  api-test:
+    container_name: api-test
+    build:
+      context: ../backend/PriceAlert
+      dockerfile: ../../docker/api.Dockerfile
+      target: test
