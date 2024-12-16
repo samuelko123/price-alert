@@ -12,3 +12,10 @@ COPY . .
 
 FROM base AS test
 ENTRYPOINT ["npm", "test"]
+
+FROM base AS production
+WORKDIR /app
+USER node
+
+RUN npm run build
+ENTRYPOINT ["npm", "start"]

@@ -16,6 +16,18 @@ services:
       target: test
     profiles:
       - test
+  web:
+    container_name: web
+    build:
+      context: ../web/
+      dockerfile: ../docker/web.Dockerfile
+      target: production
+    ports:
+      - app_protocol: http
+        target: 3000
+        published: 3000
+    profiles:
+      - production
   api:
     container_name: api
     build:
