@@ -22,10 +22,6 @@ services:
       context: ../web/
       dockerfile: ../docker/web.Dockerfile
       target: production
-    ports:
-      - app_protocol: http
-        target: 3000
-        published: 3000
     profiles:
       - production
   api:
@@ -36,9 +32,16 @@ services:
       target: production
     environment:
       ASPNETCORE_HTTP_PORTS: 5000
+    profiles:
+      - production
+  reverse-proxy:
+    container_name: reverse-proxy
+    build:
+      context: ../nginx/
+      dockerfile: ../docker/nginx.Dockerfile
     ports:
       - app_protocol: http
-        target: 5000
-        published: 5000
+        target: 4000
+        published: 80
     profiles:
       - production
