@@ -16,14 +16,6 @@ services:
       target: test
     profiles:
       - test
-  web:
-    container_name: web
-    build:
-      context: ../web/
-      dockerfile: ../docker/web.Dockerfile
-      target: production
-    profiles:
-      - production
   api:
     container_name: api
     build:
@@ -34,8 +26,21 @@ services:
       ASPNETCORE_HTTP_PORTS: 5000
     profiles:
       - production
+  web:
+    container_name: web
+    depends_on:
+      - api
+    build:
+      context: ../web/
+      dockerfile: ../docker/web.Dockerfile
+      target: production
+    profiles:
+      - production
   reverse-proxy:
     container_name: reverse-proxy
+    depends_on:
+      - web
+      - api
     build:
       context: ../nginx/
       dockerfile: ../docker/nginx.Dockerfile
