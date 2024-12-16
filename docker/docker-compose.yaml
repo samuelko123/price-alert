@@ -16,3 +16,53 @@ services:
       target: test
     profiles:
       - test
+  api:
+    container_name: api
+    build:
+      context: ../backend/PriceAlert/
+      dockerfile: ../../docker/api.Dockerfile
+      target: production
+    environment:
+      ASPNETCORE_HTTP_PORTS: 5000
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:5000/api/healthcheck"]
+      interval: 5m
+      start_period: 30s
+      start_interval: 1s
+    profiles:
+      - production
+  web:
+    container_name: web
+    depends_on:
+      api:
+        condition: service_healthy
+        required: true
+    build:
+      context: ../web/
+      dockerfile: ../docker/web.Dockerfile
+      target: production
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 5m
+      start_period: 30s
+      start_interval: 1s
+    profiles:
+      - production
+  reverse-proxy:
+    container_name: reverse-proxy
+    depends_on:
+      api:
+        condition: service_healthy
+        required: true
+      web:
+        condition: service_healthy
+        required: true
+    build:
+      context: ../nginx/
+      dockerfile: ../docker/nginx.Dockerfile
+    ports:
+      - app_protocol: http
+        target: 4000
+        published: 80
+    profiles:
+      - production

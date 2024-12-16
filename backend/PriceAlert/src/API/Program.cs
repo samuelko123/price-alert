@@ -1,5 +1,6 @@
 using API.Product;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 
 internal class Program
 {
@@ -9,6 +10,7 @@ internal class Program
 
         var app = builder.Build();
 
+        app.MapGet("/api/healthcheck", () => Results.Ok());
         app.MapGroup("/api/products").MapProduct();
 
         app.Run();
