@@ -5,6 +5,7 @@ on:
 
 jobs:
   web-test:
+    name: Web Test
     runs-on: ubuntu-24.04
 
     permissions:
@@ -21,6 +22,7 @@ jobs:
           docker compose --file ./docker/docker-compose.yaml up web-test --exit-code-from web-test --build --remove-orphans
 
   api-test:
+    name: API Test
     runs-on: ubuntu-24.04
 
     permissions:
