@@ -1,16 +1,10 @@
 import '@testing-library/jest-dom/vitest';
-import { setupServer } from 'msw/node';
-import { http, HttpResponse } from 'msw';
 
-const handlers = [
-  http.get('http://api:5000/api/products/1', () => {
-    return HttpResponse.json({
-      id: 1,
-      url: "https://www.google.com",
-      name: "A dummy product",
-    })
-  }),
-];
+import { afterAll, afterEach, beforeAll } from 'vitest';
+import { server } from './mocks/server';
 
-const server = setupServer(...handlers);
-server.listen();
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+
+afterEach(() => server.resetHandlers());
+
+afterAll(() => server.close());
