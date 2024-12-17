@@ -8,8 +8,8 @@ COPY --chown=app:app *.sln .
 COPY --chown=app:app ./src ./src
 COPY --chown=app:app ./tests ./tests
 
-RUN dotnet clean ./src/API --output ./bin
 RUN dotnet restore
+RUN dotnet clean ./src/API --output ./bin
 RUN dotnet build --configuration Release --no-restore
 
 ################################################
