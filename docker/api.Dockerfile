@@ -20,7 +20,7 @@ ENTRYPOINT ["dotnet", "test", "--configuration", "Release", "--no-build"]
 ################################################
 
 FROM base AS publish
-RUN dotnet publish ./src/API --output ./bin --no-build
+RUN dotnet publish --configuration Release ./src/API --output ./bin --no-build
 
 ################################################
 
