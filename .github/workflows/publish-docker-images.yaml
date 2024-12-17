@@ -1,0 +1,23 @@
+name: Publish Docker Images
+
+on:
+  workflow_call:
+
+jobs:
+  docker-compose-push:
+    name: Docker Compose Push
+    runs-on: ubuntu-24.04
+
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Push Docker images
+        run: |
+          docker-compose --file ./docker/docker-compose.yaml --profile production push
