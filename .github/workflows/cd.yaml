@@ -11,5 +11,5 @@ on:
       - "LICENSE"
   jobs:
     run-unit-tests:
-      uses: ./.github/workflows/run-unit-tests.yaml
+      uses: ./.github/workflows/unit-tests.yaml
       secrets: inherit
