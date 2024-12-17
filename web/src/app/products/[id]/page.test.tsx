@@ -8,7 +8,7 @@ describe('Product Page', () => {
 
     render(component);
 
-    const element = screen.getByRole("link", { name: "A dummy product" });
+    const element = screen.getByRole("link", { name: "A dummy produc" });
     expect(element).toBeVisible();
   })
 });
