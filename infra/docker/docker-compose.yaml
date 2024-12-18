@@ -20,8 +20,8 @@ services:
     container_name: api
     image: samuelko123/price-alert-api:latest
     build:
-      context: ../backend/PriceAlert/
-      dockerfile: ../../docker/api.Dockerfile
+      context: ../../backend/PriceAlert/
+      dockerfile: ../../infra/docker/api.Dockerfile
       target: production
     environment:
       ASPNETCORE_HTTP_PORTS: 5000
@@ -40,8 +40,8 @@ services:
         condition: service_healthy
         required: true
     build:
-      context: ../web/
-      dockerfile: ../docker/web.Dockerfile
+      context: ../../web/
+      dockerfile: ../infra/docker/web.Dockerfile
       target: production
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
