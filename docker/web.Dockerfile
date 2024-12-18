@@ -17,9 +17,8 @@ ENTRYPOINT ["npm", "test"]
 ################################################
 
 FROM base AS build
-RUN npm run build
-
-################################################
+RUN pnpm build
+RUN pnpm prune --prod
 
 FROM node:20-alpine AS production
 RUN corepack enable
@@ -28,9 +27,10 @@ RUN chown node:node /app
 WORKDIR /app
 USER node
 
-COPY package.json .
-COPY --from=build /app/.next /app/.next
-
 ENV NODE_ENV=production
-RUN pnpm install --prod
+
+COPY --from=build /app/package.json /app/package.json
+COPY --from=build /app/node_modules/ /app/node_modules/
+COPY --from=build /app/.next/ /app/.next/
+
 ENTRYPOINT ["npm", "start"]
