@@ -10,7 +10,7 @@ on:
       - "*.md"
       - "LICENSE"
 jobs:
-  unit-tests:
+  run-unit-tests:
     name: Unit Tests
     uses: ./.github/workflows/unit-tests.yaml
     secrets: inherit
