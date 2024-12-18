@@ -4,11 +4,7 @@ on:
   push:
     branches:
       - "main"
-    paths-ignore:
-      - "./.vscode"
-      - ".gitignore"
-      - "*.md"
-      - "LICENSE"
+
 jobs:
   unit-tests:
     name: Unit Tests
