@@ -14,9 +14,3 @@ jobs:
     name: Unit Tests
     uses: ./.github/workflows/unit-tests.yaml
     secrets: inherit
-  publish-docker-images:
-    name: Publish Docker Images
-    uses: ./.github/workflows/publish-docker-images.yaml
-    needs:
-      - unit-tests
-    secrets: inherit
