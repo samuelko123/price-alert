@@ -1,11 +1,12 @@
 FROM node:20-alpine AS base
+RUN corepack enable
 RUN mkdir /app
 RUN chown node:node /app
 WORKDIR /app
 USER node
 
 COPY package.json .
-RUN yarn install
+RUN pnpm install
 COPY . .
 
 ################################################
@@ -15,9 +16,21 @@ ENTRYPOINT ["npm", "test"]
 
 ################################################
 
-FROM base AS production
+FROM base AS build
+RUN npm run build
+
+################################################
+
+FROM node:20-alpine AS production
+RUN corepack enable
+RUN mkdir /app
+RUN chown node:node /app
 WORKDIR /app
 USER node
 
-RUN npm run build
+COPY package.json .
+COPY --from=build /app/.next /app/.next
+
+ENV NODE_ENV=production
+RUN pnpm install --prod
 ENTRYPOINT ["npm", "start"]

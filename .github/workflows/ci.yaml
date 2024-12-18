@@ -1,0 +1,12 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  run-unit-tests:
+    name: Run Unit Tests
+    uses: ./.github/workflows/unit-tests.yaml
+    secrets: inherit
