@@ -4,11 +4,7 @@ on:
   pull_request:
     branches:
       - "main"
-    paths-ignore:
-      - "./.vscode"
-      - ".gitignore"
-      - "*.md"
-      - "LICENSE"
+
 jobs:
   run-unit-tests:
     name: Run Unit Tests
