@@ -20,6 +20,8 @@ FROM base AS build
 RUN pnpm build
 RUN pnpm prune --prod
 
+################################################
+
 FROM node:20-alpine AS production
 WORKDIR /app
 USER node
