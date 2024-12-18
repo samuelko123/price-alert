@@ -21,9 +21,6 @@ RUN pnpm build
 RUN pnpm prune --prod
 
 FROM node:20-alpine AS production
-RUN corepack enable
-RUN mkdir /app
-RUN chown node:node /app
 WORKDIR /app
 USER node
 
