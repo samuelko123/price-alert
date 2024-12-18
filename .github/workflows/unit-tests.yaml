@@ -19,7 +19,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          docker compose --file ./docker/docker-compose.yaml up web-test --exit-code-from web-test --build --remove-orphans
+          docker compose --file ./infra/docker/docker-compose.yaml up web-test --exit-code-from web-test --build --remove-orphans
 
   api-test:
     name: API Test
@@ -36,4 +36,4 @@ jobs:
 
       - name: Run unit tests
         run: |
-          docker compose --file ./docker/docker-compose.yaml up api-test --exit-code-from api-test --build --remove-orphans
+          docker compose --file ./infra/docker/docker-compose.yaml up api-test --exit-code-from api-test --build --remove-orphans
