@@ -3,16 +3,16 @@ services:
   web-test:
     container_name: web-test
     build:
-      context: ../web/
-      dockerfile: ../docker/web.Dockerfile
+      context: ../../web/
+      dockerfile: ../infra/docker/web.Dockerfile
       target: test
     profiles:
       - test
   api-test:
     container_name: api-test
     build:
-      context: ../backend/PriceAlert
-      dockerfile: ../../docker/api.Dockerfile
+      context: ../../backend/PriceAlert
+      dockerfile: ../../infra/docker/api.Dockerfile
       target: test
     profiles:
       - test
