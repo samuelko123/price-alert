@@ -66,6 +66,6 @@ services:
     ports:
       - app_protocol: http
         target: 4000
-        published: 80
+        published: 4000
     profiles:
       - production
