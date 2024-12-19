@@ -29,7 +29,7 @@ write_files:
     owner: root
     content: |
       # create folder
-      mkdir /app
+      mkdir -p /app
 
       # download docker-compose.yaml
       wget --output-document=/app/docker-compose.yaml https://raw.githubusercontent.com/samuelko123/price-alert/refs/heads/main/infra/docker/docker-compose.yaml
