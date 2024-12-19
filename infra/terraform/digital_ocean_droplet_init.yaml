@@ -8,7 +8,7 @@ cloud_final_modules:
 
 write_files:
   - path: /scripts/install-docker-engine.sh
-    permissions: '0744'
+    permissions: '0700'
     owner: root
     content: |
       #!/usr/bin/env bash
@@ -25,23 +25,17 @@ write_files:
       sudo apt-get install --assume-yes docker-ce
 
   - path: /scripts/deploy-application.sh
-    permissions: '0744'
+    permissions: '0711'
     owner: root
     content: |
-      # create folder
+      #!/usr/bin/env bash
       mkdir -p /app
-
-      # download docker-compose.yaml
       wget --output-document=/app/docker-compose.yaml https://raw.githubusercontent.com/samuelko123/price-alert/refs/heads/main/infra/docker/docker-compose.yaml
-
-      # pull docker images
       docker compose --file /app/docker-compose.yaml --profile production pull
-
-      # run docker compose
       docker compose --file /app/docker-compose.yaml --profile production up --detach --remove-orphans
 
   - path: /scripts/install-webhook.sh
-    permissions: '0744'
+    permissions: '0700'
     owner: root
     content: |
       #!/usr/bin/env bash
@@ -69,13 +63,13 @@ write_files:
       [
         {
           "id": "deploy-application",
-          "execute-command": "/scripts/deploy-application.sh",
-          "command-working-directory": "/scripts"
+          "command-working-directory": "/",
+          "execute-command": "/scripts/deploy-application.sh"
         }
       ]
 
   - path: /scripts/deploy-webhook.sh
-    permissions: '0744'
+    permissions: '0700'
     owner: root
     content: |
       #!/usr/bin/env bash
@@ -83,9 +77,15 @@ write_files:
       systemctl start webhook.service
       systemctl enable webhook.service
 
+  - path: /scripts/call-webhook.sh
+    permissions: '0700'
+    owner: root
+    content: |
+      #!/usr/bin/env bash
+      curl http://0.0.0.0:9000/hooks/deploy-application
 
 runcmd:
   - bash /scripts/install-docker-engine.sh
-  - bash /scripts/deploy-application.sh
   - bash /scripts/install-webhook.sh
   - bash /scripts/deploy-webhook.sh
+  - bash /scripts/call-webhook.sh
