@@ -74,7 +74,18 @@ write_files:
         }
       ]
 
+  - path: /scripts/deploy-webhook.sh
+    permissions: '0744'
+    owner: root
+    content: |
+      #!/usr/bin/env bash
+      systemctl daemon-reload
+      systemctl start webhook.service
+      systemctl enable webhook.service
+
+
 runcmd:
   - bash /scripts/install-docker-engine.sh
   - bash /scripts/deploy-application.sh
   - bash /scripts/install-webhook.sh
+  - bash /scripts/deploy-webhook.sh
