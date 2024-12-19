@@ -1,0 +1,91 @@
+#cloud-config
+
+cloud_config_modules:
+  - runcmd
+
+cloud_final_modules:
+  - scripts-user
+
+write_files:
+  - path: /scripts/install-docker-engine.sh
+    permissions: '0700'
+    owner: root
+    content: |
+      #!/usr/bin/env bash
+      apt-get update
+      apt-get install --assume-yes ca-certificates curl
+      install --mode 0755 --directory /etc/apt/keyrings
+      curl --fail --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg --output /etc/apt/keyrings/docker.asc
+      chmod a+r /etc/apt/keyrings/docker.asc
+      echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+          $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+          tee /etc/apt/sources.list.d/docker.list > /dev/null
+      apt-get update
+      apt-get install --assume-yes docker-ce
+
+  - path: /scripts/deploy-application.sh
+    permissions: '0711'
+    owner: root
+    content: |
+      #!/usr/bin/env bash
+      mkdir -p /app
+      wget --output-document=/app/docker-compose.yaml https://raw.githubusercontent.com/samuelko123/price-alert/refs/heads/main/infra/docker/docker-compose.yaml
+      docker compose --file /app/docker-compose.yaml --profile production pull
+      docker compose --file /app/docker-compose.yaml --profile production up --detach --remove-orphans
+
+  - path: /scripts/install-webhook.sh
+    permissions: '0700'
+    owner: root
+    content: |
+      #!/usr/bin/env bash
+      apt-get update
+      apt-get install --assume-yes webhook
+      cat > /lib/systemd/system/webhook.service <<EOF
+      [Unit]
+      Description=webhook server for ci
+      ConditionPathExists=/usr/bin/webhook
+      After=network.target
+      [Service]
+      Type=simple
+      WorkingDirectory=/scripts
+      ExecStart=/usr/bin/webhook -ip 0.0.0.0 -port 9000 -hooks /scripts/hooks.json -verbose
+      Restart=on-failure
+      PrivateTmp=true
+      [Install]
+      WantedBy=default.target
+      EOF
+
+  - path: /scripts/hooks.json
+    permissions: '0644'
+    owner: root
+    content: |
+      [
+        {
+          "id": "deploy-application",
+          "command-working-directory": "/",
+          "execute-command": "/scripts/deploy-application.sh"
+        }
+      ]
+
+  - path: /scripts/deploy-webhook.sh
+    permissions: '0700'
+    owner: root
+    content: |
+      #!/usr/bin/env bash
+      systemctl daemon-reload
+      systemctl start webhook.service
+      systemctl enable webhook.service
+
+  - path: /scripts/call-webhook.sh
+    permissions: '0700'
+    owner: root
+    content: |
+      #!/usr/bin/env bash
+      curl http://0.0.0.0:9000/hooks/deploy-application
+
+runcmd:
+  - bash /scripts/install-docker-engine.sh
+  - bash /scripts/install-webhook.sh
+  - bash /scripts/deploy-webhook.sh
+  - bash /scripts/call-webhook.sh

@@ -5,3 +5,7 @@ variable "DOCKER_USERNAME" {
 variable "DOCKER_PASSWORD" {
   type = string
 }
+
+variable "DIGITALOCEAN_TOKEN" {
+  type = string
+}
