@@ -14,8 +14,8 @@ write_files:
       #!/usr/bin/env bash
       apt-get update
       apt-get install --assume-yes ca-certificates curl
-      install -m 0755 -d /etc/apt/keyrings
-      curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+      install --mode 0755 --directory /etc/apt/keyrings
+      curl --fail --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg --output /etc/apt/keyrings/docker.asc
       chmod a+r /etc/apt/keyrings/docker.asc
       echo \
           "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
