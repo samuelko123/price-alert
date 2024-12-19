@@ -8,12 +8,12 @@ cloud_final_modules:
 
 write_files:
   - path: /scripts/install-docker-engine.sh
-    permissions: 0744
+    permissions: '0744'
     owner: root
     content: |
       #!/usr/bin/env bash
       sudo apt-get update
-      sudo apt-get install --assume-yes --quiet ca-certificates curl
+      sudo apt-get install --assume-yes ca-certificates curl
       sudo install -m 0755 -d /etc/apt/keyrings
       sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
       sudo chmod a+r /etc/apt/keyrings/docker.asc
@@ -24,5 +24,22 @@ write_files:
       sudo apt-get update
       sudo apt-get install --assume-yes docker-ce
 
+  - path: /scripts/deploy-application.sh
+    permissions: '0744'
+    owner: root
+    content: |
+      # create folder
+      mkdir /app
+
+      # download docker-compose.yaml
+      wget --output-document=/app/docker-compose.yaml https://raw.githubusercontent.com/samuelko123/price-alert/refs/heads/main/infra/docker/docker-compose.yaml
+
+      # pull docker images
+      docker compose --file /app/docker-compose.yaml --profile production pull
+
+      # run docker compose
+      docker compose --file /app/docker-compose.yaml --profile production up --detach --remove-orphans
+
 runcmd:
   - bash /scripts/install-docker-engine.sh
+  - bash /scripts/deploy-application.sh
