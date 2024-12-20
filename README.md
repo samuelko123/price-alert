@@ -1,6 +1,6 @@
 # Price Alert (WIP)
 
-A hobbyist project to send email notification on price drop on subscribed items.
+A hobbyist project to send email notification on price drop on subscribed items.  
 You can visit https://price-alert.samuelko123.dev/.
 
 ## How to Run Locally
