@@ -9,3 +9,11 @@ variable "DOCKER_PASSWORD" {
 variable "DIGITALOCEAN_TOKEN" {
   type = string
 }
+
+variable "CLOUDFLARE_API_TOKEN" {
+  type = string
+}
+
+variable "CLOUDFLARE_ZONE_ID" {
+  type = string
+}
