@@ -100,7 +100,7 @@ write_files:
       rm /etc/nginx/sites-enabled/default
 
       nginx -t
-      systemctl restart nginx
+      systemctl reload nginx
 
   - path: /etc/nginx/sites-available/price-alert.samuelko123.dev
     permissions: '0644'
@@ -121,9 +121,22 @@ write_files:
         }
       }
 
+  - path: /scripts/setup-ssl-cert.sh
+    permissions: '0700'
+    owner: root
+    content: |
+      #!/usr/bin/env bash
+
+      ufw allow 'Nginx Full'
+      ufw delete allow 'Nginx HTTP'
+
+      apt install --assume-yes certbot python3-certbot-nginx
+      certbot --nginx --non-interactive --agree-tos --email price-alert.samuelko123@outlook.com --domains price-alert.samuelko123.dev
+
 runcmd:
   - bash /scripts/install-docker-engine.sh
   - bash /scripts/install-webhook.sh
   - bash /scripts/deploy-webhook.sh
   - bash /scripts/call-webhook.sh
   - bash /scripts/setup-nginx.sh
+  - bash /scripts/setup-ssl-cert.sh
