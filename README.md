@@ -8,7 +8,7 @@ A hobbyist project to send email notification on price drop on subscribed items.
 docker compose --file ./infra/docker/docker-compose.yaml --profile production up --build --remove-orphans
 ```
 
-Then, go to http://localhost/
+Then, go to http://localhost:4000/
 
 ## How to Run Unit Test
 
