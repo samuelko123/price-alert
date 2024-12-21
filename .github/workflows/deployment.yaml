@@ -1,0 +1,17 @@
+name: Trigger Deployment
+
+on:
+  workflow_call:
+
+jobs:
+  call-webhook:
+    name: Call Webhook
+    runs-on: ubuntu-24.04
+
+    permissions:
+      contents: none
+
+    steps:
+      - name: Send HTTP request to webhook
+        run: |
+          curl --fail https://price-alert.samuelko123.dev/hooks/deploy-application
