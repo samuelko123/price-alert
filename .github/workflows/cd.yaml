@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - "main"
+    paths-ignore:
+      - "LICENCE"
+      - "README.md"
+      - "./readme"
 
 jobs:
   run-unit-tests:

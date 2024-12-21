@@ -1,0 +1,31 @@
+@startuml
+skinparam componentStyle rectangle
+
+component Developer
+component "Codebase" as GithubRepo
+component "Pipeline" as GithubAction
+component "Docker image registry" as DockerHub
+component Webhook
+
+component DevOps
+component "Terraform Remote Backend" as HCP
+component Terraform
+component "Web Server" as Droplet
+component Cloudflare
+
+Developer -> GithubRepo : merge PR to main
+GithubRepo --> GithubAction : trigger deployment
+GithubAction -> DockerHub : push images
+
+DevOps -> HCP: enter secrets
+HCP --> Terraform : tf apply
+Terraform --> DockerHub : provision
+Terraform --> Droplet : provision
+Terraform --> Cloudflare : provision
+Droplet .> Cloudflare : IP address
+Droplet ---> DockerHub : pull images
+
+GithubAction -> Webhook : call
+Webhook -> Droplet : run commands
+
+@enduml
