@@ -7,8 +7,8 @@ on:
     paths-ignore:
       - "LICENCE"
       - "README.md"
-      - "./readme"
-      - "./.vscode/**"
+      - "readme/**"
+      - ".vscode/**"
 
 jobs:
   run-unit-tests:
