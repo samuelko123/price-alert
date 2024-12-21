@@ -4,7 +4,7 @@ import Page from "./page";
 
 describe("Home Page", () => {
   it("displays Hello World", () => {
-    render(<Page />)
+    render(<Page />);
 
     const element = screen.getByText("Hello World");
 

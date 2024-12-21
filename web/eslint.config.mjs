@@ -17,8 +17,9 @@ const eslintConfig = [
       "@stylistic": stylistic,
     },
     rules: {
-      "@stylistic/quotes": ["error", "double"],
       "@stylistic/comma-dangle": ["error", "always-multiline"],
+      "@stylistic/quotes": ["error", "double"],
+      "@stylistic/semi": ["error", "always"],
     },
   },
 ];

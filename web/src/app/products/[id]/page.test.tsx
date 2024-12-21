@@ -10,5 +10,5 @@ describe("Product Page", () => {
 
     const element = screen.getByRole("link", { name: "A dummy product" });
     expect(element).toBeVisible();
-  })
+  });
 });

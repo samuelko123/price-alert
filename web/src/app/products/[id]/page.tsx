@@ -8,5 +8,5 @@ export default async function Page() {
         <a href={product.url}>{product.name}</a>
       </p>
     </main>
-  )
+  );
 }
