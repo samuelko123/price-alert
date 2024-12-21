@@ -1,5 +1,8 @@
 {
   "recommendations": [
-    "dbaeumer.vscode-eslint"
+    "bradlc.vscode-tailwindcss",
+    "dbaeumer.vscode-eslint",
+    "ms-azuretools.vscode-docker",
+    "ms-dotnettools.csdevkit",
   ]
 }
