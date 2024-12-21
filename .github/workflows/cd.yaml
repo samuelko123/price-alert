@@ -8,7 +8,7 @@ on:
       - "LICENCE"
       - "README.md"
       - "./readme"
-      - "./.vscode"
+      - "./.vscode/**"
 
 jobs:
   run-unit-tests:
