@@ -1,7 +1,11 @@
 {
   "editor.codeActionsOnSave": {
-    "source.removeUnusedImports": "always"
+    "source.fixAll.eslint": "explicit",
   },
+  "eslint.options": {
+    "overrideConfigFile": "./eslint.config.mjs"
+  },
+  "editor.formatOnSave": true,
   "editor.tabSize": 2,
   "files.insertFinalNewline": true,
 }

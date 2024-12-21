@@ -1,5 +1,5 @@
 export default async function Page() {
-  const res = await fetch('http://api:5000/api/products/1');
+  const res = await fetch("http://api:5000/api/products/1");
   const product = await res.json();
 
   return (
@@ -8,5 +8,5 @@ export default async function Page() {
         <a href={product.url}>{product.name}</a>
       </p>
     </main>
-  )
+  );
 }
