@@ -1,9 +1,9 @@
-import { describe, expect, test } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import Page from './page';
+import { describe, expect, test } from "vitest";
+import { render, screen } from "@testing-library/react";
+import Page from "./page";
 
-describe('Product Page', () => {
-  test('displays product name', async () => {
+describe("Product Page", () => {
+  test("displays product name", async () => {
     const component = await Page();
 
     render(component);
