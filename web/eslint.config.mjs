@@ -14,12 +14,13 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     plugins: {
-      "@stylistic": stylistic
+      "@stylistic": stylistic,
     },
     rules: {
       "@stylistic/quotes": ["error", "double"],
-    }
-  }
+      "@stylistic/comma-dangle": ["error", "always-multiline"],
+    },
+  },
 ];
 
 export default eslintConfig;
