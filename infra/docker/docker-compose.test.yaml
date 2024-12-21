@@ -1,0 +1,14 @@
+name: price-alert-test
+services:
+  web-test:
+    container_name: web-test
+    build:
+      context: ../../web/
+      dockerfile: ../infra/docker/web.Dockerfile
+      target: test
+  api-test:
+    container_name: api-test
+    build:
+      context: ../../backend/PriceAlert
+      dockerfile: ../../infra/docker/api.Dockerfile
+      target: test

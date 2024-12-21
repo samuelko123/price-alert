@@ -14,7 +14,7 @@ docker compose --file ./infra/docker/docker-compose.yaml --profile production up
 <h2>How to Run Unit Test</h2>
 
 ```
-docker compose --file ./infra/docker/docker-compose.yaml --profile test up --build --remove-orphans
+docker compose --file ./infra/docker/docker-compose.test.yaml up --build --remove-orphans
 ```
 
 <h2>Further Readings</h2>
