@@ -17,3 +17,10 @@ jobs:
     secrets: inherit
     needs:
       - run-unit-tests
+
+  trigger-deployment:
+    name: Trigger Deployment
+    uses: ./.github/workflows/deployment.yaml
+    secrets: inherit
+    needs:
+      - publish-docker-images
