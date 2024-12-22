@@ -1,0 +1,41 @@
+name: price-alert-dev
+services:
+  web-dev:
+    container_name: web-dev
+    depends_on:
+      api:
+        condition: service_healthy
+        required: true
+    build:
+      context: ../../web/
+      dockerfile: ../infra/docker/web.Dockerfile
+      target: development
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000" ]
+      interval: 5m
+      start_period: 30s
+      start_interval: 1s
+    volumes:
+      - type: bind
+        source: ../../web/src
+        target: /app/src
+    profiles:
+      - development
+  reverse-proxy-dev:
+    container_name: reverse-proxy-dev
+    depends_on:
+      api:
+        condition: service_healthy
+        required: true
+      web-dev:
+        condition: service_healthy
+        required: true
+    build:
+      context: ../nginx/
+      dockerfile: ../docker/nginx.dev.Dockerfile
+    ports:
+      - app_protocol: http
+        target: 4000
+        published: 4000
+    profiles:
+      - development
