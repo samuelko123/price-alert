@@ -20,6 +20,7 @@ const eslintConfig = [
       "@stylistic/comma-dangle": ["error", "always-multiline"],
       "@stylistic/quotes": ["error", "double"],
       "@stylistic/semi": ["error", "always"],
+      "react/no-unknown-property": ["error", { ignore: ["css"] }],
     },
   },
 ];
