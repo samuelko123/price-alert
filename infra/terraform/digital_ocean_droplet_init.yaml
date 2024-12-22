@@ -31,8 +31,8 @@ write_files:
       #!/usr/bin/env bash
       mkdir -p /app
       wget --output-document=/app/docker-compose.yaml https://raw.githubusercontent.com/samuelko123/price-alert/refs/heads/main/infra/docker/docker-compose.yaml
-      docker compose --file /app/docker-compose.yaml --profile production pull
-      docker compose --file /app/docker-compose.yaml --profile production up --detach --remove-orphans
+      docker compose --file /app/docker/docker-compose.yaml pull
+      docker compose --file /app/docker/docker-compose.yaml up --detach --remove-orphans
 
   - path: /scripts/install-webhook.sh
     permissions: '0700'

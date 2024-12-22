@@ -14,8 +14,6 @@ services:
       interval: 5m
       start_period: 30s
       start_interval: 1s
-    profiles:
-      - production
   web:
     container_name: web
     image: samuelko123/price-alert-web:latest
@@ -32,8 +30,6 @@ services:
       interval: 5m
       start_period: 30s
       start_interval: 1s
-    profiles:
-      - production
   reverse-proxy:
     container_name: reverse-proxy
     image: samuelko123/price-alert-reverse-proxy:latest
@@ -51,5 +47,3 @@ services:
       - app_protocol: http
         target: 4000
         published: 4000
-    profiles:
-      - production
