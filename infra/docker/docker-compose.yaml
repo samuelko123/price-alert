@@ -85,6 +85,10 @@ services:
       interval: 5m
       start_period: 30s
       start_interval: 1s
+    volumes:
+      - type: bind
+        source: ../../web/src
+        target: /app/src
     ports:
       - app_protocol: http
         target: 3000
