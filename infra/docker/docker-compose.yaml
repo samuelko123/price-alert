@@ -1,21 +1,5 @@
 name: price-alert
 services:
-  web-test:
-    container_name: web-test
-    build:
-      context: ../../web/
-      dockerfile: ../infra/docker/web.Dockerfile
-      target: test
-    profiles:
-      - test
-  api-test:
-    container_name: api-test
-    build:
-      context: ../../backend/PriceAlert
-      dockerfile: ../../infra/docker/api.Dockerfile
-      target: test
-    profiles:
-      - test
   api:
     container_name: api
     image: samuelko123/price-alert-api:latest
@@ -26,12 +10,10 @@ services:
     environment:
       ASPNETCORE_HTTP_PORTS: 5000
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:5000/api/healthcheck"]
+      test: [ "CMD", "curl", "--fail", "http://localhost:5000/api/healthcheck" ]
       interval: 5m
       start_period: 30s
       start_interval: 1s
-    profiles:
-      - production
   web:
     container_name: web
     image: samuelko123/price-alert-web:latest
@@ -44,12 +26,10 @@ services:
       dockerfile: ../infra/docker/web.Dockerfile
       target: production
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000" ]
       interval: 5m
       start_period: 30s
       start_interval: 1s
-    profiles:
-      - production
   reverse-proxy:
     container_name: reverse-proxy
     image: samuelko123/price-alert-reverse-proxy:latest
@@ -67,5 +47,3 @@ services:
       - app_protocol: http
         target: 4000
         published: 4000
-    profiles:
-      - production
