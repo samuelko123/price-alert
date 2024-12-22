@@ -7,7 +7,3 @@ services:
       - type: bind
         source: ../../web/src
         target: /app/src
-  reverse-proxy:
-    build:
-      context: ../nginx/
-      dockerfile: ../docker/nginx.Dockerfile
