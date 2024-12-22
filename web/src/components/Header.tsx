@@ -6,9 +6,9 @@ export const Header = () => {
   return (
     <header>
       <nav className="bg-surface px-4 py-2 flex flex-wrap justify-between items-center">
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="flex items-center gap-1">
           <Image src={Logo} width="40" height="40" alt="App Logo" />
-          <span className="self-center text-xl font-semibold whitespace-nowrap ">Flowbite</span>
+          <span className="text-xl font-semibold whitespace-nowrap">Price Alert</span>
         </Link>
         <div className="flex items-center lg:order-2">
           <a href="#" className="text-gray-800  hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  focus:outline-none ">Log in</a>
