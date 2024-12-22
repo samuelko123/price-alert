@@ -1,0 +1,9 @@
+name: price-alert-dev
+services:
+  web:
+    build:
+      target: development
+    volumes:
+      - type: bind
+        source: ../../web/src
+        target: /app/src

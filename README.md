@@ -5,11 +5,19 @@
 
 <h2>How to Run Locally</h2>
 
+<p>After running one of the commands, visit http://localhost:4000/</p>
+
+<h3>Production</h3>
+
 ```
 docker compose --file ./infra/docker/docker-compose.yaml up --build --remove-orphans
 ```
 
-<p>Then, go to http://localhost:4000/</p>
+<h3>Development (Hot Module Reload for front-end only)</h3>
+
+```
+docker compose --file ./infra/docker/docker-compose.yaml --file ./infra/docker/docker-compose.dev.yaml up --build --remove-orphans
+```
 
 <h2>How to Run Unit Test</h2>
 

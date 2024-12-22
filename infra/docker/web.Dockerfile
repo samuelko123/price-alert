@@ -16,6 +16,11 @@ ENTRYPOINT ["npm", "test"]
 
 ################################################
 
+FROM base AS development
+ENTRYPOINT ["npm", "run", "dev"]
+
+################################################
+
 FROM base AS build
 RUN pnpm build
 RUN pnpm prune --prod
