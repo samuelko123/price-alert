@@ -5,8 +5,14 @@
 
 <h2>How to Run Locally</h2>
 
+<p>Production</p>
 ```
 docker compose --file ./infra/docker/docker-compose.yaml up --build --remove-orphans
+```
+
+<p>Development (Hot Module Reload for front-end only)</p>
+```
+docker compose --file ./infra/docker/docker-compose.yaml --file ./infra/docker/docker-compose.dev.yaml up --build --remove-orphans
 ```
 
 <p>Then, go to http://localhost:4000/</p>
