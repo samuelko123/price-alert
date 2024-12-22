@@ -3,10 +3,10 @@ import { render, screen } from "@testing-library/react";
 import Page from "@/app/page";
 
 describe("Landing Page", () => {
-  it("displays Hello World", () => {
+  it("displays placeholder message", () => {
     render(<Page />);
 
-    const element = screen.getByText("Hello World");
+    const element = screen.getByText("Features will be coming soon.");
 
     expect(element).toBeVisible();
   });
