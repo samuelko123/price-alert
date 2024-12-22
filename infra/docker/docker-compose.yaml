@@ -89,9 +89,23 @@ services:
       - type: bind
         source: ../../web/src
         target: /app/src
+    profiles:
+      - development
+  reverse-proxy-dev:
+    container_name: reverse-proxy-dev
+    depends_on:
+      api:
+        condition: service_healthy
+        required: true
+      web-dev:
+        condition: service_healthy
+        required: true
+    build:
+      context: ../nginx/
+      dockerfile: ../docker/nginx.dev.Dockerfile
     ports:
       - app_protocol: http
-        target: 3000
-        published: 3000
+        target: 4000
+        published: 4000
     profiles:
       - development
