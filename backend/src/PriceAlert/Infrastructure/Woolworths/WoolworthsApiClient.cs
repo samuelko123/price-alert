@@ -4,11 +4,11 @@ namespace PriceAlert.Infrastructure.Woolworths;
 
 public class WoolworthsApiClient()
 {
-  public Product GetProduct()
+  public Product GetProduct(string id)
   {
     return new Product()
     {
-      Id = "a product id",
+      Id = id,
       Name = "a product name",
     };
   }

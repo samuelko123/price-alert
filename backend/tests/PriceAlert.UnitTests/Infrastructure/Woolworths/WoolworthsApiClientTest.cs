@@ -12,7 +12,7 @@ public class WoolworthsProductApiClientTest
     var client = new WoolworthsApiClient();
 
     // Action
-    var product = client.GetProduct();
+    var product = client.GetProduct("123");
 
     // Assert
     Assert.Equal("a product id", product.Id);
