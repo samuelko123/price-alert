@@ -37,4 +37,4 @@ WORKDIR /app/bin
 USER app
 
 COPY --from=publish /app/bin /app/bin
-ENTRYPOINT ["dotnet", "API.dll"]
+ENTRYPOINT ["dotnet", "PriceAlert.dll"]
