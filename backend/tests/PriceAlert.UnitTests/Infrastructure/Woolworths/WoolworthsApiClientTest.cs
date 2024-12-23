@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FakeItEasy;
+using PriceAlert.Infrastructure.Exceptions;
 using PriceAlert.Infrastructure.Woolworths;
 
 namespace PriceAlert.UnitTests.Infrastructure.Woolworths;
@@ -38,7 +39,29 @@ public class WoolworthsProductApiClientTest
   }
 
   [Fact]
-  public async void GetProduct_WhenApiResponseIsNull_ThrowsUnreachableException()
+  public async void GetProduct_WhenHttpStatusIsNotOK_ThrowsBadHttpStatusCodeException()
+  {
+    // Arrange
+    var messageHandler = A.Fake<HttpMessageHandler>();
+    var response = new HttpResponseMessage
+    {
+      StatusCode = HttpStatusCode.InternalServerError,
+    };
+    SetResponse(messageHandler, response);
+
+    var httpClient = new HttpClient(messageHandler);
+    var apiClient = new WoolworthsApiClient(httpClient);
+
+    // Action
+    var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
+
+    // Assert
+    Assert.NotNull(exception);
+    Assert.IsType<BadHttpResponseException>(exception);
+  }
+
+  [Fact]
+  public async void GetProduct_WhenHttpResponseIsNull_ThrowsUnreachableException()
   {
     // Arrange
     var messageHandler = A.Fake<HttpMessageHandler>();
