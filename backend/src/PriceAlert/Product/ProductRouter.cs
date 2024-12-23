@@ -1,7 +1,4 @@
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Builder;
-
-namespace API.Product;
+namespace PriceAlert.Product;
 
 public static class ProductRouter
 {

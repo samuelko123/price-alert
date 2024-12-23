@@ -1,4 +1,4 @@
-namespace API.Product;
+namespace PriceAlert.Product;
 
 public class Product
 {

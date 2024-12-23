@@ -1,6 +1,4 @@
-using API.Product;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+using PriceAlert.Product;
 
 internal class Program
 {

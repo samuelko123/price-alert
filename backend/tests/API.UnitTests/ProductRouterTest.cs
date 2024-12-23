@@ -1,4 +1,4 @@
-using API.Product;
+using PriceAlert.Product;
 
 namespace API.UnitTests;
 
