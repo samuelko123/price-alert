@@ -10,7 +10,7 @@
 <h3>Production</h3>
 
 ```
-docker compose --file ./infra/docker/docker-compose.yaml up --build --remove-orphans
+./run.ps1 prod
 ```
 
 <h3>Development (Hot Module Reload for front-end only)</h3>
