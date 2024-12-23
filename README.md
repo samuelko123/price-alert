@@ -22,7 +22,7 @@
 <h2>How to Run Unit Test</h2>
 
 ```
-docker compose --file ./infra/docker/docker-compose.test.yaml up --build --remove-orphans
+./run.ps1 test
 ```
 
 <h2>Further Readings</h2>
