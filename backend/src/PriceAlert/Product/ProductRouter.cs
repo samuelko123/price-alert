@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Builder;
+
 namespace PriceAlert.Product;
 
 public static class ProductRouter
