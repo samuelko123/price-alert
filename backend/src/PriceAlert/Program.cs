@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using PriceAlert.API;
 
 internal class Program
 {
@@ -11,7 +10,6 @@ internal class Program
         var app = builder.Build();
 
         app.MapGet("/api/healthcheck", () => Results.Ok());
-        app.MapGroup("/api/products").MapProduct();
 
         app.Run();
     }
