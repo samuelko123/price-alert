@@ -1,4 +1,4 @@
-namespace PriceAlert.Product;
+namespace PriceAlert.Domain;
 
 public class Product
 {
