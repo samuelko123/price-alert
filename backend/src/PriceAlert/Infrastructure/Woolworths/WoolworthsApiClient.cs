@@ -6,6 +6,10 @@ public class WoolworthsApiClient()
 {
   public Product GetProduct()
   {
-    return null;
+    return new Product()
+    {
+      Id = "a product id",
+      Name = "a product name",
+    };
   }
 }
