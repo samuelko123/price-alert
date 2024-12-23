@@ -4,8 +4,8 @@ services:
     container_name: api
     image: samuelko123/price-alert-api:latest
     build:
-      context: ../../backend/PriceAlert/
-      dockerfile: ../../infra/docker/api.Dockerfile
+      context: ../../backend/
+      dockerfile: ../infra/docker/api.Dockerfile
       target: production
     environment:
       ASPNETCORE_ENVIRONMENT: Production
