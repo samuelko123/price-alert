@@ -1,6 +1,6 @@
 using PriceAlert.Product;
 
-namespace API.UnitTests;
+namespace PriceAlert.UnitTests;
 
 public class UnitTest1
 {
