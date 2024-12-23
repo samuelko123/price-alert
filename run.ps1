@@ -2,10 +2,10 @@
 param(
   [Parameter(Position = 0, Mandatory = $true)]
   [ValidateSet("dev", "prod", "test")]
-  [string]$Profile
+  [string]$profile
 )
 
-switch ($Profile) {
+switch ($profile) {
   "dev" {
     Invoke-Expression "docker compose --file ./infra/docker/docker-compose.yaml --file ./infra/docker/docker-compose.dev.yaml up --build --remove-orphans"
   }
