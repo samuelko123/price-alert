@@ -1,8 +1,8 @@
-using API.Product;
+using PriceAlert.Product;
 
-namespace API.UnitTests;
+namespace PriceAlert.UnitTests;
 
-public class UnitTest1
+public class ProductRouterTest
 {
     [Fact]
     public void GetProduct_ReturnsProduct()

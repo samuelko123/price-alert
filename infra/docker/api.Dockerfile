@@ -11,13 +11,13 @@ COPY --chown=app:app ./tests ./tests
 ################################################
 
 FROM base AS development
-ENTRYPOINT ["dotnet", "watch", "run", "--project", "/app/src/API"]
+ENTRYPOINT ["dotnet", "watch", "run", "--project", "/app/src/PriceAlert"]
 
 ################################################
 
 FROM base AS build
 RUN dotnet restore
-RUN dotnet clean /app/src/API --output ./bin
+RUN dotnet clean /app/src/PriceAlert --output ./bin
 RUN dotnet build --configuration Release --no-restore
 
 ################################################
@@ -28,7 +28,7 @@ ENTRYPOINT ["dotnet", "test", "--configuration", "Release", "--no-build"]
 ################################################
 
 FROM build AS publish
-RUN dotnet publish --configuration Release /app/src/API --output ./bin --no-build
+RUN dotnet publish --configuration Release /app/src/PriceAlert --output ./bin --no-build
 
 ################################################
 
@@ -37,4 +37,4 @@ WORKDIR /app/bin
 USER app
 
 COPY --from=publish /app/bin /app/bin
-ENTRYPOINT ["dotnet", "API.dll"]
+ENTRYPOINT ["dotnet", "PriceAlert.dll"]
