@@ -13,15 +13,18 @@ function RunCommand([string]$command) {
 
 switch ($profile) {
   "dev" {
-    RunCommand("docker compose --file ./infra/docker/docker-compose.yaml --file ./infra/docker/docker-compose.dev.yaml down --remove-orphans")
-    RunCommand("docker compose --file ./infra/docker/docker-compose.yaml --file ./infra/docker/docker-compose.dev.yaml up --build --detach")
+    $compose = "docker compose --file ./infra/docker/docker-compose.yaml --file ./infra/docker/docker-compose.dev.yaml"
+    RunCommand("$compose down --remove-orphans")
+    RunCommand("$compose up --build --detach")
   }
   "prod" {
-    RunCommand("docker compose --file ./infra/docker/docker-compose.yaml down --remove-orphans")
-    RunCommand("docker compose --file ./infra/docker/docker-compose.yaml up --build --detach")
+    $compose = "docker compose --file ./infra/docker/docker-compose.yaml"
+    RunCommand("$compose down --remove-orphans")
+    RunCommand("$compose up --build --detach")
   }
   "test" {
-    RunCommand("docker compose --file ./infra/docker/docker-compose.test.yaml down --rmi all --remove-orphans")
-    RunCommand("docker compose --file ./infra/docker/docker-compose.test.yaml up --build")
+    $compose = "docker compose --file ./infra/docker/docker-compose.test.yaml"
+    RunCommand("$compose down --rmi all --remove-orphans")
+    RunCommand("$compose up --build")
   }
 }
