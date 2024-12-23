@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -34,6 +35,29 @@ public class WoolworthsProductApiClientTest
     // Assert
     Assert.Equal("123", product.Id);
     Assert.Equal("a product name", product.Name);
+  }
+
+  [Fact]
+  public async void GetProduct_WhenApiResponseIsNull_ThrowsUnreachableException()
+  {
+    // Arrange
+    var messageHandler = A.Fake<HttpMessageHandler>();
+    var response = new HttpResponseMessage
+    {
+      StatusCode = HttpStatusCode.OK,
+      Content = new StringContent("null"),
+    };
+    SetResponse(messageHandler, response);
+
+    var httpClient = new HttpClient(messageHandler);
+    var apiClient = new WoolworthsApiClient(httpClient);
+
+    // Action
+    var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
+
+    // Assert
+    Assert.NotNull(exception);
+    Assert.IsType<UnreachableException>(exception);
   }
 
   private void SetResponse(HttpMessageHandler messageHandler, HttpResponseMessage response)
