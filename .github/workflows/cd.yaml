@@ -11,12 +11,18 @@ jobs:
     uses: ./.github/workflows/unit-tests.yaml
     secrets: inherit
 
+  run-e2e-tests:
+    name: Run End-To-End Tests
+    uses: ./.github/workflows/e2e-tests.yaml
+    secrets: inherit
+
   publish-docker-images:
     name: Publish Docker Images
     uses: ./.github/workflows/publish-docker-images.yaml
     secrets: inherit
     needs:
       - run-unit-tests
+      - run-e2e-tests
 
   trigger-deployment:
     name: Trigger Deployment

@@ -10,3 +10,8 @@ jobs:
     name: Run Unit Tests
     uses: ./.github/workflows/unit-tests.yaml
     secrets: inherit
+
+  run-e2e-tests:
+    name: Run End-To-End Tests
+    uses: ./.github/workflows/e2e-tests.yaml
+    secrets: inherit
