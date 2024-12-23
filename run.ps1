@@ -19,6 +19,7 @@ switch ($profile) {
     RunCommand("docker compose --file ./infra/docker/docker-compose.yaml up --build --remove-orphans")
   }
   "test" {
-    RunCommand("docker compose --file ./infra/docker/docker-compose.test.yaml up --build --remove-orphans")
+    RunCommand("docker compose --file ./infra/docker/docker-compose.test.yaml down --rmi all --remove-orphans")
+    RunCommand("docker compose --file ./infra/docker/docker-compose.test.yaml up --build")
   }
 }
