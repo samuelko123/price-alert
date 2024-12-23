@@ -58,6 +58,7 @@ public class WoolworthsProductApiClientTest
     // Assert
     Assert.NotNull(exception);
     Assert.IsType<BadHttpResponseException>(exception);
+    Assert.Equal("Unexpected HTTP status code. Received: 500 InternalServerError. Expected: 200 OK.", exception.Message);
   }
 
   [Fact]
