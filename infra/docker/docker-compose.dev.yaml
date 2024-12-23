@@ -1,7 +1,30 @@
 services:
+  api:
+    container_name: api-dev
+    image: samuelko123/price-alert-api-dev
+    hostname: api
+    build:
+      context: ../../backend/PriceAlert/
+      dockerfile: ../../infra/docker/api.Dockerfile
+      target: development
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    volumes:
+      - type: bind
+        source: ../../backend/PriceAlert/src
+        target: /app/src
+      - type: volume
+        source: api-bin
+        target: /app/src/API/bin
+      - type: volume
+        source: api-obj
+        target: /app/src/API/obj
+    ports:
+      - target: 5000
+        published: 5000
   web:
     container_name: web-dev
-    image: price-alert-web-dev
+    image: samuelko123/price-alert-web-dev
     hostname: web
     build:
       target: development
@@ -9,3 +32,6 @@ services:
       - type: bind
         source: ../../web/src
         target: /app/src
+volumes:
+  api-bin:
+  api-obj:

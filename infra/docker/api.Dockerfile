@@ -8,19 +8,27 @@ COPY --chown=app:app *.sln .
 COPY --chown=app:app ./src ./src
 COPY --chown=app:app ./tests ./tests
 
+################################################
+
+FROM base AS development
+ENTRYPOINT ["dotnet", "watch", "run", "--project", "/app/src/API"]
+
+################################################
+
+FROM base AS build
 RUN dotnet restore
-RUN dotnet clean ./src/API --output ./bin
+RUN dotnet clean /app/src/API --output ./bin
 RUN dotnet build --configuration Release --no-restore
 
 ################################################
 
-FROM base AS test
+FROM build AS test
 ENTRYPOINT ["dotnet", "test", "--configuration", "Release", "--no-build"]
 
 ################################################
 
-FROM base AS publish
-RUN dotnet publish --configuration Release ./src/API --output ./bin --no-build
+FROM build AS publish
+RUN dotnet publish --configuration Release /app/src/API --output ./bin --no-build
 
 ################################################
 
