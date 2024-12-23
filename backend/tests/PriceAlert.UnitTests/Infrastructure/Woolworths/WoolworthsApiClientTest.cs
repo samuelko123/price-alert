@@ -9,7 +9,7 @@ namespace PriceAlert.UnitTests.Infrastructure.Woolworths;
 public class WoolworthsProductApiClientTest
 {
   [Fact]
-  public async Task GetProduct_ReturnsProductAsync()
+  public async Task GetProduct_ReturnsProduct()
   {
     // Arrange
     var messageHandler = A.Fake<HttpMessageHandler>();
