@@ -5,7 +5,7 @@ on:
 
 jobs:
   docker-compose-up:
-    name: Start Containers Locally
+    name: End-To-End Test
     runs-on: ubuntu-24.04
 
     permissions:
