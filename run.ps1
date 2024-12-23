@@ -19,7 +19,7 @@ switch ($profile) {
   }
   "prod" {
     $compose = "docker compose --file ./infra/docker/docker-compose.yaml"
-    RunCommand("$compose down --remove-orphans")
+    RunCommand("$compose down --rmi all --remove-orphans")
     RunCommand("$compose up --build --detach")
   }
   "test" {
