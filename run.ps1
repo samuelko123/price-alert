@@ -14,7 +14,7 @@ function RunCommand([string]$command) {
 switch ($profile) {
   "dev" {
     $compose = "docker compose --file ./infra/docker/docker-compose.yaml --file ./infra/docker/docker-compose.dev.yaml"
-    RunCommand("$compose down --remove-orphans")
+    RunCommand("$compose down --rmi all --remove-orphans")
     RunCommand("$compose up --build --detach")
   }
   "prod" {
