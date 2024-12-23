@@ -16,7 +16,12 @@ public class WoolworthsProductApiClientTest
     var response = new HttpResponseMessage
     {
       StatusCode = HttpStatusCode.OK,
-      Content = new StringContent("product name from Woolworths"),
+      Content = new StringContent("""
+      {
+        "sku": "123",
+        "name": "product name from Woolworths"
+      }
+      """),
     };
     SetResponse(messageHandler, response);
 
