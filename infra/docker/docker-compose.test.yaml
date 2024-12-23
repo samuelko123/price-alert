@@ -9,6 +9,6 @@ services:
   api-test:
     container_name: api-test
     build:
-      context: ../../backend/PriceAlert
-      dockerfile: ../../infra/docker/api.Dockerfile
+      context: ../../backend/
+      dockerfile: ../infra/docker/api.Dockerfile
       target: test
