@@ -1,0 +1,24 @@
+name: End-To-End Tests
+
+on:
+  workflow_call:
+
+jobs:
+  docker-compose-up:
+    name: End-To-End Test
+    runs-on: ubuntu-24.04
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Start containers
+        run: |
+          docker compose --file ./infra/docker/docker-compose.yaml up --build --remove-orphans --detach
+
+      - name: Stop containers
+        run: |
+          docker compose --file ./infra/docker/docker-compose.yaml down
