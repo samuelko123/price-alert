@@ -16,7 +16,7 @@ docker compose --file ./infra/docker/docker-compose.yaml up --build --remove-orp
 <h3>Development (Hot Module Reload for front-end only)</h3>
 
 ```
-docker compose --file ./infra/docker/docker-compose.yaml --file ./infra/docker/docker-compose.dev.yaml up --build --remove-orphans
+./run.ps1 dev
 ```
 
 <h2>How to Run Unit Test</h2>
