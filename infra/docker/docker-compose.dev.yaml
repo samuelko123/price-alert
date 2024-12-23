@@ -1,6 +1,7 @@
-name: price-alert-dev
 services:
   web:
+    container_name: web-dev
+    hostname: web
     build:
       target: development
     volumes:
