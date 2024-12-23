@@ -13,10 +13,10 @@ services:
         target: /app/src
       - type: volume
         source: api-bin
-        target: /app/src/API/bin
+        target: /app/src/PriceAlert/bin
       - type: volume
         source: api-obj
-        target: /app/src/API/obj
+        target: /app/src/PriceAlert/obj
     ports:
       - target: 5000
         published: 5000
