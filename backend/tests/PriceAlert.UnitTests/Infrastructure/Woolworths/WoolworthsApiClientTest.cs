@@ -19,7 +19,7 @@ public class WoolworthsProductApiClientTest
       Content = new StringContent("""
       {
         "sku": "123",
-        "name": "product name from Woolworths"
+        "name": "a product name"
       }
       """),
     };
@@ -33,7 +33,7 @@ public class WoolworthsProductApiClientTest
 
     // Assert
     Assert.Equal("123", product.Id);
-    Assert.Equal("product name from Woolworths", product.Name);
+    Assert.Equal("a product name", product.Name);
   }
 
   private void SetResponse(HttpMessageHandler messageHandler, HttpResponseMessage response)
