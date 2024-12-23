@@ -1,6 +1,6 @@
-using PriceAlert.Product;
+using PriceAlert.API;
 
-namespace PriceAlert.UnitTests;
+namespace PriceAlert.UnitTests.API;
 
 public class ProductRouterTest
 {
