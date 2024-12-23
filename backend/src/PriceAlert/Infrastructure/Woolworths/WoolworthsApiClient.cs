@@ -1,8 +1,9 @@
+using System.Net.Http;
 using PriceAlert.Domain;
 
 namespace PriceAlert.Infrastructure.Woolworths;
 
-public class WoolworthsApiClient()
+public class WoolworthsApiClient(HttpClient httpClient)
 {
   public Product GetProduct(string id)
   {
