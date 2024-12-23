@@ -1,4 +1,4 @@
-import { Header } from "@/components/Header";
+import { Header } from "@/components/atoms/Header";
 
 export const LandingPage = () => {
   return (
