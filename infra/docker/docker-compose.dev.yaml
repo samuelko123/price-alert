@@ -4,14 +4,12 @@ services:
     image: samuelko123/price-alert-api-dev
     hostname: api
     build:
-      context: ../../backend/PriceAlert/
-      dockerfile: ../../infra/docker/api.Dockerfile
       target: development
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     volumes:
       - type: bind
-        source: ../../backend/PriceAlert/src
+        source: ../../backend/src
         target: /app/src
       - type: volume
         source: api-bin
