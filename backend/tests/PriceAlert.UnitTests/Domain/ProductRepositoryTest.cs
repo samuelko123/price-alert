@@ -5,7 +5,7 @@ namespace PriceAlert.UnitTests.Domain;
 public class ProductRepositoryTest
 {
   [Fact]
-  public void FindProduct()
+  public void FindProduct_ReturnsProduct()
   {
     // Arrange
     var repository = new ProductRepository();
