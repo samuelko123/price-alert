@@ -7,7 +7,7 @@ public class ProductRepository
     return new Product()
     {
       Id = id,
-      Name = "a product",
+      Name = "a product name",
     };
   }
 }
