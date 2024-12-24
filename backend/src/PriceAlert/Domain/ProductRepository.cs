@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using PriceAlert.Infrastructure.Woolworths;
 
@@ -7,6 +9,8 @@ public class ProductRepository(IWoolworthsApiClient client)
 {
   public async Task<Product> FindProductByUrl(string url)
   {
-    return await client.GetProduct(url);
+    var uri = new Uri(url);
+    var id = uri.Segments.Last();
+    return await client.GetProduct(id);
   }
 }
