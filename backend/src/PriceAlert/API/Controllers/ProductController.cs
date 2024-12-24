@@ -6,8 +6,8 @@ namespace PriceAlert.API.Controllers;
 [Route("/api/products")]
 public class ProductController() : ControllerBase
 {
-  [HttpGet]
-  public IActionResult Get()
+  [HttpPost("search")]
+  public IActionResult Search()
   {
     return Ok();
   }
