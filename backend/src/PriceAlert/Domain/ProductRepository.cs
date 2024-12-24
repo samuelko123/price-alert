@@ -1,12 +1,11 @@
 using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using PriceAlert.Infrastructure.Woolworths;
 
 namespace PriceAlert.Domain;
 
-public static partial class ProductUrlRegex
+public static partial class ProductUrlPathRegex
 {
   [GeneratedRegex(@"/shop/productdetails/([0-9]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase)]
   public static partial Regex Woolworths();
@@ -22,7 +21,7 @@ public class ProductRepository(IWoolworthsApiClient client)
       throw new NotSupportedException($"Received unsupported URL: {url}");
     }
 
-    var match = ProductUrlRegex.Woolworths().Match(uri.LocalPath);
+    var match = ProductUrlPathRegex.Woolworths().Match(uri.LocalPath);
     if (!match.Success)
     {
       throw new NotSupportedException($"Received unsupported URL: {url}");
