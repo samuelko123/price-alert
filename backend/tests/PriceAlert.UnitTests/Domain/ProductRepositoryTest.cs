@@ -40,8 +40,11 @@ public class ProductRepositoryTest
     Assert.Equal("Received unsupported uri path: /shop/storelocator/123", exception.Message);
   }
 
-  [Fact]
-  public async Task FindProductByUrl_ReturnsProductFromApiClient()
+  [Theory]
+  [InlineData("https://www.woolworths.com.au/shop/productdetails/123")]
+  [InlineData("https://www.woolworths.com.au/shop/productdetails/123?googleshop=true")]
+  [InlineData("https://www.woolworths.com.au/shop/productdetails/123?googleshop=true&utm_source=google")]
+  public async Task FindProductByUrl_WithValidUrl_ReturnsProductFromApiClient(string url)
   {
     // Arrange
     var client = A.Fake<IWoolworthsApiClient>();
@@ -55,7 +58,7 @@ public class ProductRepositoryTest
     var repository = new ProductRepository(client);
 
     // Action
-    var result = await repository.FindProductByUrl("https://www.woolworths.com.au/shop/productdetails/123");
+    var result = await repository.FindProductByUrl(url);
 
     // Assert
     Assert.Equal(result, product);
