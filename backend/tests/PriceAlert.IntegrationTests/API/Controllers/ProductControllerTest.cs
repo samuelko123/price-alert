@@ -9,7 +9,7 @@ namespace PriceAlert.IntegrationTests.API.Controllers;
 public class ProductControllerTest
 {
   [Fact]
-  public async Task Search_WithEmptyBody_ReturnsBadRequest()
+  public async Task Search_WithMissingRequiredProperty_ReturnsBadRequest()
   {
     // Arrange
     using var factory = new BaseWebApplicationFactory();
