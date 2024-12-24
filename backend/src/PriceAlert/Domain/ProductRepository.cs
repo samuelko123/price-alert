@@ -1,13 +1,12 @@
+using System.Threading.Tasks;
+using PriceAlert.Infrastructure.Woolworths;
+
 namespace PriceAlert.Domain;
 
-public class ProductRepository
+public class ProductRepository(IWoolworthsApiClient client)
 {
-  public Product FindProductById(string id)
+  public async Task<Product> FindProductById(string id)
   {
-    return new Product()
-    {
-      Id = id,
-      Name = "a product name",
-    };
+    return await client.GetProduct(id);
   }
 }
