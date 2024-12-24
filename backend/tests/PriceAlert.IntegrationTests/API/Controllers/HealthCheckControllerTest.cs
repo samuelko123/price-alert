@@ -12,14 +12,14 @@ public class HealthCheckControllerTest
   public async Task Get_ReturnsOk()
   {
     // Arrange
-    var factory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
+    using var factory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
     {
       builder.ConfigureServices(services =>
       {
         services.AddControllers().AddApplicationPart(typeof(HealthCheckController).Assembly);
       });
     });
-    var client = factory.CreateClient();
+    using var client = factory.CreateClient();
 
     // Action
     var response = await client.GetAsync("/api/healthcheck");
