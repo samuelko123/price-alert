@@ -9,7 +9,7 @@ using PriceAlert.Infrastructure.Woolworths;
 
 namespace PriceAlert.UnitTests.Infrastructure.Woolworths;
 
-public class WoolworthsProductApiClientTest
+public class WoolworthsApiClientTest
 {
   [Fact]
   public async Task GetProduct_ReturnsProduct()
