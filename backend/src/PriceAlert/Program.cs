@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace PriceAlert;
 
-public partial class Program
+internal class Program
 {
     private static void Main()
     {
