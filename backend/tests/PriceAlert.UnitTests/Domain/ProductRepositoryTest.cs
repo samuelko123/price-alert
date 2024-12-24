@@ -27,6 +27,7 @@ public class ProductRepositoryTest
   }
 
   [Theory]
+  [InlineData("https://woolworths.com.au/shop/productdetails/123")]
   [InlineData("https://www.woolworths.com.au/shop/productdetails/123")]
   [InlineData("https://www.woolworths.com.au/shop/productdetails/123?googleshop=true")]
   [InlineData("https://www.woolworths.com.au/shop/productdetails/123?googleshop=true&utm_source=google")]
