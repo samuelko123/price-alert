@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using FakeItEasy;
 using PriceAlert.Domain;
@@ -8,7 +9,23 @@ namespace PriceAlert.UnitTests.Domain;
 public class ProductRepositoryTest
 {
   [Fact]
-  public async Task FindProductByUrl_ParseUrlAndReturnsProductFromApiClient()
+  public async Task FindProductByUrl_WithUnrecognisedHostname_ThrowsNotSupportedException()
+  {
+    // Arrange
+    var client = A.Fake<IWoolworthsApiClient>();
+    var repository = new ProductRepository(client);
+
+    // Action
+    var exception = await Record.ExceptionAsync(() => repository.FindProductByUrl("https://www.coles.com.au/product/3571948"));
+
+    // Assert
+    Assert.NotNull(exception);
+    Assert.IsType<NotSupportedException>(exception);
+    Assert.Equal("Received unsupported hostname: www.coles.com.au", exception.Message);
+  }
+
+  [Fact]
+  public async Task FindProductByUrl_ReturnsProductFromApiClient()
   {
     // Arrange
     var client = A.Fake<IWoolworthsApiClient>();
