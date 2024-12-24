@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using FakeItEasy;
 using PriceAlert.Infrastructure.Exceptions;
@@ -58,7 +59,7 @@ public class WoolworthsProductApiClientTest
     // Assert
     Assert.NotNull(exception);
     Assert.IsType<BadHttpResponseException>(exception);
-    Assert.Equal("Unexpected HTTP status code. Received: 500 InternalServerError. Expected: 200 OK.", exception.Message);
+    Assert.Equal("Received unexpected HTTP status code. Received: 500 InternalServerError. Expected: 200 OK.", exception.Message);
   }
 
   [Fact]
@@ -82,6 +83,31 @@ public class WoolworthsProductApiClientTest
     // Assert
     Assert.NotNull(exception);
     Assert.IsType<UnreachableException>(exception);
+    Assert.Equal("Received unexpected HTTP response body. Content: null.", exception.Message);
+  }
+
+  [Fact]
+  public async void GetProduct_WhenHttpResponseBodyIsNotJson_ThrowsUnreachableException()
+  {
+    // Arrange
+    var messageHandler = A.Fake<HttpMessageHandler>();
+    var response = new HttpResponseMessage
+    {
+      StatusCode = HttpStatusCode.OK,
+      Content = new StringContent("<name>a product</name>"),
+    };
+    SetResponse(messageHandler, response);
+
+    var httpClient = new HttpClient(messageHandler);
+    var apiClient = new WoolworthsApiClient(httpClient);
+
+    // Action
+    var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
+
+    // Assert
+    Assert.NotNull(exception);
+    Assert.IsType<JsonException>(exception);
+    Assert.Equal("Received unexpected HTTP response body. Content: <name>a product</name>.", exception.Message);
   }
 
   private void SetResponse(HttpMessageHandler messageHandler, HttpResponseMessage response)

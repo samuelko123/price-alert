@@ -31,7 +31,7 @@ public class WoolworthsApiClient(HttpClient httpClient)
     var actualStatusCode = response.StatusCode;
     if (actualStatusCode != expectedStatusCode)
     {
-      throw new BadHttpResponseException($"""Unexpected HTTP status code. Received: {actualStatusCode.GetHashCode()} {actualStatusCode}. Expected: {expectedStatusCode.GetHashCode()} {expectedStatusCode}.""");
+      throw new BadHttpResponseException($"Received unexpected HTTP status code. Received: {actualStatusCode.GetHashCode()} {actualStatusCode}. Expected: {expectedStatusCode.GetHashCode()} {expectedStatusCode}.");
     }
   }
 
@@ -40,7 +40,7 @@ public class WoolworthsApiClient(HttpClient httpClient)
     var data = JsonSerializer.Deserialize<T>(content);
     if (data == null)
     {
-      throw new UnreachableException("""We received "null" API response.""");
+      throw new UnreachableException($"Received unexpected HTTP response body. Content: {content}.");
     }
 
     return data;
