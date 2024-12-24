@@ -15,7 +15,6 @@ public class WoolworthsProductApiClientTest
   public async Task GetProduct_ReturnsProduct()
   {
     // Arrange
-    var messageHandler = A.Fake<HttpMessageHandler>();
     var response = new HttpResponseMessage
     {
       StatusCode = HttpStatusCode.OK,
@@ -26,9 +25,8 @@ public class WoolworthsProductApiClientTest
       }
       """),
     };
-    SetResponse(messageHandler, response);
 
-    var httpClient = new HttpClient(messageHandler);
+    var httpClient = CreateHttpClient(response);
     var apiClient = new WoolworthsApiClient(httpClient);
 
     // Action
@@ -43,14 +41,12 @@ public class WoolworthsProductApiClientTest
   public async void GetProduct_WhenHttpResponseStatusIsNotOK_ThrowsBadHttpStatusCodeException()
   {
     // Arrange
-    var messageHandler = A.Fake<HttpMessageHandler>();
     var response = new HttpResponseMessage
     {
       StatusCode = HttpStatusCode.InternalServerError,
     };
-    SetResponse(messageHandler, response);
 
-    var httpClient = new HttpClient(messageHandler);
+    var httpClient = CreateHttpClient(response);
     var apiClient = new WoolworthsApiClient(httpClient);
 
     // Action
@@ -66,15 +62,13 @@ public class WoolworthsProductApiClientTest
   public async void GetProduct_WhenHttpResponseBodyIsNull_ThrowsUnreachableException()
   {
     // Arrange
-    var messageHandler = A.Fake<HttpMessageHandler>();
     var response = new HttpResponseMessage
     {
       StatusCode = HttpStatusCode.OK,
       Content = new StringContent("null"),
     };
-    SetResponse(messageHandler, response);
 
-    var httpClient = new HttpClient(messageHandler);
+    var httpClient = CreateHttpClient(response);
     var apiClient = new WoolworthsApiClient(httpClient);
 
     // Action
@@ -90,15 +84,13 @@ public class WoolworthsProductApiClientTest
   public async void GetProduct_WhenHttpResponseBodyIsNotJson_ThrowsJsonException()
   {
     // Arrange
-    var messageHandler = A.Fake<HttpMessageHandler>();
     var response = new HttpResponseMessage
     {
       StatusCode = HttpStatusCode.OK,
       Content = new StringContent("<name>a product</name>"),
     };
-    SetResponse(messageHandler, response);
 
-    var httpClient = new HttpClient(messageHandler);
+    var httpClient = CreateHttpClient(response);
     var apiClient = new WoolworthsApiClient(httpClient);
 
     // Action
@@ -114,15 +106,13 @@ public class WoolworthsProductApiClientTest
   public async void GetProduct_WhenHttpResponseBodyHasNullId_ThrowsJsonException()
   {
     // Arrange
-    var messageHandler = A.Fake<HttpMessageHandler>();
     var response = new HttpResponseMessage
     {
       StatusCode = HttpStatusCode.OK,
       Content = new StringContent("""{ "sku": null, "name": "a product name" }"""),
     };
-    SetResponse(messageHandler, response);
 
-    var httpClient = new HttpClient(messageHandler);
+    var httpClient = CreateHttpClient(response);
     var apiClient = new WoolworthsApiClient(httpClient);
 
     // Action
@@ -134,11 +124,14 @@ public class WoolworthsProductApiClientTest
     Assert.Equal("""Received unexpected HTTP response body. Content: { "sku": null, "name": "a product name" }.""", exception.Message);
   }
 
-  private static void SetResponse(HttpMessageHandler messageHandler, HttpResponseMessage response)
+  private static HttpClient CreateHttpClient(HttpResponseMessage response)
   {
+    var messageHandler = A.Fake<HttpMessageHandler>();
     A.CallTo(messageHandler)
       .Where(x => x.Method.Name == "SendAsync")
       .WithReturnType<Task<HttpResponseMessage>>()
       .Returns(response);
+
+    return new HttpClient(messageHandler);
   }
 }
