@@ -9,7 +9,7 @@ namespace PriceAlert.UnitTests.Domain;
 public class ProductRepositoryTest
 {
   [Fact]
-  public async Task FindProductByUrl_WithUnrecognisedHostname_ThrowsNotSupportedException()
+  public async Task FindProductByUrl_WithUnsupportedHostname_ThrowsNotSupportedException()
   {
     // Arrange
     var client = A.Fake<IWoolworthsApiClient>();
