@@ -11,6 +11,12 @@ public static partial class ProductUrlPathRegex
   public static partial Regex Woolworths();
 }
 
+public static partial class ProductUrlHostRegex
+{
+  [GeneratedRegex(@"[www.]?woolworths.com.au", RegexOptions.Compiled | RegexOptions.IgnoreCase)]
+  public static partial Regex Woolworths();
+}
+
 public class ProductRepository(IWoolworthsApiClient client)
 {
   public async Task<Product> FindProductByUrl(Uri uri)
@@ -21,7 +27,7 @@ public class ProductRepository(IWoolworthsApiClient client)
 
   private static string ExtractProductIdFromUrl(Uri uri)
   {
-    if (!uri.Host.ToLower().EndsWith("woolworths.com.au"))
+    if (!ProductUrlHostRegex.Woolworths().IsMatch(uri.Host))
     {
       throw new NotSupportedException($"Received unsupported URL: {uri}");
     }
