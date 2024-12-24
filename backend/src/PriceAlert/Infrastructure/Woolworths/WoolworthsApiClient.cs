@@ -10,6 +10,11 @@ namespace PriceAlert.Infrastructure.Woolworths;
 
 public class WoolworthsApiClient(HttpClient httpClient)
 {
+  private static readonly JsonSerializerOptions _jsonOptions = new()
+  {
+    RespectNullableAnnotations = true,
+  };
+
   public async Task<Product> GetProduct(string id)
   {
     var url = $"https://www.woolworths.com.au/api/v3/ui/schemaorg/product/{id}";
@@ -43,11 +48,7 @@ public class WoolworthsApiClient(HttpClient httpClient)
   {
     try
     {
-      var option = new JsonSerializerOptions()
-      {
-        RespectNullableAnnotations = true,
-      };
-      var data = JsonSerializer.Deserialize<T>(content, option);
+      var data = JsonSerializer.Deserialize<T>(content, _jsonOptions);
       if (data == null)
       {
         throw new UnreachableException($"Received unexpected HTTP response body. Content: {content}.");
