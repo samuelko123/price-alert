@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-internal class Program
+namespace PriceAlert;
+
+public partial class Program
 {
     private static void Main()
     {

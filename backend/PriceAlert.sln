@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9C0F17F5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceAlert.UnitTests", "tests\PriceAlert.UnitTests\PriceAlert.UnitTests.csproj", "{8257BC9D-BCD1-497B-9738-D1049DB8D43E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceAlert.IntegrationTests", "tests\PriceAlert.IntegrationTests\PriceAlert.IntegrationTests.csproj", "{6D0401B0-03EB-4EFC-8065-49D365D29B7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{8257BC9D-BCD1-497B-9738-D1049DB8D43E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8257BC9D-BCD1-497B-9738-D1049DB8D43E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8257BC9D-BCD1-497B-9738-D1049DB8D43E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D0401B0-03EB-4EFC-8065-49D365D29B7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D0401B0-03EB-4EFC-8065-49D365D29B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D0401B0-03EB-4EFC-8065-49D365D29B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D0401B0-03EB-4EFC-8065-49D365D29B7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,5 +38,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B8742C15-1B36-4B32-9EF0-BE451FFD8048} = {F3F9E0EB-BBF1-4664-88E1-67061891D923}
 		{8257BC9D-BCD1-497B-9738-D1049DB8D43E} = {9C0F17F5-E4C5-4472-A76C-9100E4F0548A}
+		{6D0401B0-03EB-4EFC-8065-49D365D29B7D} = {9C0F17F5-E4C5-4472-A76C-9100E4F0548A}
 	EndGlobalSection
 EndGlobal
