@@ -7,7 +7,7 @@ namespace PriceAlert.IntegrationTests.API.Controllers;
 public class HealthCheckControllerTest
 {
   [Fact]
-  public async Task GetProduct_ReturnsProduct()
+  public async Task Get_ReturnsOk()
   {
     // Arrange
     var factory = new WebApplicationFactory<Program>();

@@ -4,10 +4,10 @@ namespace PriceAlert.API.Controllers;
 
 [ApiController]
 [Route("/api/healthcheck")]
-public class ProductController() : ControllerBase
+public class HealthCheckController() : ControllerBase
 {
   [HttpGet]
-  public IActionResult FindProducts()
+  public IActionResult Get()
   {
     return Ok();
   }
