@@ -15,6 +15,12 @@ public class ProductRepository(IWoolworthsApiClient client)
 {
   public async Task<Product> FindProductByUrl(string url)
   {
+    var id = ExtractProductIdFromUrl(url);
+    return await client.GetProduct(id);
+  }
+
+  private static string ExtractProductIdFromUrl(string url)
+  {
     var uri = new Uri(url);
     if (!uri.Host.ToLower().EndsWith("woolworths.com.au"))
     {
@@ -28,6 +34,6 @@ public class ProductRepository(IWoolworthsApiClient client)
     }
 
     var id = match.Groups[1].Value;
-    return await client.GetProduct(id);
+    return id;
   }
 }
