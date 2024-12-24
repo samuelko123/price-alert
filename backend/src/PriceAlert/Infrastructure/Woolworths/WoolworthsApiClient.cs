@@ -37,12 +37,19 @@ public class WoolworthsApiClient(HttpClient httpClient)
 
   private static T ParseJson<T>(string content)
   {
-    var data = JsonSerializer.Deserialize<T>(content);
-    if (data == null)
+    try
     {
-      throw new UnreachableException($"Received unexpected HTTP response body. Content: {content}.");
-    }
+      var data = JsonSerializer.Deserialize<T>(content);
+      if (data == null)
+      {
+        throw new UnreachableException($"Received unexpected HTTP response body. Content: {content}.");
+      }
 
-    return data;
+      return data;
+    }
+    catch (JsonException ex)
+    {
+      throw new JsonException($"Received unexpected HTTP response body. Content: {content}.", ex);
+    }
   }
 }
