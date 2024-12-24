@@ -8,7 +8,7 @@ namespace PriceAlert.UnitTests.Domain;
 public class ProductRepositoryTest
 {
   [Fact]
-  public async Task FindProductByUrl_ReturnsProductFromApiClient()
+  public async Task FindProductByUrl_ParseUrlAndReturnsProductFromApiClient()
   {
     // Arrange
     var client = A.Fake<IWoolworthsApiClient>();
@@ -22,7 +22,7 @@ public class ProductRepositoryTest
     var repository = new ProductRepository(client);
 
     // Action
-    var result = await repository.FindProductByUrl("123");
+    var result = await repository.FindProductByUrl("https://www.woolworths.com.au/shop/productdetails/123");
 
     // Assert
     Assert.Equal(result, product);
