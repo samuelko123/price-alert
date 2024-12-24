@@ -16,12 +16,28 @@ public class ProductRepositoryTest
     var repository = new ProductRepository(client);
 
     // Action
-    var exception = await Record.ExceptionAsync(() => repository.FindProductByUrl("https://www.coles.com.au/product/3571948"));
+    var exception = await Record.ExceptionAsync(() => repository.FindProductByUrl("https://www.coles.com.au/product/123"));
 
     // Assert
     Assert.NotNull(exception);
     Assert.IsType<NotSupportedException>(exception);
     Assert.Equal("Received unsupported hostname: www.coles.com.au", exception.Message);
+  }
+
+  [Fact]
+  public async Task FindProductByUrl_WithUnexpectedUriPath_ThrowsNotSupportedException()
+  {
+    // Arrange
+    var client = A.Fake<IWoolworthsApiClient>();
+    var repository = new ProductRepository(client);
+
+    // Action
+    var exception = await Record.ExceptionAsync(() => repository.FindProductByUrl("https://www.woolworths.com.au/shop/storelocator/123"));
+
+    // Assert
+    Assert.NotNull(exception);
+    Assert.IsType<NotSupportedException>(exception);
+    Assert.Equal("Received unsupported uri path: /shop/storelocator/123", exception.Message);
   }
 
   [Fact]
