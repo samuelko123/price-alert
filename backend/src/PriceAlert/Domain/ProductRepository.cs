@@ -17,7 +17,7 @@ public class ProductRepository(IWoolworthsApiClient client)
   public async Task<Product> FindProductByUrl(string url)
   {
     var uri = new Uri(url);
-    if (uri.Host != "www.woolworths.com.au" || !ProductUrlRegex.Woolworths().IsMatch(uri.LocalPath))
+    if (!uri.Host.ToLower().EndsWith("woolworths.com.au") || !ProductUrlRegex.Woolworths().IsMatch(uri.LocalPath))
     {
       throw new NotSupportedException($"Received unsupported URL: {url}");
     }
