@@ -87,7 +87,7 @@ public class WoolworthsProductApiClientTest
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseBodyIsNotJson_ThrowsUnreachableException()
+  public async void GetProduct_WhenHttpResponseBodyIsNotJson_ThrowsJsonException()
   {
     // Arrange
     var messageHandler = A.Fake<HttpMessageHandler>();
@@ -95,6 +95,35 @@ public class WoolworthsProductApiClientTest
     {
       StatusCode = HttpStatusCode.OK,
       Content = new StringContent("<name>a product</name>"),
+    };
+    SetResponse(messageHandler, response);
+
+    var httpClient = new HttpClient(messageHandler);
+    var apiClient = new WoolworthsApiClient(httpClient);
+
+    // Action
+    var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
+
+    // Assert
+    Assert.NotNull(exception);
+    Assert.IsType<JsonException>(exception);
+    Assert.Equal("Received unexpected HTTP response body. Content: <name>a product</name>.", exception.Message);
+  }
+
+  [Fact]
+  public async void GetProduct_WhenHttpResponseBodyHasNullId_ThrowsJsonException()
+  {
+    // Arrange
+    var messageHandler = A.Fake<HttpMessageHandler>();
+    var response = new HttpResponseMessage
+    {
+      StatusCode = HttpStatusCode.OK,
+      Content = new StringContent("""
+      {
+        "sku": null,
+        "name": "a product name"
+      }
+      """),
     };
     SetResponse(messageHandler, response);
 
