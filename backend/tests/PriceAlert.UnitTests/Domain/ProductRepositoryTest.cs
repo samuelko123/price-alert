@@ -18,7 +18,7 @@ public class ProductRepositoryTest
     var repository = new ProductRepository(client);
 
     // Action
-    var exception = await Record.ExceptionAsync(() => repository.FindProductByUrl(url));
+    var exception = await Record.ExceptionAsync(() => repository.FindProductByUrl(new Uri(url)));
 
     // Assert
     Assert.NotNull(exception);
@@ -47,7 +47,7 @@ public class ProductRepositoryTest
     var repository = new ProductRepository(client);
 
     // Action
-    var result = await repository.FindProductByUrl(url);
+    var result = await repository.FindProductByUrl(new Uri(url));
 
     // Assert
     Assert.Equal(result, product);

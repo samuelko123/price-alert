@@ -13,24 +13,23 @@ public static partial class ProductUrlPathRegex
 
 public class ProductRepository(IWoolworthsApiClient client)
 {
-  public async Task<Product> FindProductByUrl(string url)
+  public async Task<Product> FindProductByUrl(Uri uri)
   {
-    var id = ExtractProductIdFromUrl(url);
+    var id = ExtractProductIdFromUrl(uri);
     return await client.GetProduct(id);
   }
 
-  private static string ExtractProductIdFromUrl(string url)
+  private static string ExtractProductIdFromUrl(Uri uri)
   {
-    var uri = new Uri(url);
     if (!uri.Host.ToLower().EndsWith("woolworths.com.au"))
     {
-      throw new NotSupportedException($"Received unsupported URL: {url}");
+      throw new NotSupportedException($"Received unsupported URL: {uri}");
     }
 
     var match = ProductUrlPathRegex.Woolworths().Match(uri.LocalPath);
     if (!match.Success)
     {
-      throw new NotSupportedException($"Received unsupported URL: {url}");
+      throw new NotSupportedException($"Received unsupported URL: {uri}");
     }
 
     var id = match.Groups[1].Value;
