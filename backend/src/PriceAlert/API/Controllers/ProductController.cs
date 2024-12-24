@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PriceAlert.API.DTOs;
 
 namespace PriceAlert.API.Controllers;
 
@@ -7,7 +8,7 @@ namespace PriceAlert.API.Controllers;
 public class ProductController() : ControllerBase
 {
   [HttpPost("search")]
-  public IActionResult Search()
+  public IActionResult Search([FromBody] ProductSearchDto dto)
   {
     return Ok();
   }
