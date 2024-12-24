@@ -16,9 +16,7 @@ public class WoolworthsApiClient(HttpClient httpClient)
     var response = await httpClient.GetAsync(url);
     ValidateResponse(response, HttpStatusCode.OK);
 
-    var content = await response.Content.ReadAsStringAsync();
-    var dto = ParseJson<WoolworthsProductDto>(content);
-
+    var dto = await ParseJson<WoolworthsProductDto>(response);
     return new Product()
     {
       Id = dto.Id,
@@ -33,6 +31,12 @@ public class WoolworthsApiClient(HttpClient httpClient)
     {
       throw new BadHttpResponseException($"Received unexpected HTTP status code. Received: {actualStatusCode.GetHashCode()} {actualStatusCode}. Expected: {expectedStatusCode.GetHashCode()} {expectedStatusCode}.");
     }
+  }
+
+  private static async Task<T> ParseJson<T>(HttpResponseMessage response)
+  {
+    var content = await response.Content.ReadAsStringAsync();
+    return ParseJson<T>(content);
   }
 
   private static T ParseJson<T>(string content)
