@@ -4,7 +4,7 @@ using PriceAlert.IntegrationTests.Fixtures;
 
 namespace PriceAlert.IntegrationTests.API.Controllers;
 
-public class HealthCheckControllerTest
+public class HealthCheckControllerIntegrationTest
 {
   [Fact]
   public async Task Get_ReturnsOk()

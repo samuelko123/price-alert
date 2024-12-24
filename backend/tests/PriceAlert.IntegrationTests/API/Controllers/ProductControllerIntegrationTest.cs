@@ -6,7 +6,7 @@ using PriceAlert.IntegrationTests.Fixtures;
 
 namespace PriceAlert.IntegrationTests.API.Controllers;
 
-public class ProductControllerTest
+public class ProductControllerIntegrationTest
 {
   [Fact]
   public async Task Search_WithMissingRequiredProperty_ReturnsBadRequest()
