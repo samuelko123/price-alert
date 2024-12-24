@@ -8,36 +8,22 @@ namespace PriceAlert.UnitTests.Domain;
 
 public class ProductRepositoryTest
 {
-  [Fact]
-  public async Task FindProductByUrl_WithUnsupportedHostname_ThrowsNotSupportedException()
+  [Theory]
+  [InlineData("https://www.coles.com.au/product/123")]
+  [InlineData("https://www.woolworths.com.au/shop/storelocator/123")]
+  public async Task FindProductByUrl_WithUnsupportedUrl_ThrowsNotSupportedException(string url)
   {
     // Arrange
     var client = A.Fake<IWoolworthsApiClient>();
     var repository = new ProductRepository(client);
 
     // Action
-    var exception = await Record.ExceptionAsync(() => repository.FindProductByUrl("https://www.coles.com.au/product/123"));
+    var exception = await Record.ExceptionAsync(() => repository.FindProductByUrl(url));
 
     // Assert
     Assert.NotNull(exception);
     Assert.IsType<NotSupportedException>(exception);
-    Assert.Equal("Received unsupported hostname: www.coles.com.au", exception.Message);
-  }
-
-  [Fact]
-  public async Task FindProductByUrl_WithUnexpectedUriPath_ThrowsNotSupportedException()
-  {
-    // Arrange
-    var client = A.Fake<IWoolworthsApiClient>();
-    var repository = new ProductRepository(client);
-
-    // Action
-    var exception = await Record.ExceptionAsync(() => repository.FindProductByUrl("https://www.woolworths.com.au/shop/storelocator/123"));
-
-    // Assert
-    Assert.NotNull(exception);
-    Assert.IsType<NotSupportedException>(exception);
-    Assert.Equal("Received unsupported uri path: /shop/storelocator/123", exception.Message);
+    Assert.Equal($"Received unsupported URL: {url}", exception.Message);
   }
 
   [Theory]
