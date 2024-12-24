@@ -5,8 +5,8 @@ namespace PriceAlert.Domain;
 
 public class ProductRepository(IWoolworthsApiClient client)
 {
-  public async Task<Product> FindProductById(string id)
+  public async Task<Product> FindProductByUrl(string url)
   {
-    return await client.GetProduct(id);
+    return await client.GetProduct(url);
   }
 }
