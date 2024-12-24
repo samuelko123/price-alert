@@ -20,6 +20,7 @@ public class ProductControllerTest
 
     // Assert
     Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    Assert.Equal("""{"error": "property url cannot be empty."}""", await response.Content.ReadAsStringAsync());
   }
 
   [Fact]
