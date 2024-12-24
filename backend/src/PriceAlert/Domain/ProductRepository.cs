@@ -8,7 +8,7 @@ namespace PriceAlert.Domain;
 
 public static partial class ProductUrlRegex
 {
-  [GeneratedRegex(@"/shop/productdetails/[0-9]+", RegexOptions.IgnoreCase)]
+  [GeneratedRegex(@"/shop/productdetails/([0-9]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase)]
   public static partial Regex Woolworths();
 }
 
@@ -17,12 +17,18 @@ public class ProductRepository(IWoolworthsApiClient client)
   public async Task<Product> FindProductByUrl(string url)
   {
     var uri = new Uri(url);
-    if (!uri.Host.ToLower().EndsWith("woolworths.com.au") || !ProductUrlRegex.Woolworths().IsMatch(uri.LocalPath))
+    if (!uri.Host.ToLower().EndsWith("woolworths.com.au"))
     {
       throw new NotSupportedException($"Received unsupported URL: {url}");
     }
 
-    var id = uri.Segments.Last();
+    var match = ProductUrlRegex.Woolworths().Match(uri.LocalPath);
+    if (!match.Success)
+    {
+      throw new NotSupportedException($"Received unsupported URL: {url}");
+    }
+
+    var id = match.Groups[1].Value;
     return await client.GetProduct(id);
   }
 }
