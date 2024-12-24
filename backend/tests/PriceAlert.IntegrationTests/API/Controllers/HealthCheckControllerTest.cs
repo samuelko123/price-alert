@@ -10,8 +10,8 @@ public class HealthCheckControllerTest
   public async Task GetProduct_ReturnsProduct()
   {
     // Arrange
-    var app = new WebApplicationFactory<Program>();
-    var client = app.CreateClient();
+    var factory = new WebApplicationFactory<Program>();
+    var client = factory.CreateClient();
 
     // Action
     var response = await client.GetAsync("/api/healthcheck");
