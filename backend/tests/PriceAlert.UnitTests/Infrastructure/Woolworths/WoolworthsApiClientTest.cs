@@ -39,7 +39,7 @@ public class WoolworthsProductApiClientTest
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpStatusIsNotOK_ThrowsBadHttpStatusCodeException()
+  public async void GetProduct_WhenHttpResponseStatusIsNotOK_ThrowsBadHttpStatusCodeException()
   {
     // Arrange
     var messageHandler = A.Fake<HttpMessageHandler>();
@@ -62,7 +62,7 @@ public class WoolworthsProductApiClientTest
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseIsNull_ThrowsUnreachableException()
+  public async void GetProduct_WhenHttpResponseBodyIsNull_ThrowsUnreachableException()
   {
     // Arrange
     var messageHandler = A.Fake<HttpMessageHandler>();
