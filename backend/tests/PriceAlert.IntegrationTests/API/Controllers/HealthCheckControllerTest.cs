@@ -1,6 +1,8 @@
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using PriceAlert.API.Controllers;
 
 namespace PriceAlert.IntegrationTests.API.Controllers;
 
@@ -10,7 +12,13 @@ public class HealthCheckControllerTest
   public async Task Get_ReturnsOk()
   {
     // Arrange
-    var factory = new WebApplicationFactory<Program>();
+    var factory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
+    {
+      builder.ConfigureServices(services =>
+      {
+        services.AddControllers().AddApplicationPart(typeof(HealthCheckController).Assembly);
+      });
+    });
     var client = factory.CreateClient();
 
     // Action
