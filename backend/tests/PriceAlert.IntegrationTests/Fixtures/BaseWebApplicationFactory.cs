@@ -5,8 +5,7 @@ using PriceAlert.API.Controllers;
 
 namespace PriceAlert.IntegrationTests.Fixtures;
 
-public class BaseWebApplicationFactory<TProgram>
-    : WebApplicationFactory<TProgram> where TProgram : class
+internal class BaseWebApplicationFactory : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {

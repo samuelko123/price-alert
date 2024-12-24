@@ -10,7 +10,7 @@ public class HealthCheckControllerTest
   public async Task Get_ReturnsOk()
   {
     // Arrange
-    using var factory = new BaseWebApplicationFactory<Program>();
+    using var factory = new BaseWebApplicationFactory();
     using var client = factory.CreateClient();
 
     // Action
