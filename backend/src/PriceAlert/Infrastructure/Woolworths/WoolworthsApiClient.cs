@@ -39,7 +39,11 @@ public class WoolworthsApiClient(HttpClient httpClient)
   {
     try
     {
-      var data = JsonSerializer.Deserialize<T>(content);
+      var option = new JsonSerializerOptions()
+      {
+        RespectNullableAnnotations = true,
+      };
+      var data = JsonSerializer.Deserialize<T>(content, option);
       if (data == null)
       {
         throw new UnreachableException($"Received unexpected HTTP response body. Content: {content}.");

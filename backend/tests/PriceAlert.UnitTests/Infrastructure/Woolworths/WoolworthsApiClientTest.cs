@@ -118,12 +118,7 @@ public class WoolworthsProductApiClientTest
     var response = new HttpResponseMessage
     {
       StatusCode = HttpStatusCode.OK,
-      Content = new StringContent("""
-      {
-        "sku": null,
-        "name": "a product name"
-      }
-      """),
+      Content = new StringContent("""{ "sku": null, "name": "a product name" }"""),
     };
     SetResponse(messageHandler, response);
 
@@ -136,10 +131,10 @@ public class WoolworthsProductApiClientTest
     // Assert
     Assert.NotNull(exception);
     Assert.IsType<JsonException>(exception);
-    Assert.Equal("Received unexpected HTTP response body. Content: <name>a product</name>.", exception.Message);
+    Assert.Equal("""Received unexpected HTTP response body. Content: { "sku": null, "name": "a product name" }.""", exception.Message);
   }
 
-  private void SetResponse(HttpMessageHandler messageHandler, HttpResponseMessage response)
+  private static void SetResponse(HttpMessageHandler messageHandler, HttpResponseMessage response)
   {
     A.CallTo(messageHandler)
       .Where(x => x.Method.Name == "SendAsync")
