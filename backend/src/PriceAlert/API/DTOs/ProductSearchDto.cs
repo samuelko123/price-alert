@@ -2,5 +2,5 @@ namespace PriceAlert.API.DTOs;
 
 public class ProductSearchDto
 {
-  public required string Url { get; init; }
+  public string? Url { get; init; }
 }
