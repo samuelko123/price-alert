@@ -65,4 +65,29 @@ public class ProductControllerIntegrationTest
     Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     Assert.Equal("""{"error":"Unable to find product: 123"}""", await response.Content.ReadAsStringAsync());
   }
+
+  [Fact]
+  public async Task GetByUrl_WithException_ReturnsSomethingWentWrong()
+  {
+    // Arrange
+    var repository = A.Fake<IProductRepository>();
+    A.CallTo(() => repository.FindProductByUri(A<Uri>._)).ThrowsAsync(new Exception());
+
+    using var factory = new BaseWebApplicationFactory()
+      .WithWebHostBuilder(builder =>
+      {
+        builder.ConfigureServices(services =>
+        {
+          services.Replace(new ServiceDescriptor(typeof(IProductRepository), repository));
+        });
+      });
+    using var client = factory.CreateClient();
+
+    // Action
+    var response = await client.GetAsync("/api/products/getByUrl?url=https://www.woolworths.com.au/shop/productdetails/123");
+
+    // Assert
+    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    Assert.Equal("""{"error":"Something went wrong."}""", await response.Content.ReadAsStringAsync());
+  }
 }
