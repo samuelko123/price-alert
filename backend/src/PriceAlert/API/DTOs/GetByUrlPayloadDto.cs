@@ -1,6 +1,6 @@
 namespace PriceAlert.API.DTOs;
 
-public class ProductSearchDto
+public class GetByUrlPayloadDto
 {
   public string? Url { get; init; }
 }

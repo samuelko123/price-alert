@@ -11,8 +11,8 @@ namespace PriceAlert.API.Controllers;
 [Route("/api/products")]
 public class ProductController(IProductRepository repository) : ControllerBase
 {
-  [HttpPost("search")]
-  public async Task<IActionResult> Search([FromBody] ProductSearchDto dto)
+  [HttpPost("getByUrl")]
+  public async Task<IActionResult> GetByUrl([FromBody] GetByUrlPayloadDto dto)
   {
     if (dto.Url == null)
     {

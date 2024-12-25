@@ -17,13 +17,13 @@ public class ProductControllerTest
     // Arrange
     var repository = A.Fake<IProductRepository>();
     var controller = new ProductController(repository);
-    var dto = new ProductSearchDto()
+    var dto = new GetByUrlPayloadDto()
     {
       Url = "it is not a url"
     };
 
     // Action
-    var response = await controller.Search(dto);
+    var response = await controller.GetByUrl(dto);
 
     // Assert
     var result = Assert.IsType<BadRequestObjectResult>(response);
@@ -44,13 +44,13 @@ public class ProductControllerTest
     A.CallTo(() => repository.FindProductByUri(new Uri("https://google.com"))).Returns(product);
 
     var controller = new ProductController(repository);
-    var dto = new ProductSearchDto()
+    var dto = new GetByUrlPayloadDto()
     {
       Url = "https://google.com"
     };
 
     // Action
-    var response = await controller.Search(dto);
+    var response = await controller.GetByUrl(dto);
 
     // Assert
     var result = Assert.IsType<OkObjectResult>(response);
