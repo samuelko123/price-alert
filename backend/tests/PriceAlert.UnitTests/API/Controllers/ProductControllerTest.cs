@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using PriceAlert.API.Controllers;
@@ -10,7 +11,7 @@ namespace PriceAlert.UnitTests.API.Controllers;
 public class ProductControllerTest
 {
   [Fact]
-  public void Search_WithValidDto_ReturnsProduct()
+  public async Task Search_WithValidDto_ReturnsProduct()
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
@@ -28,7 +29,7 @@ public class ProductControllerTest
     };
 
     // Action
-    var response = controller.Search(dto);
+    var response = await controller.Search(dto);
 
     // Assert
     var result = Assert.IsType<OkObjectResult>(response);

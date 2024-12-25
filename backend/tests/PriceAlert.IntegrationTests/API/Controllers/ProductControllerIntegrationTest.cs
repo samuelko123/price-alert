@@ -31,7 +31,7 @@ public class ProductControllerIntegrationTest
     using var client = factory.CreateClient();
 
     // Action
-    var response = await client.PostAsync("/api/products/search", new StringContent("""{"url": "https://google.com"}""", Encoding.UTF8, "application/json"));
+    var response = await client.PostAsync("/api/products/search", new StringContent("""{"url": "https://www.woolworths.com.au/shop/productdetails/123"}""", Encoding.UTF8, "application/json"));
 
     // Assert
     Assert.Equal(HttpStatusCode.OK, response.StatusCode);

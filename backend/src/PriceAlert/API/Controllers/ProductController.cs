@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PriceAlert.API.DTOs;
 using PriceAlert.API.Errors;
@@ -10,18 +12,15 @@ namespace PriceAlert.API.Controllers;
 public class ProductController(IProductRepository repository) : ControllerBase
 {
   [HttpPost("search")]
-  public IActionResult Search([FromBody] ProductSearchDto dto)
+  public async Task<IActionResult> Search([FromBody] ProductSearchDto dto)
   {
     if (dto.Url == null)
     {
       return BadRequest(new MissingRequiredPropertyError("url"));
     }
 
-    var product = new ProductDto()
-    {
-      Id = "123",
-      Name = "a product",
-    };
+    var uri = new Uri(dto.Url);
+    var product = await repository.FindProductByUrl(uri);
     return Ok(product);
   }
 }
