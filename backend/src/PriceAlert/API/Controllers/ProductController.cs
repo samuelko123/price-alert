@@ -15,6 +15,12 @@ public class ProductController() : ControllerBase
     {
       return BadRequest(new MissingRequiredPropertyError("url"));
     }
-    return Ok();
+
+    var product = new ProductDto()
+    {
+      Id = "123",
+      Name = "a product",
+    };
+    return Ok(product);
   }
 }
