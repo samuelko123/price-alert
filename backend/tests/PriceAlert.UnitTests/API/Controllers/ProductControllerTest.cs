@@ -20,7 +20,7 @@ public class ProductControllerTest
       Id = "123",
       Name = "a product",
     };
-    A.CallTo(() => repository.FindProductByUrl(new Uri("https://google.com"))).Returns(product);
+    A.CallTo(() => repository.FindProductByUri(new Uri("https://google.com"))).Returns(product);
 
     var controller = new ProductController(repository);
     var dto = new ProductSearchDto()

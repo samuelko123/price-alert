@@ -5,5 +5,5 @@ namespace PriceAlert.Domain;
 
 public interface IProductRepository
 {
-  Task<Product> FindProductByUrl(Uri uri);
+  Task<Product> FindProductByUri(Uri uri);
 }

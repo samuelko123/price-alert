@@ -20,7 +20,7 @@ public class ProductController(IProductRepository repository) : ControllerBase
     }
 
     var uri = new Uri(dto.Url);
-    var product = await repository.FindProductByUrl(uri);
+    var product = await repository.FindProductByUri(uri);
     return Ok(product);
   }
 }

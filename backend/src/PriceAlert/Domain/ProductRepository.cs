@@ -19,7 +19,7 @@ public static partial class ProductUrlHostRegex
 
 public class ProductRepository(IWoolworthsApiClient client) : IProductRepository
 {
-  public async Task<Product> FindProductByUrl(Uri uri)
+  public async Task<Product> FindProductByUri(Uri uri)
   {
     var id = ExtractProductIdFromUrl(uri);
     return await client.GetProduct(id);
