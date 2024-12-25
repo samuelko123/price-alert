@@ -24,8 +24,7 @@ public class ProductController(IProductRepository repository) : ControllerBase
       return BadRequest(new InvalidUriError(dto.Url));
     }
 
-    var uri = new Uri(dto.Url);
-    var product = await repository.FindProductByUri(uri);
+    var product = await repository.FindProductByUri(new Uri(dto.Url));
     return Ok(product);
   }
 }
