@@ -103,7 +103,7 @@ public class WoolworthsApiClientTest
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseBodyHasNullId_ThrowsJsonException()
+  public async void GetProduct_WhenHttpResponseBodyHasNullSku_ThrowsJsonException()
   {
     // Arrange
     var response = new HttpResponseMessage
@@ -122,6 +122,28 @@ public class WoolworthsApiClientTest
     Assert.NotNull(exception);
     Assert.IsType<JsonException>(exception);
     Assert.Equal("""Received unexpected HTTP response body. Content: { "sku": null, "name": "a product name" }.""", exception.Message);
+  }
+
+  [Fact]
+  public async void GetProduct_WhenHttpResponseBodyHasEmptyName_ThrowsJsonException()
+  {
+    // Arrange
+    var response = new HttpResponseMessage
+    {
+      StatusCode = HttpStatusCode.OK,
+      Content = new StringContent("""{ "sku": "123", "name": "     " }"""),
+    };
+
+    var httpClient = CreateHttpClient(response);
+    var apiClient = new WoolworthsApiClient(httpClient);
+
+    // Action
+    var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
+
+    // Assert
+    Assert.NotNull(exception);
+    Assert.IsType<JsonException>(exception);
+    Assert.Equal("""Received unexpected HTTP response body. Content: { "sku": "123", "name": "     " }.""", exception.Message);
   }
 
   private static HttpClient CreateHttpClient(HttpResponseMessage response)
