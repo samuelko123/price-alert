@@ -22,7 +22,7 @@ public class ProductController(IProductRepository repository) : ControllerBase
     var product = await repository.FindProductByUri(new Uri(url));
     var productDto = new ProductDto()
     {
-      Id = product.Id,
+      Sku = product.Id,
       Name = product.Name,
     };
 

@@ -24,7 +24,7 @@ public class WoolworthsApiClient(HttpClient httpClient) : IWoolworthsApiClient
     var dto = await ParseJson<WoolworthsProductDto>(response);
     return new Product()
     {
-      Id = dto.Id,
+      Id = dto.Sku,
       Name = dto.Name,
     };
   }

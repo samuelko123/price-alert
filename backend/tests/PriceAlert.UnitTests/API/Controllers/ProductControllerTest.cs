@@ -48,7 +48,7 @@ public class ProductControllerTest
     var result = Assert.IsType<OkObjectResult>(response);
     var dto = Assert.IsType<ProductDto>(result.Value);
 
-    Assert.Equal("123", dto.Id);
+    Assert.Equal("123", dto.Sku);
     Assert.Equal("a product", dto.Name);
   }
 }

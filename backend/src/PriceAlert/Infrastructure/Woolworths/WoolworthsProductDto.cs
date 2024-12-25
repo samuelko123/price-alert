@@ -5,7 +5,7 @@ namespace PriceAlert.Infrastructure.Woolworths;
 public class WoolworthsProductDto
 {
   [JsonPropertyName("sku")]
-  public required string Id { get; init; }
+  public required string Sku { get; init; }
 
   [JsonPropertyName("name")]
   public required string Name { get; init; }
