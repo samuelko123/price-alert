@@ -1,3 +1,4 @@
+using System;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using PriceAlert.API.Controllers;
@@ -13,6 +14,13 @@ public class ProductControllerTest
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
+    var product = new Product()
+    {
+      Id = "123",
+      Name = "a product",
+    };
+    A.CallTo(() => repository.FindProductByUrl(new Uri("https://google.com"))).Returns(product);
+
     var controller = new ProductController(repository);
     var dto = new ProductSearchDto()
     {
@@ -24,9 +32,6 @@ public class ProductControllerTest
 
     // Assert
     var result = Assert.IsType<OkObjectResult>(response);
-    var product = Assert.IsType<ProductDto>(result.Value);
-
-    Assert.Equal("123", product.Id);
-    Assert.Equal("a product", product.Name);
+    Assert.Equal(product, result.Value);
   }
 }
