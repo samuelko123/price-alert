@@ -19,6 +19,11 @@ public class ProductController(IProductRepository repository) : ControllerBase
       return BadRequest(new MissingRequiredPropertyError("url"));
     }
 
+    if (!Uri.IsWellFormedUriString(dto.Url, UriKind.Absolute))
+    {
+      return BadRequest(new InvalidUriError(dto.Url));
+    }
+
     var uri = new Uri(dto.Url);
     var product = await repository.FindProductByUri(uri);
     return Ok(product);

@@ -27,7 +27,7 @@ public class ProductControllerTest
 
     // Assert
     var result = Assert.IsType<BadRequestObjectResult>(response);
-    var error = Assert.IsType<Error>(result.Value);
+    var error = Assert.IsType<InvalidUriError>(result.Value);
     Assert.Equal("Received invalid url: 'it is not a url'.", error.Message);
   }
 
