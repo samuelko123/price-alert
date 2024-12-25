@@ -7,7 +7,7 @@ namespace PriceAlert.UnitTests.API.Controllers;
 public class ProductControllerTest
 {
   [Fact]
-  public void Search_WithValidDto_ReturnsOk()
+  public void Search_WithValidDto_ReturnsProduct()
   {
     // Arrange
     var controller = new ProductController();
@@ -17,9 +17,13 @@ public class ProductControllerTest
     };
 
     // Action
-    var result = controller.Search(dto);
+    var response = controller.Search(dto);
 
     // Assert
-    Assert.IsType<OkResult>(result);
+    var result = Assert.IsType<OkObjectResult>(response);
+    var product = Assert.IsType<ProductDto>(result.Value);
+
+    Assert.Equal("123", product.Id);
+    Assert.Equal("a product", product.Name);
   }
 }
