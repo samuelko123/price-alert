@@ -17,7 +17,7 @@ public static partial class ProductUrlHostRegex
   public static partial Regex Woolworths();
 }
 
-public class ProductRepository(IWoolworthsApiClient client)
+public class ProductRepository(IWoolworthsApiClient client) : IProductRepository
 {
   public async Task<Product> FindProductByUrl(Uri uri)
   {
