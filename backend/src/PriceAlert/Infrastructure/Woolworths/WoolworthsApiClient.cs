@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using PriceAlert.API.Exceptions;
 using PriceAlert.Domain;
 using PriceAlert.Infrastructure.Exceptions;
 

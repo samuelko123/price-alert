@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using PriceAlert.API.Exceptions;
 using PriceAlert.Domain;
 using PriceAlert.Infrastructure.Exceptions;
 using PriceAlert.IntegrationTests.Fixtures;

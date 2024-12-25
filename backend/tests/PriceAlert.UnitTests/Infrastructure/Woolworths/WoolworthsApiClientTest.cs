@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using FakeItEasy;
+using PriceAlert.API.Exceptions;
 using PriceAlert.Infrastructure.Exceptions;
 using PriceAlert.Infrastructure.Woolworths;
 
