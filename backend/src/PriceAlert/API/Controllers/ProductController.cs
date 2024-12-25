@@ -11,20 +11,15 @@ namespace PriceAlert.API.Controllers;
 [Route("/api/products")]
 public class ProductController(IProductRepository repository) : ControllerBase
 {
-  [HttpPost("getByUrl")]
-  public async Task<IActionResult> GetByUrl([FromBody] GetByUrlPayloadDto dto)
+  [HttpGet("getByUrl")]
+  public async Task<IActionResult> GetByUrl([FromQuery] string url)
   {
-    if (dto.Url == null)
+    if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
     {
-      return BadRequest(new MissingRequiredPropertyError("url"));
+      return BadRequest(new InvalidUriError(url));
     }
 
-    if (!Uri.IsWellFormedUriString(dto.Url, UriKind.Absolute))
-    {
-      return BadRequest(new InvalidUriError(dto.Url));
-    }
-
-    var product = await repository.FindProductByUri(new Uri(dto.Url));
+    var product = await repository.FindProductByUri(new Uri(url));
     var productDto = new ProductDto()
     {
       Id = product.Id,
