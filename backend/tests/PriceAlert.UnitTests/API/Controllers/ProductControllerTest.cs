@@ -4,12 +4,33 @@ using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using PriceAlert.API.Controllers;
 using PriceAlert.API.DTOs;
+using PriceAlert.API.Errors;
 using PriceAlert.Domain;
 
 namespace PriceAlert.UnitTests.API.Controllers;
 
 public class ProductControllerTest
 {
+  [Fact]
+  public async Task Search_WithInvalidUrl_ReturnsBadRequest()
+  {
+    // Arrange
+    var repository = A.Fake<IProductRepository>();
+    var controller = new ProductController(repository);
+    var dto = new ProductSearchDto()
+    {
+      Url = "it is not a url"
+    };
+
+    // Action
+    var response = await controller.Search(dto);
+
+    // Assert
+    var result = Assert.IsType<BadRequestObjectResult>(response);
+    var error = Assert.IsType<Error>(result.Value);
+    Assert.Equal("Received invalid url: 'it is not a url'.", error.Message);
+  }
+
   [Fact]
   public async Task Search_WithValidDto_ReturnsProduct()
   {
