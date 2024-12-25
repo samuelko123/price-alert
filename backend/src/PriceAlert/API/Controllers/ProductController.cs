@@ -33,7 +33,7 @@ public class ProductController(IProductRepository repository) : ControllerBase
     }
     catch (NotFoundException ex)
     {
-      return new NotFoundObjectResult(new Error(ex.Message));
+      return NotFound(new Error(ex.Message));
     }
   }
 }
