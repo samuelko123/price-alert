@@ -15,13 +15,18 @@ public class WoolworthsApiClient(HttpClient httpClient) : IWoolworthsApiClient
     RespectNullableAnnotations = true,
   };
 
-  public async Task<Product> GetProduct(string id)
+  public async Task<Product> GetProduct(string sku)
   {
-    var url = $"https://www.woolworths.com.au/api/v3/ui/schemaorg/product/{id}";
+    var url = $"https://www.woolworths.com.au/api/v3/ui/schemaorg/product/{sku}";
     var response = await httpClient.GetAsync(url);
     ValidateResponse(response, HttpStatusCode.OK);
 
     var dto = await ParseJson<WoolworthsProductDto>(response);
+    if (string.IsNullOrWhiteSpace(dto.Name))
+    {
+      throw new ProductNotFoundException(sku);
+    }
+
     return new Product()
     {
       Id = dto.Sku,

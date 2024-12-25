@@ -142,8 +142,8 @@ public class WoolworthsApiClientTest
 
     // Assert
     Assert.NotNull(exception);
-    Assert.IsType<JsonException>(exception);
-    Assert.Equal("""Received unexpected HTTP response body. Content: { "sku": "123", "name": "     " }.""", exception.Message);
+    Assert.IsType<ProductNotFoundException>(exception);
+    Assert.Equal("Unable to find product: 123", exception.Message);
   }
 
   private static HttpClient CreateHttpClient(HttpResponseMessage response)
