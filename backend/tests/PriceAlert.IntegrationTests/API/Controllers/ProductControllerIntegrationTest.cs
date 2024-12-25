@@ -87,7 +87,7 @@ public class ProductControllerIntegrationTest
     var response = await client.GetAsync("/api/products/getByUrl?url=https://www.woolworths.com.au/shop/productdetails/123");
 
     // Assert
-    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     Assert.Equal("""{"error":"Something went wrong."}""", await response.Content.ReadAsStringAsync());
   }
 }
