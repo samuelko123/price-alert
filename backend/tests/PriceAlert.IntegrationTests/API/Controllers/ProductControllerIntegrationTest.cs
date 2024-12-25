@@ -9,6 +9,21 @@ namespace PriceAlert.IntegrationTests.API.Controllers;
 public class ProductControllerIntegrationTest
 {
   [Fact]
+  public async Task Search_WithoutProductUrl_ReturnsBadRequest()
+  {
+    // Arrange
+    using var factory = new BaseWebApplicationFactory();
+    using var client = factory.CreateClient();
+
+    // Action
+    var response = await client.GetAsync("/api/products/getByUrl?url=");
+
+    // Assert
+    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    Assert.Contains("The url field is required.", await response.Content.ReadAsStringAsync());
+  }
+
+  [Fact]
   public async Task Search_WithProductUrl_ReturnsOk()
   {
     // Arrange
