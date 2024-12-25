@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PriceAlert.API.DTOs;
 using PriceAlert.API.Errors;
@@ -25,6 +26,12 @@ public class ProductController(IProductRepository repository) : ControllerBase
     }
 
     var product = await repository.FindProductByUri(new Uri(dto.Url));
-    return Ok(product);
+    var productDto = new ProductDto()
+    {
+      Id = product.Id,
+      Name = product.Name,
+    };
+
+    return Ok(productDto);
   }
 }

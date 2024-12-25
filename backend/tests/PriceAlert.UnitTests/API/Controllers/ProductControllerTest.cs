@@ -57,6 +57,6 @@ public class ProductControllerTest
     var productDto = Assert.IsType<ProductDto>(result.Value);
 
     Assert.Equal("123", productDto.Id);
-    Assert.Equal("a product", productDto.Id);
+    Assert.Equal("a product", productDto.Name);
   }
 }
