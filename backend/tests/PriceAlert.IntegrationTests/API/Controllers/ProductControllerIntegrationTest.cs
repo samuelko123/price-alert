@@ -9,7 +9,7 @@ namespace PriceAlert.IntegrationTests.API.Controllers;
 public class ProductControllerIntegrationTest
 {
   [Fact]
-  public async Task Search_WithValidBody_ReturnsOk()
+  public async Task Search_WithProductUrl_ReturnsOk()
   {
     // Arrange
     using var factory = new BaseWebApplicationFactory();
