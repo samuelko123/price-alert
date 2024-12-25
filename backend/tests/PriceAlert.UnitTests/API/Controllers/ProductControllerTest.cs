@@ -12,7 +12,7 @@ namespace PriceAlert.UnitTests.API.Controllers;
 public class ProductControllerTest
 {
   [Fact]
-  public async Task Search_WithInvalidUrl_ReturnsBadRequest()
+  public async Task GetByUrl_WithInvalidUrl_ReturnsBadRequest()
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
@@ -28,7 +28,7 @@ public class ProductControllerTest
   }
 
   [Fact]
-  public async Task Search_WithValidDto_ReturnsProduct()
+  public async Task GetByUrl_WithValidUrl_ReturnsProduct()
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
