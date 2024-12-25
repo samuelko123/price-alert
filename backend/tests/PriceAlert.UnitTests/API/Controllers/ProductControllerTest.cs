@@ -1,6 +1,8 @@
+using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using PriceAlert.API.Controllers;
 using PriceAlert.API.DTOs;
+using PriceAlert.Domain;
 
 namespace PriceAlert.UnitTests.API.Controllers;
 
@@ -10,7 +12,8 @@ public class ProductControllerTest
   public void Search_WithValidDto_ReturnsProduct()
   {
     // Arrange
-    var controller = new ProductController();
+    var repository = A.Fake<IProductRepository>();
+    var controller = new ProductController(repository);
     var dto = new ProductSearchDto()
     {
       Url = "https://google.com"

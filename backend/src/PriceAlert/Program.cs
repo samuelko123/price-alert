@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
+using PriceAlert.Domain;
+using PriceAlert.Infrastructure.Woolworths;
 
 namespace PriceAlert;
 
@@ -9,6 +12,9 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder();
         builder.Services.AddControllers();
+        builder.Services.AddSingleton<IProductRepository, ProductRepository>();
+        builder.Services.AddSingleton<IWoolworthsApiClient, WoolworthsApiClient>();
+        builder.Services.AddHttpClient<WoolworthsApiClient>();
 
         var app = builder.Build();
         app.MapControllers();

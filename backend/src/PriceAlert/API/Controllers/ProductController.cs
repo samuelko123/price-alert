@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using PriceAlert.API.DTOs;
 using PriceAlert.API.Errors;
+using PriceAlert.Domain;
 
 namespace PriceAlert.API.Controllers;
 
 [ApiController]
 [Route("/api/products")]
-public class ProductController() : ControllerBase
+public class ProductController(IProductRepository repository) : ControllerBase
 {
   [HttpPost("search")]
   public IActionResult Search([FromBody] ProductSearchDto dto)

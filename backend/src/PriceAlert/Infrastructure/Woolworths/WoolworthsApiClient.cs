@@ -8,7 +8,7 @@ using PriceAlert.Infrastructure.Exceptions;
 
 namespace PriceAlert.Infrastructure.Woolworths;
 
-public class WoolworthsApiClient(HttpClient httpClient)
+public class WoolworthsApiClient(HttpClient httpClient) : IWoolworthsApiClient
 {
   private static readonly JsonSerializerOptions _jsonOptions = new()
   {
