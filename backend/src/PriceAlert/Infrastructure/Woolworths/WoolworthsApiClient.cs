@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text.Json;
@@ -20,7 +21,8 @@ public class WoolworthsApiClient(HttpClient httpClient) : IWoolworthsApiClient
     var response = await httpClient.GetAsync(url);
     response.EnsureSuccessStatusCode();
 
-    var dto = await ParseJson<WoolworthsProductDto>(response);
+    var content = await response.Content.ReadAsStringAsync();
+    var dto = ParseJson<WoolworthsProductDto>(content);
     if (string.IsNullOrWhiteSpace(dto.Name))
     {
       throw new ProductNotFoundException(sku);
@@ -33,27 +35,15 @@ public class WoolworthsApiClient(HttpClient httpClient) : IWoolworthsApiClient
     };
   }
 
-  private static async Task<T> ParseJson<T>(HttpResponseMessage response)
-  {
-    var content = await response.Content.ReadAsStringAsync();
-    return ParseJson<T>(content);
-  }
-
   private static T ParseJson<T>(string content)
   {
     try
     {
-      var data = JsonSerializer.Deserialize<T>(content, _jsonOptions);
-      if (data == null)
-      {
-        throw new UnreachableException($"Received unexpected HTTP response body. Content: {content}.");
-      }
-
-      return data;
+      return JsonSerializer.Deserialize<T>(content, _jsonOptions) ?? throw new JsonException();
     }
     catch (JsonException ex)
     {
-      throw new JsonException($"Received unexpected HTTP response body. Content: {content}.", ex);
+      throw new JsonException($"Response body is invalid. Content: {content}", ex);
     }
   }
 }

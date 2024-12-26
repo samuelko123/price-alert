@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -59,7 +58,7 @@ public class WoolworthsApiClientTest
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseBodyIsNull_ThrowsUnreachableException()
+  public async void GetProduct_WhenHttpResponseBodyIsNull_ThrowsJsonException()
   {
     // Arrange
     var response = new HttpResponseMessage
@@ -76,8 +75,8 @@ public class WoolworthsApiClientTest
 
     // Assert
     Assert.NotNull(exception);
-    Assert.IsType<UnreachableException>(exception);
-    Assert.Equal("Received unexpected HTTP response body. Content: null.", exception.Message);
+    Assert.IsType<JsonException>(exception);
+    Assert.Equal("Response body is invalid. Content: null", exception.Message);
   }
 
   [Fact]
@@ -99,11 +98,11 @@ public class WoolworthsApiClientTest
     // Assert
     Assert.NotNull(exception);
     Assert.IsType<JsonException>(exception);
-    Assert.Equal("Received unexpected HTTP response body. Content: <name>a product</name>.", exception.Message);
+    Assert.Equal("Response body is invalid. Content: <name>a product</name>", exception.Message);
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseBodyHasNullSku_ThrowsJsonException()
+  public async void GetProduct_WhenRequiredFieldIsMissing_ThrowsJsonException()
   {
     // Arrange
     var response = new HttpResponseMessage
@@ -121,11 +120,11 @@ public class WoolworthsApiClientTest
     // Assert
     Assert.NotNull(exception);
     Assert.IsType<JsonException>(exception);
-    Assert.Equal("""Received unexpected HTTP response body. Content: { "sku": null, "name": "a product name" }.""", exception.Message);
+    Assert.Equal("""Response body is invalid. Content: { "sku": null, "name": "a product name" }""", exception.Message);
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseBodyHasEmptyName_ThrowsJsonException()
+  public async void GetProduct_WhenHttpResponseBodyHasEmptyName_ThrowsProductNotFoundException()
   {
     // Arrange
     var response = new HttpResponseMessage
