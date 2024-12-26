@@ -1,11 +1,9 @@
 using System.Diagnostics;
-using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using PriceAlert.API.Exceptions;
 using PriceAlert.Domain;
-using PriceAlert.Infrastructure.Exceptions;
 
 namespace PriceAlert.Infrastructure.Woolworths;
 
@@ -20,7 +18,7 @@ public class WoolworthsApiClient(HttpClient httpClient) : IWoolworthsApiClient
   {
     var url = $"https://www.woolworths.com.au/api/v3/ui/schemaorg/product/{sku}";
     var response = await httpClient.GetAsync(url);
-    ValidateResponse(response, HttpStatusCode.OK);
+    response.EnsureSuccessStatusCode();
 
     var dto = await ParseJson<WoolworthsProductDto>(response);
     if (string.IsNullOrWhiteSpace(dto.Name))
@@ -33,15 +31,6 @@ public class WoolworthsApiClient(HttpClient httpClient) : IWoolworthsApiClient
       Id = dto.Sku,
       Name = dto.Name,
     };
-  }
-
-  private static void ValidateResponse(HttpResponseMessage response, HttpStatusCode expectedStatusCode)
-  {
-    var actualStatusCode = response.StatusCode;
-    if (actualStatusCode != expectedStatusCode)
-    {
-      throw new BadHttpResponseException($"Received unexpected HTTP status code. Received: {actualStatusCode.GetHashCode()} {actualStatusCode}. Expected: {expectedStatusCode.GetHashCode()} {expectedStatusCode}.");
-    }
   }
 
   private static async Task<T> ParseJson<T>(HttpResponseMessage response)

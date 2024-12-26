@@ -5,7 +5,6 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using FakeItEasy;
 using PriceAlert.API.Exceptions;
-using PriceAlert.Infrastructure.Exceptions;
 using PriceAlert.Infrastructure.Woolworths;
 
 namespace PriceAlert.UnitTests.Infrastructure.Woolworths;
@@ -55,8 +54,8 @@ public class WoolworthsApiClientTest
 
     // Assert
     Assert.NotNull(exception);
-    Assert.IsType<BadHttpResponseException>(exception);
-    Assert.Equal("Received unexpected HTTP status code. Received: 500 InternalServerError. Expected: 200 OK.", exception.Message);
+    Assert.IsType<HttpRequestException>(exception);
+    Assert.Equal("Response status code does not indicate success: 500 (Internal Server Error).", exception.Message);
   }
 
   [Fact]
