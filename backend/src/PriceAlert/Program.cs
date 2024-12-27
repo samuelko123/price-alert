@@ -13,8 +13,10 @@ internal class Program
         builder.Services.AddSingleton<IProductRepository, ProductRepository>();
         builder.Services.AddSingleton<IWoolworthsApiClient, WoolworthsApiClient>();
         builder.Services.AddHttpClient<WoolworthsApiClient>();
+        builder.Services.AddProblemDetails();
 
         var app = builder.Build();
+        app.UseExceptionHandler();
         app.MapControllers();
 
         app.Run();

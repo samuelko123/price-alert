@@ -88,6 +88,8 @@ public class ProductControllerIntegrationTest
 
     // Assert
     Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
-    Assert.Equal("""{"error":"Something went wrong."}""", await response.Content.ReadAsStringAsync());
+    var content = await response.Content.ReadAsStringAsync();
+    Assert.Contains("\"status\":500", content);
+    Assert.Contains("\"title\":\"An error occurred while processing your request.\"", content);
   }
 }

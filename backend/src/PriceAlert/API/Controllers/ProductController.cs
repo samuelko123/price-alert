@@ -35,12 +35,5 @@ public class ProductController(IProductRepository repository) : ControllerBase
     {
       return NotFound(new Error(ex.Message));
     }
-    catch (Exception)
-    {
-      return new ObjectResult(new Error("Something went wrong."))
-      {
-        StatusCode = 500,
-      };
-    }
   }
 }
