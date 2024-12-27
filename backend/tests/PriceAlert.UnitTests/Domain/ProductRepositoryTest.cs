@@ -11,7 +11,7 @@ public class ProductRepositoryTest
   [Theory]
   [InlineData("https://www.coles.com.au/product/123")]
   [InlineData("https://www.woolworths.com.au/shop/storelocator/123")]
-  public async Task FindProductByUrl_WithUnsupportedUrl_ThrowsNotSupportedException(string url)
+  public async Task FindProductByUrl_WithInvalidUrl_ThrowsDataValidationException(string url)
   {
     // Arrange
     var client = A.Fake<IWoolworthsApiClient>();
@@ -52,7 +52,7 @@ public class ProductRepositoryTest
   }
 
   [Fact]
-  public async void FindProductByUrl_ProductNameIsEmpty_ThrowsItemNotFoundException()
+  public async void FindProductByUrl_WithEmptyProductName_ThrowsItemNotFoundException()
   {
     // Arrange
     var client = A.Fake<IWoolworthsApiClient>();
