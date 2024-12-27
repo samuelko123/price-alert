@@ -13,7 +13,7 @@ namespace PriceAlert.IntegrationTests.API.Controllers;
 public class ProductControllerIntegrationTest
 {
   [Fact]
-  public async Task GetByUrl_WithoutProductUrl_ReturnsBadRequest()
+  public async Task GetByUrl_WithoutUrl_ReturnsBadRequest()
   {
     // Arrange
     using var factory = new BaseWebApplicationFactory();
@@ -57,14 +57,7 @@ public class ProductControllerIntegrationTest
     var repository = A.Fake<IProductRepository>();
     A.CallTo(() => repository.FindProductByUri(A<Uri>._)).ThrowsAsync(new DataValidationException("The data is wrong."));
 
-    using var factory = new BaseWebApplicationFactory()
-      .WithWebHostBuilder(builder =>
-      {
-        builder.ConfigureServices(services =>
-        {
-          services.Replace(new ServiceDescriptor(typeof(IProductRepository), repository));
-        });
-      });
+    using var factory = new BaseWebApplicationFactory([new ServiceDescriptor(typeof(IProductRepository), repository)]);
     using var client = factory.CreateClient();
 
     // Action
@@ -90,14 +83,7 @@ public class ProductControllerIntegrationTest
       Name = "a product",
     });
 
-    using var factory = new BaseWebApplicationFactory()
-      .WithWebHostBuilder(builder =>
-      {
-        builder.ConfigureServices(services =>
-        {
-          services.Replace(new ServiceDescriptor(typeof(IProductRepository), repository));
-        });
-      });
+    using var factory = new BaseWebApplicationFactory([new ServiceDescriptor(typeof(IProductRepository), repository)]);
     using var client = factory.CreateClient();
 
     // Action
@@ -118,14 +104,7 @@ public class ProductControllerIntegrationTest
     var repository = A.Fake<IProductRepository>();
     A.CallTo(() => repository.FindProductByUri(A<Uri>._)).ThrowsAsync(new ItemNotFoundException("We cannot find it!"));
 
-    using var factory = new BaseWebApplicationFactory()
-      .WithWebHostBuilder(builder =>
-      {
-        builder.ConfigureServices(services =>
-        {
-          services.Replace(new ServiceDescriptor(typeof(IProductRepository), repository));
-        });
-      });
+    using var factory = new BaseWebApplicationFactory([new ServiceDescriptor(typeof(IProductRepository), repository)]);
     using var client = factory.CreateClient();
 
     // Action

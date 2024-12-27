@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using FakeItEasy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -10,6 +12,18 @@ namespace PriceAlert.IntegrationTests.Fixtures;
 
 internal class BaseWebApplicationFactory : WebApplicationFactory<Program>
 {
+    public BaseWebApplicationFactory()
+    {
+        _serviceDescriptors = [];
+    }
+
+    public BaseWebApplicationFactory(IEnumerable<ServiceDescriptor> serviceDescriptors)
+    {
+        _serviceDescriptors = serviceDescriptors.ToList();
+    }
+
+    private readonly List<ServiceDescriptor> _serviceDescriptors;
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(services =>
@@ -18,6 +32,10 @@ internal class BaseWebApplicationFactory : WebApplicationFactory<Program>
             services.AddControllers().AddApplicationPart(typeof(ProductController).Assembly);
 
             services.Replace(new ServiceDescriptor(typeof(IWoolworthsApiClient), A.Fake<IWoolworthsApiClient>()));
+            _serviceDescriptors.ForEach(service =>
+            {
+                services.Replace(service);
+            });
         });
     }
 }
