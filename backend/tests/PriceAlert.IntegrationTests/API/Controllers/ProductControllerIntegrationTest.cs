@@ -24,7 +24,11 @@ public class ProductControllerIntegrationTest
 
     // Assert
     Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-    Assert.Contains("The url field is required.", await response.Content.ReadAsStringAsync());
+
+    var content = await response.Content.ReadAsStringAsync();
+    Assert.Contains("\"status\":400", content);
+    Assert.Contains("\"title\":\"One or more validation errors occurred.\"", content);
+    Assert.Contains("\"errors\":{\"url\":[\"The url field is required.\"]}", content);
   }
 
   [Fact]
@@ -88,6 +92,7 @@ public class ProductControllerIntegrationTest
 
     // Assert
     Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+
     var content = await response.Content.ReadAsStringAsync();
     Assert.Contains("\"status\":500", content);
     Assert.Contains("\"title\":\"An error occurred while processing your request.\"", content);
