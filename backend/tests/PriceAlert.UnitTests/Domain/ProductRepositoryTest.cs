@@ -37,7 +37,7 @@ public class ProductRepositoryTest
     var client = A.Fake<IWoolworthsApiClient>();
     var product = new Product()
     {
-      Id = "123",
+      Sku = "123",
       Name = "a product name",
     };
     A.CallTo(() => client.GetProduct("123")).Returns(product);

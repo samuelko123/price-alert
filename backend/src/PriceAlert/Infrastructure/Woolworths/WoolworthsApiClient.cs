@@ -28,7 +28,7 @@ public class WoolworthsApiClient(HttpClient httpClient) : IWoolworthsApiClient
 
     return new Product()
     {
-      Id = dto.Sku,
+      Sku = dto.Sku,
       Name = dto.Name,
     };
   }

@@ -102,7 +102,7 @@ public class ProductControllerIntegrationTest
     var repository = A.Fake<IProductRepository>();
     A.CallTo(() => repository.FindProductByUrl(A<string>._)).Returns(new Product()
     {
-      Id = "123",
+      Sku = "123",
       Name = "a product",
     });
 

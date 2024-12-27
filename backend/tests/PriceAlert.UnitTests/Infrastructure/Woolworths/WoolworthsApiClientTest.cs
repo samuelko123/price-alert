@@ -32,7 +32,7 @@ public class WoolworthsApiClientTest
     var product = await apiClient.GetProduct("123");
 
     // Assert
-    Assert.Equal("123", product.Id);
+    Assert.Equal("123", product.Sku);
     Assert.Equal("a product name", product.Name);
   }
 

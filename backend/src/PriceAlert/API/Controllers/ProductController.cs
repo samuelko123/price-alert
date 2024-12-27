@@ -15,7 +15,7 @@ public class ProductController(IProductRepository repository) : ControllerBase
     var product = await repository.FindProductByUrl(url);
     var productDto = new ProductDto()
     {
-      Sku = product.Id,
+      Sku = product.Sku,
       Name = product.Name,
     };
 
