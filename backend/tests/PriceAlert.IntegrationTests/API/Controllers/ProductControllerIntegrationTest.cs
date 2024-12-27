@@ -115,7 +115,7 @@ public class ProductControllerIntegrationTest
   }
 
   [Fact]
-  public async Task GetByUrl_WithValidUrl_ReturnsOk()
+  public async Task GetByUrl_WithValidUrl_Returns200()
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
