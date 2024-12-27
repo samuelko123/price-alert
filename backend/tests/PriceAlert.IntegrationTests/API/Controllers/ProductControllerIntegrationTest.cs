@@ -54,7 +54,21 @@ public class ProductControllerIntegrationTest
   public async Task GetByUrl_WithProductUrl_ReturnsOk()
   {
     // Arrange
-    using var factory = new BaseWebApplicationFactory();
+    var repository = A.Fake<IProductRepository>();
+    A.CallTo(() => repository.FindProductByUri(A<Uri>._)).Returns(new Product()
+    {
+      Id = "123",
+      Name = "a product",
+    });
+
+    using var factory = new BaseWebApplicationFactory()
+      .WithWebHostBuilder(builder =>
+      {
+        builder.ConfigureServices(services =>
+        {
+          services.Replace(new ServiceDescriptor(typeof(IProductRepository), repository));
+        });
+      });
     using var client = factory.CreateClient();
 
     // Action
@@ -62,6 +76,10 @@ public class ProductControllerIntegrationTest
 
     // Assert
     Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+    var content = await response.Content.ReadAsStringAsync();
+    Assert.Contains("\"sku\":\"123\"", content);
+    Assert.Contains("\"name\":\"a product\"", content);
   }
 
   [Fact]
