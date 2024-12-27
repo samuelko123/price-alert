@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using FakeItEasy;
-using PriceAlert.API.Exceptions;
+using PriceAlert.Domain.Exceptions;
 using PriceAlert.Infrastructure.Woolworths;
 
 namespace PriceAlert.UnitTests.Infrastructure.Woolworths;
@@ -124,7 +124,7 @@ public class WoolworthsApiClientTest
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseBodyHasEmptyName_ThrowsProductNotFoundException()
+  public async void GetProduct_WhenHttpResponseBodyHasEmptyName_ThrowsItemNotFoundException()
   {
     // Arrange
     var response = new HttpResponseMessage
@@ -141,7 +141,7 @@ public class WoolworthsApiClientTest
 
     // Assert
     Assert.NotNull(exception);
-    Assert.IsType<ProductNotFoundException>(exception);
+    Assert.IsType<ItemNotFoundException>(exception);
     Assert.Equal("Unable to find product: 123", exception.Message);
   }
 

@@ -29,6 +29,12 @@ internal class Program
                     context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
                     context.ProblemDetails = new BadRequestProblemDetails(exception.Message);
                 }
+
+                if (exception is ItemNotFoundException)
+                {
+                    context.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                    context.ProblemDetails = new NotFoundProblemDetails(exception.Message);
+                }
             };
         });
         builder.Services.AddMvc()

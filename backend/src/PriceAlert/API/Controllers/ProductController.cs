@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PriceAlert.API.DTOs;
-using PriceAlert.API.Exceptions;
 using PriceAlert.API.Problems;
 using PriceAlert.Domain;
 
@@ -16,28 +14,18 @@ public class ProductController(IProductRepository repository) : ControllerBase
   [HttpGet("getByUrl")]
   public async Task<IActionResult> GetByUrl([FromQuery] string url)
   {
-    try
+    if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
     {
-      if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
-      {
-        return BadRequest(new BadRequestProblemDetails("The url field is invalid."));
-      }
-
-      var product = await repository.FindProductByUri(new Uri(url));
-      var productDto = new ProductDto()
-      {
-        Sku = product.Id,
-        Name = product.Name,
-      };
-
-      return Ok(productDto);
+      return BadRequest(new BadRequestProblemDetails("The url field is invalid."));
     }
-    catch (NotFoundException ex)
+
+    var product = await repository.FindProductByUri(new Uri(url));
+    var productDto = new ProductDto()
     {
-      return NotFound(new ProblemDetails()
-      {
-        Title = ex.Message,
-      });
-    }
+      Sku = product.Id,
+      Name = product.Name,
+    };
+
+    return Ok(productDto);
   }
 }

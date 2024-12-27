@@ -1,8 +1,8 @@
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using PriceAlert.API.Exceptions;
 using PriceAlert.Domain;
+using PriceAlert.Domain.Exceptions;
 
 namespace PriceAlert.Infrastructure.Woolworths;
 
@@ -23,7 +23,7 @@ public class WoolworthsApiClient(HttpClient httpClient) : IWoolworthsApiClient
     var dto = ParseJson<WoolworthsProductDto>(content);
     if (string.IsNullOrWhiteSpace(dto.Name))
     {
-      throw new ProductNotFoundException(sku);
+      throw new ItemNotFoundException($"Unable to find product: {sku}");
     }
 
     return new Product()

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using PriceAlert.API.Exceptions;
 using PriceAlert.Domain;
 using PriceAlert.Domain.Exceptions;
 using PriceAlert.IntegrationTests.Fixtures;
@@ -117,7 +116,7 @@ public class ProductControllerIntegrationTest
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
-    A.CallTo(() => repository.FindProductByUri(A<Uri>._)).ThrowsAsync(new ProductNotFoundException("123"));
+    A.CallTo(() => repository.FindProductByUri(A<Uri>._)).ThrowsAsync(new ItemNotFoundException("We cannot find it!"));
 
     using var factory = new BaseWebApplicationFactory()
       .WithWebHostBuilder(builder =>
@@ -137,7 +136,8 @@ public class ProductControllerIntegrationTest
 
     var content = await response.Content.ReadAsStringAsync();
     Assert.Contains("\"status\":404", content);
-    Assert.Contains("\"title\":\"Unable to find product: 123\"", content);
+    Assert.Contains("\"title\":\"Item cannot be found.\"", content);
+    Assert.Contains("\"errors\":[{\"message\":\"We cannot find it!\"}]", content);
   }
 
   [Fact]
