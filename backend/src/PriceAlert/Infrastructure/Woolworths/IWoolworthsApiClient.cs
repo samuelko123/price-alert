@@ -4,5 +4,5 @@ namespace PriceAlert.Infrastructure.Woolworths;
 
 public interface IWoolworthsApiClient
 {
-  Task<WoolworthsProductDto> GetProduct(string id);
+  Task<WoolworthsProductDto> GetProduct(string sku);
 }
