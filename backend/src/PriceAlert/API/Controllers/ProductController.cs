@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PriceAlert.API.DTOs;
 using PriceAlert.API.Exceptions;
+using PriceAlert.API.Problems;
 using PriceAlert.Domain;
 
 namespace PriceAlert.API.Controllers;
@@ -19,10 +20,7 @@ public class ProductController(IProductRepository repository) : ControllerBase
     {
       if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
       {
-        return BadRequest(new ValidationProblemDetails(new Dictionary<string, string[]>
-        {
-          ["url"] = ["The url field is invalid."],
-        }));
+        return BadRequest(new BadRequestProblemDetails("The url field is invalid."));
       }
 
       var product = await repository.FindProductByUri(new Uri(url));

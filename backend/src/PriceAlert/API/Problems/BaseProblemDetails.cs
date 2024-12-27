@@ -10,6 +10,9 @@ public class BaseProblemDetails : ProblemDetails
     public required List<Error> Errors { get; init; }
 
     [SetsRequiredMembers]
+    public BaseProblemDetails(string message) : this([message]) { }
+
+    [SetsRequiredMembers]
     public BaseProblemDetails(IList<string> messages)
     {
         Errors = messages.Select(message => new Error { Message = message }).ToList();

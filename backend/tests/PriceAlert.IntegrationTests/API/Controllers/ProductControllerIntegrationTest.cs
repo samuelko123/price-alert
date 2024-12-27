@@ -47,7 +47,7 @@ public class ProductControllerIntegrationTest
     var content = await response.Content.ReadAsStringAsync();
     Assert.Contains("\"status\":400", content);
     Assert.Contains("\"title\":\"One or more validation errors occurred.\"", content);
-    Assert.Contains("\"errors\":{\"url\":[\"The url field is invalid.\"]}", content);
+    Assert.Contains("\"errors\":[{\"message\":\"The url field is invalid.\"}]", content);
   }
 
   [Fact]
