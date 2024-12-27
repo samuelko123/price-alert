@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using PriceAlert.API.Exceptions;
 using PriceAlert.Domain;
+using PriceAlert.Domain.Exceptions;
 using PriceAlert.IntegrationTests.Fixtures;
 
 namespace PriceAlert.IntegrationTests.API.Controllers;
@@ -48,6 +49,35 @@ public class ProductControllerIntegrationTest
     Assert.Contains("\"status\":400", content);
     Assert.Contains("\"title\":\"One or more validation errors occurred.\"", content);
     Assert.Contains("\"errors\":[{\"message\":\"The url field is invalid.\"}]", content);
+  }
+
+  [Fact]
+  public async Task GetByUrl_WithValidationException_ReturnsBadRequest()
+  {
+    // Arrange
+    var repository = A.Fake<IProductRepository>();
+    A.CallTo(() => repository.FindProductByUri(A<Uri>._)).ThrowsAsync(new DataValidationException("The data is wrong."));
+
+    using var factory = new BaseWebApplicationFactory()
+      .WithWebHostBuilder(builder =>
+      {
+        builder.ConfigureServices(services =>
+        {
+          services.Replace(new ServiceDescriptor(typeof(IProductRepository), repository));
+        });
+      });
+    using var client = factory.CreateClient();
+
+    // Action
+    var response = await client.GetAsync("/api/products/getByUrl?url=https://google.com");
+
+    // Assert
+    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+
+    var content = await response.Content.ReadAsStringAsync();
+    Assert.Contains("\"status\":400", content);
+    Assert.Contains("\"title\":\"One or more validation errors occurred.\"", content);
+    Assert.Contains("\"errors\":[{\"message\":\"The data is wrong.\"}]", content);
   }
 
   [Fact]

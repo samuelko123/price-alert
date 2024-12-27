@@ -1,6 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using PriceAlert.Domain.Exceptions;
 using PriceAlert.Infrastructure.Woolworths;
 
 namespace PriceAlert.Domain;
@@ -29,13 +30,13 @@ public class ProductRepository(IWoolworthsApiClient client) : IProductRepository
   {
     if (!ProductUrlHostRegex.Woolworths().IsMatch(uri.Host))
     {
-      throw new NotSupportedException($"Received unsupported URL: {uri}");
+      throw new DataValidationException($"Received unsupported URL: {uri}");
     }
 
     var match = ProductUrlPathRegex.Woolworths().Match(uri.LocalPath);
     if (!match.Success)
     {
-      throw new NotSupportedException($"Received unsupported URL: {uri}");
+      throw new DataValidationException($"Received unsupported URL: {uri}");
     }
 
     var id = match.Groups[1].Value;

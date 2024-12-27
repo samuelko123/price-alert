@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using FakeItEasy;
 using PriceAlert.Domain;
+using PriceAlert.Domain.Exceptions;
 using PriceAlert.Infrastructure.Woolworths;
 
 namespace PriceAlert.UnitTests.Domain;
@@ -22,7 +23,7 @@ public class ProductRepositoryTest
 
     // Assert
     Assert.NotNull(exception);
-    Assert.IsType<NotSupportedException>(exception);
+    Assert.IsType<DataValidationException>(exception);
     Assert.Equal($"Received unsupported URL: {url}", exception.Message);
   }
 
