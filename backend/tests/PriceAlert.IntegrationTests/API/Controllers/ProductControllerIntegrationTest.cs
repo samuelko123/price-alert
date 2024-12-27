@@ -73,31 +73,6 @@ public class ProductControllerIntegrationTest
   }
 
   [Fact]
-  public async Task GetByUrl_WithProductUrl_ReturnsOk()
-  {
-    // Arrange
-    var repository = A.Fake<IProductRepository>();
-    A.CallTo(() => repository.FindProductByUri(A<Uri>._)).Returns(new Product()
-    {
-      Id = "123",
-      Name = "a product",
-    });
-
-    using var factory = new BaseWebApplicationFactory([new ServiceDescriptor(typeof(IProductRepository), repository)]);
-    using var client = factory.CreateClient();
-
-    // Action
-    var response = await client.GetAsync("/api/products/getByUrl?url=https://www.woolworths.com.au/shop/productdetails/123");
-
-    // Assert
-    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-    var content = await response.Content.ReadAsStringAsync();
-    Assert.Contains("\"sku\":\"123\"", content);
-    Assert.Contains("\"name\":\"a product\"", content);
-  }
-
-  [Fact]
   public async Task GetByUrl_WithProductNotFoundException_ReturnsStatusNotFound()
   {
     // Arrange
@@ -145,5 +120,30 @@ public class ProductControllerIntegrationTest
     var content = await response.Content.ReadAsStringAsync();
     Assert.Contains("\"status\":500", content);
     Assert.Contains("\"title\":\"An error occurred while processing your request.\"", content);
+  }
+
+  [Fact]
+  public async Task GetByUrl_WithProductUrl_ReturnsOk()
+  {
+    // Arrange
+    var repository = A.Fake<IProductRepository>();
+    A.CallTo(() => repository.FindProductByUri(A<Uri>._)).Returns(new Product()
+    {
+      Id = "123",
+      Name = "a product",
+    });
+
+    using var factory = new BaseWebApplicationFactory([new ServiceDescriptor(typeof(IProductRepository), repository)]);
+    using var client = factory.CreateClient();
+
+    // Action
+    var response = await client.GetAsync("/api/products/getByUrl?url=https://www.woolworths.com.au/shop/productdetails/123");
+
+    // Assert
+    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+    var content = await response.Content.ReadAsStringAsync();
+    Assert.Contains("\"sku\":\"123\"", content);
+    Assert.Contains("\"name\":\"a product\"", content);
   }
 }
