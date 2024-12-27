@@ -18,6 +18,8 @@ internal class Program
         builder.Services.AddSingleton<IProductRepository, ProductRepository>();
         builder.Services.AddSingleton<IWoolworthsApiClient, WoolworthsApiClient>();
         builder.Services.AddHttpClient<WoolworthsApiClient>();
+
+        builder.Services.AddHealthChecks();
         builder.Services.AddProblemDetails(option =>
         {
             option.CustomizeProblemDetails = context =>
@@ -51,6 +53,7 @@ internal class Program
 
         var app = builder.Build();
         app.UseExceptionHandler();
+        app.MapHealthChecks("/api/healthcheck");
         app.MapControllers();
 
         app.Run();

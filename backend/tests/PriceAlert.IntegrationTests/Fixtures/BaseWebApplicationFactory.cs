@@ -28,7 +28,6 @@ internal class BaseWebApplicationFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureServices(services =>
         {
-            services.AddControllers().AddApplicationPart(typeof(HealthCheckController).Assembly);
             services.AddControllers().AddApplicationPart(typeof(ProductController).Assembly);
 
             services.Replace(new ServiceDescriptor(typeof(IWoolworthsApiClient), A.Fake<IWoolworthsApiClient>()));
