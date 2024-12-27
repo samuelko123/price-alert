@@ -3,7 +3,6 @@ using System.Net;
 using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using PriceAlert.Domain;
 using PriceAlert.Domain.Exceptions;
 using PriceAlert.IntegrationTests.Fixtures;
@@ -13,7 +12,7 @@ namespace PriceAlert.IntegrationTests.API.Controllers;
 public class ProductControllerIntegrationTest
 {
   [Fact]
-  public async Task GetByUrl_WithoutUrl_ReturnsBadRequest()
+  public async Task GetByUrl_WithoutUrl_Returns400()
   {
     // Arrange
     using var factory = new BaseWebApplicationFactory();
@@ -32,7 +31,7 @@ public class ProductControllerIntegrationTest
   }
 
   [Fact]
-  public async Task GetByUrl_WithInvalidProductUrl_ReturnsBadRequest()
+  public async Task GetByUrl_WithInvalidProductUrl_Returns400()
   {
     // Arrange
     using var factory = new BaseWebApplicationFactory();
@@ -51,7 +50,7 @@ public class ProductControllerIntegrationTest
   }
 
   [Fact]
-  public async Task GetByUrl_WithDataValidationException_ReturnsBadRequest()
+  public async Task GetByUrl_WithDataValidationException_Returns400()
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
@@ -73,7 +72,7 @@ public class ProductControllerIntegrationTest
   }
 
   [Fact]
-  public async Task GetByUrl_WithProductNotFoundException_ReturnsStatusNotFound()
+  public async Task GetByUrl_WithItemNotFoundException_Returns404()
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
@@ -95,20 +94,13 @@ public class ProductControllerIntegrationTest
   }
 
   [Fact]
-  public async Task GetByUrl_WithException_ReturnsSomethingWentWrong()
+  public async Task GetByUrl_WithException_Returns500()
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
     A.CallTo(() => repository.FindProductByUri(A<Uri>._)).ThrowsAsync(new Exception());
 
-    using var factory = new BaseWebApplicationFactory()
-      .WithWebHostBuilder(builder =>
-      {
-        builder.ConfigureServices(services =>
-        {
-          services.Replace(new ServiceDescriptor(typeof(IProductRepository), repository));
-        });
-      });
+    using var factory = new BaseWebApplicationFactory([new ServiceDescriptor(typeof(IProductRepository), repository)]);
     using var client = factory.CreateClient();
 
     // Action
@@ -123,7 +115,7 @@ public class ProductControllerIntegrationTest
   }
 
   [Fact]
-  public async Task GetByUrl_WithProductUrl_ReturnsOk()
+  public async Task GetByUrl_WithValidUrl_ReturnsOk()
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
