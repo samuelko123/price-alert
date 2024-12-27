@@ -52,7 +52,7 @@ public class ProductControllerIntegrationTest
   }
 
   [Fact]
-  public async Task GetByUrl_WithValidationException_ReturnsBadRequest()
+  public async Task GetByUrl_WithDataValidationException_ReturnsBadRequest()
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
