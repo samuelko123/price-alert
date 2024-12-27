@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using FakeItEasy;
 using PriceAlert.Domain;
@@ -19,17 +18,15 @@ public class ProductRepositoryTest
     var repository = new ProductRepository(client);
 
     // Action
-    var exception = await Record.ExceptionAsync(() => repository.FindProductByUri(new Uri(url)));
+    var exception = await Record.ExceptionAsync(() => repository.FindProductByUrl(url));
 
     // Assert
     Assert.NotNull(exception);
     Assert.IsType<DataValidationException>(exception);
-    Assert.Equal($"Received unsupported URL: {url}", exception.Message);
+    Assert.Equal("The url is invalid. It should start with 'https://www.woolworths.com.au/shop/productdetails/'.", exception.Message);
   }
 
   [Theory]
-  [InlineData("https://woolworths.com.au/shop/productdetails/123")]
-  [InlineData("https://Woolworths.com.au/shop/productdetails/123")]
   [InlineData("https://www.woolworths.com.au/shop/productdetails/123")]
   [InlineData("https://www.woolworths.com.au/Shop/ProductDetails/123")]
   [InlineData("https://www.woolworths.com.au/shop/productdetails/123?googleshop=true")]
@@ -48,7 +45,7 @@ public class ProductRepositoryTest
     var repository = new ProductRepository(client);
 
     // Action
-    var result = await repository.FindProductByUri(new Uri(url));
+    var result = await repository.FindProductByUrl(url);
 
     // Assert
     Assert.Equal(result, product);

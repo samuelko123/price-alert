@@ -31,30 +31,11 @@ public class ProductControllerIntegrationTest
   }
 
   [Fact]
-  public async Task GetByUrl_WithInvalidProductUrl_Returns400()
-  {
-    // Arrange
-    using var factory = new BaseWebApplicationFactory();
-    using var client = factory.CreateClient();
-
-    // Action
-    var response = await client.GetAsync("/api/products/getByUrl?url=it is not a url");
-
-    // Assert
-    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-
-    var content = await response.Content.ReadAsStringAsync();
-    Assert.Contains("\"status\":400", content);
-    Assert.Contains("\"title\":\"One or more validation errors occurred.\"", content);
-    Assert.Contains("\"errors\":[{\"message\":\"The url field is invalid.\"}]", content);
-  }
-
-  [Fact]
   public async Task GetByUrl_WithDataValidationException_Returns400()
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
-    A.CallTo(() => repository.FindProductByUri(A<Uri>._)).ThrowsAsync(new DataValidationException("The data is wrong."));
+    A.CallTo(() => repository.FindProductByUrl(A<string>._)).ThrowsAsync(new DataValidationException("The url is invalid."));
 
     using var factory = new BaseWebApplicationFactory([new ServiceDescriptor(typeof(IProductRepository), repository)]);
     using var client = factory.CreateClient();
@@ -68,7 +49,7 @@ public class ProductControllerIntegrationTest
     var content = await response.Content.ReadAsStringAsync();
     Assert.Contains("\"status\":400", content);
     Assert.Contains("\"title\":\"One or more validation errors occurred.\"", content);
-    Assert.Contains("\"errors\":[{\"message\":\"The data is wrong.\"}]", content);
+    Assert.Contains("\"errors\":[{\"message\":\"The url is invalid.\"}]", content);
   }
 
   [Fact]
@@ -76,7 +57,7 @@ public class ProductControllerIntegrationTest
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
-    A.CallTo(() => repository.FindProductByUri(A<Uri>._)).ThrowsAsync(new ItemNotFoundException("We cannot find it!"));
+    A.CallTo(() => repository.FindProductByUrl(A<string>._)).ThrowsAsync(new ItemNotFoundException("We cannot find it!"));
 
     using var factory = new BaseWebApplicationFactory([new ServiceDescriptor(typeof(IProductRepository), repository)]);
     using var client = factory.CreateClient();
@@ -94,11 +75,11 @@ public class ProductControllerIntegrationTest
   }
 
   [Fact]
-  public async Task GetByUrl_WithException_Returns500()
+  public async Task GetByUrl_WithGenericException_Returns500()
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
-    A.CallTo(() => repository.FindProductByUri(A<Uri>._)).ThrowsAsync(new Exception());
+    A.CallTo(() => repository.FindProductByUrl(A<string>._)).ThrowsAsync(new Exception());
 
     using var factory = new BaseWebApplicationFactory([new ServiceDescriptor(typeof(IProductRepository), repository)]);
     using var client = factory.CreateClient();
@@ -115,11 +96,11 @@ public class ProductControllerIntegrationTest
   }
 
   [Fact]
-  public async Task GetByUrl_WithValidUrl_Returns200()
+  public async Task GetByUrl_WithoutExceptions_Returns200()
   {
     // Arrange
     var repository = A.Fake<IProductRepository>();
-    A.CallTo(() => repository.FindProductByUri(A<Uri>._)).Returns(new Product()
+    A.CallTo(() => repository.FindProductByUrl(A<string>._)).Returns(new Product()
     {
       Id = "123",
       Name = "a product",

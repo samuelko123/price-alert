@@ -6,37 +6,26 @@ using PriceAlert.Infrastructure.Woolworths;
 
 namespace PriceAlert.Domain;
 
-public static partial class ProductUrlPathRegex
+public static partial class ProductUrlRegex
 {
-  [GeneratedRegex(@"/shop/productdetails/([0-9]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase)]
-  public static partial Regex Woolworths();
-}
-
-public static partial class ProductUrlHostRegex
-{
-  [GeneratedRegex(@"[www.]?woolworths.com.au", RegexOptions.Compiled | RegexOptions.IgnoreCase)]
+  [GeneratedRegex(@"https://www.woolworths.com.au/shop/productdetails/([0-9]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase)]
   public static partial Regex Woolworths();
 }
 
 public class ProductRepository(IWoolworthsApiClient client) : IProductRepository
 {
-  public async Task<Product> FindProductByUri(Uri uri)
+  public async Task<Product> FindProductByUrl(string url)
   {
-    var id = ExtractProductIdFromUrl(uri);
+    var id = ExtractProductIdFromUrl(url);
     return await client.GetProduct(id);
   }
 
-  private static string ExtractProductIdFromUrl(Uri uri)
+  private static string ExtractProductIdFromUrl(string url)
   {
-    if (!ProductUrlHostRegex.Woolworths().IsMatch(uri.Host))
-    {
-      throw new DataValidationException($"Received unsupported URL: {uri}");
-    }
-
-    var match = ProductUrlPathRegex.Woolworths().Match(uri.LocalPath);
+    var match = ProductUrlRegex.Woolworths().Match(url);
     if (!match.Success)
     {
-      throw new DataValidationException($"Received unsupported URL: {uri}");
+      throw new DataValidationException("The url is invalid. It should start with 'https://www.woolworths.com.au/shop/productdetails/'.");
     }
 
     var id = match.Groups[1].Value;
