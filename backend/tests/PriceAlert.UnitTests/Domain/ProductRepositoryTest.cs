@@ -28,8 +28,7 @@ public class ProductRepositoryTest
 
   [Theory]
   [InlineData("https://www.woolworths.com.au/shop/productdetails/123")]
-  [InlineData("https://www.woolworths.com.au/Shop/ProductDetails/123")]
-  [InlineData("https://www.woolworths.com.au/shop/productdetails/123?googleshop=true")]
+  [InlineData("https://www.WOOLWORTHS.com.au/Shop/productDetails/123")]
   [InlineData("https://www.woolworths.com.au/shop/productdetails/123?googleshop=true&utm_source=google")]
   public async Task FindProductByUrl_WithValidUrl_ReturnsProductFromApiClient(string url)
   {
