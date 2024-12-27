@@ -5,7 +5,7 @@ export const TextField = ({
   label: string,
 }) => {
   return (
-    <label className="flex flex-col gap-2">
+    <label className="w-full flex flex-col gap-2">
       <span>{label}</span>
       <input className="border rounded-lg px-2 py-1 focus:outline-none focus:border-shadow" />
     </label>
