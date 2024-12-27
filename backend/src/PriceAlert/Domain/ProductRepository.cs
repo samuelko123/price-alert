@@ -16,11 +16,11 @@ public class ProductRepository(IWoolworthsApiClient client) : IProductRepository
 {
   public async Task<Product> FindProductByUrl(string url)
   {
-    var id = ExtractProductIdFromUrl(url);
-    return await client.GetProduct(id);
+    var sku = ExtractProductSkuFromUrl(url);
+    return await client.GetProduct(sku);
   }
 
-  private static string ExtractProductIdFromUrl(string url)
+  private static string ExtractProductSkuFromUrl(string url)
   {
     var match = ProductUrlRegex.Woolworths().Match(url);
     if (!match.Success)
@@ -28,7 +28,7 @@ public class ProductRepository(IWoolworthsApiClient client) : IProductRepository
       throw new DataValidationException("The url is invalid. It should start with 'https://www.woolworths.com.au/shop/productdetails/'.");
     }
 
-    var id = match.Groups[1].Value;
-    return id;
+    var sku = match.Groups[1].Value;
+    return sku;
   }
 }
