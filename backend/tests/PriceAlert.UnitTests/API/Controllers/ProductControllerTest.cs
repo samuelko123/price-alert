@@ -4,7 +4,6 @@ using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using PriceAlert.API.Controllers;
 using PriceAlert.API.DTOs;
-using PriceAlert.API.Errors;
 using PriceAlert.Domain;
 
 namespace PriceAlert.UnitTests.API.Controllers;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PriceAlert.API.DTOs;
-using PriceAlert.API.Errors;
 using PriceAlert.API.Exceptions;
 using PriceAlert.Domain;
 
@@ -37,7 +36,10 @@ public class ProductController(IProductRepository repository) : ControllerBase
     }
     catch (NotFoundException ex)
     {
-      return NotFound(new Error(ex.Message));
+      return NotFound(new ProblemDetails()
+      {
+        Title = ex.Message,
+      });
     }
   }
 }

@@ -104,7 +104,10 @@ public class ProductControllerIntegrationTest
 
     // Assert
     Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-    Assert.Equal("""{"error":"Unable to find product: 123"}""", await response.Content.ReadAsStringAsync());
+
+    var content = await response.Content.ReadAsStringAsync();
+    Assert.Contains("\"status\":404", content);
+    Assert.Contains("\"title\":\"Unable to find product: 123\"", content);
   }
 
   [Fact]
