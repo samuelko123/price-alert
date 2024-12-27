@@ -12,22 +12,6 @@ namespace PriceAlert.UnitTests.API.Controllers;
 public class ProductControllerTest
 {
   [Fact]
-  public async Task GetByUrl_WithInvalidUrl_ReturnsBadRequest()
-  {
-    // Arrange
-    var repository = A.Fake<IProductRepository>();
-    var controller = new ProductController(repository);
-
-    // Action
-    var response = await controller.GetByUrl("it is not a url");
-
-    // Assert
-    var result = Assert.IsType<BadRequestObjectResult>(response);
-    var error = Assert.IsType<InvalidUriError>(result.Value);
-    Assert.Equal("Received invalid url: 'it is not a url'.", error.Message);
-  }
-
-  [Fact]
   public async Task GetByUrl_WithValidUrl_ReturnsProduct()
   {
     // Arrange

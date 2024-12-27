@@ -32,6 +32,25 @@ public class ProductControllerIntegrationTest
   }
 
   [Fact]
+  public async Task GetByUrl_WithInvalidProductUrl_ReturnsBadRequest()
+  {
+    // Arrange
+    using var factory = new BaseWebApplicationFactory();
+    using var client = factory.CreateClient();
+
+    // Action
+    var response = await client.GetAsync("/api/products/getByUrl?url=it is not a url");
+
+    // Assert
+    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+
+    var content = await response.Content.ReadAsStringAsync();
+    Assert.Contains("\"status\":400", content);
+    Assert.Contains("\"title\":\"One or more validation errors occurred.\"", content);
+    Assert.Contains("\"errors\":{\"url\":[\"The url field is invalid.\"]}", content);
+  }
+
+  [Fact]
   public async Task GetByUrl_WithProductUrl_ReturnsOk()
   {
     // Arrange
