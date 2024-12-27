@@ -17,7 +17,18 @@ public class ProductRepository(IWoolworthsApiClient client) : IProductRepository
   public async Task<Product> FindProductByUrl(string url)
   {
     var sku = ExtractProductSkuFromUrl(url);
-    return await client.GetProduct(sku);
+
+    var dto = await client.GetProduct(sku);
+    if (string.IsNullOrWhiteSpace(dto.Name))
+    {
+      throw new ItemNotFoundException($"Unable to find product: {sku}");
+    }
+
+    return new Product()
+    {
+      Sku = dto.Sku,
+      Name = dto.Name
+    };
   }
 
   private static string ExtractProductSkuFromUrl(string url)

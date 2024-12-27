@@ -35,19 +35,43 @@ public class ProductRepositoryTest
   {
     // Arrange
     var client = A.Fake<IWoolworthsApiClient>();
-    var product = new Product()
+    var dto = new WoolworthsProductDto()
     {
       Sku = "123",
       Name = "a product name",
     };
-    A.CallTo(() => client.GetProduct("123")).Returns(product);
+    A.CallTo(() => client.GetProduct("123")).Returns(dto);
 
     var repository = new ProductRepository(client);
 
     // Action
-    var result = await repository.FindProductByUrl(url);
+    var product = await repository.FindProductByUrl(url);
 
     // Assert
-    Assert.Equal(result, product);
+    Assert.Equal("123", product.Sku);
+    Assert.Equal("a product name", product.Name);
+  }
+
+  [Fact]
+  public async void FindProductByUrl_ProductNameIsEmpty_ThrowsItemNotFoundException()
+  {
+    // Arrange
+    var client = A.Fake<IWoolworthsApiClient>();
+    var dto = new WoolworthsProductDto()
+    {
+      Sku = "123",
+      Name = "     ",
+    };
+    A.CallTo(() => client.GetProduct("123")).Returns(dto);
+
+    var repository = new ProductRepository(client);
+
+    // Action
+    var exception = await Record.ExceptionAsync(() => repository.FindProductByUrl("https://www.woolworths.com.au/shop/productdetails/123"));
+
+    // Assert
+    Assert.NotNull(exception);
+    Assert.IsType<ItemNotFoundException>(exception);
+    Assert.Equal("Unable to find product: 123", exception.Message);
   }
 }

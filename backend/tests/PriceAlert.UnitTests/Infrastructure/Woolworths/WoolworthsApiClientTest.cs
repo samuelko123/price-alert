@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using FakeItEasy;
-using PriceAlert.Domain.Exceptions;
 using PriceAlert.Infrastructure.Woolworths;
 
 namespace PriceAlert.UnitTests.Infrastructure.Woolworths;
@@ -37,7 +36,7 @@ public class WoolworthsApiClientTest
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseStatusIsNotOK_ThrowsBadHttpStatusCodeException()
+  public async void GetProduct_WhenHttpResponseStatusIsNotOK_ThrowsHttpRequestException()
   {
     // Arrange
     var response = new HttpResponseMessage
@@ -121,28 +120,6 @@ public class WoolworthsApiClientTest
     Assert.NotNull(exception);
     Assert.IsType<JsonException>(exception);
     Assert.Equal("""Response body is invalid. Content: { "sku": null, "name": "a product name" }""", exception.Message);
-  }
-
-  [Fact]
-  public async void GetProduct_WhenHttpResponseBodyHasEmptyName_ThrowsItemNotFoundException()
-  {
-    // Arrange
-    var response = new HttpResponseMessage
-    {
-      StatusCode = HttpStatusCode.OK,
-      Content = new StringContent("""{ "sku": "123", "name": "     " }"""),
-    };
-
-    var httpClient = CreateHttpClient(response);
-    var apiClient = new WoolworthsApiClient(httpClient);
-
-    // Action
-    var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
-
-    // Assert
-    Assert.NotNull(exception);
-    Assert.IsType<ItemNotFoundException>(exception);
-    Assert.Equal("Unable to find product: 123", exception.Message);
   }
 
   private static HttpClient CreateHttpClient(HttpResponseMessage response)

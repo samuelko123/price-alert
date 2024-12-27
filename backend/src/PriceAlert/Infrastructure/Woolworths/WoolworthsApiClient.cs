@@ -1,8 +1,6 @@
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using PriceAlert.Domain;
-using PriceAlert.Domain.Exceptions;
 
 namespace PriceAlert.Infrastructure.Woolworths;
 
@@ -13,24 +11,14 @@ public class WoolworthsApiClient(HttpClient httpClient) : IWoolworthsApiClient
     RespectNullableAnnotations = true,
   };
 
-  public async Task<Product> GetProduct(string sku)
+  public async Task<WoolworthsProductDto> GetProduct(string sku)
   {
     var url = $"https://www.woolworths.com.au/api/v3/ui/schemaorg/product/{sku}";
     var response = await httpClient.GetAsync(url);
     response.EnsureSuccessStatusCode();
 
     var content = await response.Content.ReadAsStringAsync();
-    var dto = ParseJson<WoolworthsProductDto>(content);
-    if (string.IsNullOrWhiteSpace(dto.Name))
-    {
-      throw new ItemNotFoundException($"Unable to find product: {sku}");
-    }
-
-    return new Product()
-    {
-      Sku = dto.Sku,
-      Name = dto.Name,
-    };
+    return ParseJson<WoolworthsProductDto>(content);
   }
 
   private static T ParseJson<T>(string content)
