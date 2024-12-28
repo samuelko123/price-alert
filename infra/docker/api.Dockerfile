@@ -2,6 +2,11 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS base
 RUN mkdir /app
 RUN chown app:app /app
 WORKDIR /app
+
+COPY ./zscaler.cer /usr/local/share/ca-certificates/zscalar.crt
+RUN apt-get install --assume-yes ca-certificates
+RUN update-ca-certificates
+
 USER app
 
 COPY --chown=app:app *.sln .
