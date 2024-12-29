@@ -29,7 +29,11 @@ export const ProductSearchForm = () => {
             value={url}
             onChange={setUrl}
           />
-          <Button onClick={() => handleSubmit()}>Search</Button>
+          <Button
+            onClick={() => handleSubmit()}
+          >
+            Search
+          </Button>
         </form>
       </Surface>
       {product &&
