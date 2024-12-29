@@ -41,8 +41,9 @@ describe("TextField", () => {
 
   it("triggers onChange when user inputs", async () => {
     // Arrange
-    const mockFunction = vi.fn();
     const user = userEvent.setup();
+
+    const mockFunction = vi.fn();
     render(<TextField
       label=""
       value=""
