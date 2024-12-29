@@ -8,7 +8,16 @@ describe("Landing Page", () => {
     render(<Page />);
 
     // Assert
-    const element = screen.getByText("Product URL");
-    expect(element).toBeVisible();
+    const label = screen.getByText("Product URL");
+    expect(label).toBeVisible();
+  });
+
+  it("displays Product Detail", () => {
+    // Act
+    render(<Page />);
+
+    // Assert
+    const product = screen.getByText("The Best Product");
+    expect(product).toBeVisible();
   });
 });
