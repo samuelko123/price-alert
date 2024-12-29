@@ -18,10 +18,10 @@ export const ProductSearchForm = () => {
   };
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <Surface>
         <form
-          className="flex flex-col gap-2 items-start"
+          className="flex flex-col gap-4 items-start"
           onSubmit={(event) => event.preventDefault()}
         >
           <TextField
@@ -41,6 +41,6 @@ export const ProductSearchForm = () => {
           <ProductDetail product={product} />
         </Surface>
       }
-    </>
+    </div>
   );
 };

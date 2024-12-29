@@ -7,7 +7,7 @@ export const LandingPage = () => {
   return (
     <>
       <Header />
-      <main className="max-w-sm m-auto px-4 py-4 flex flex-col gap-4">
+      <main className="max-w-sm m-auto px-4 py-4">
         <ProductSearchForm />
       </main>
     </>
