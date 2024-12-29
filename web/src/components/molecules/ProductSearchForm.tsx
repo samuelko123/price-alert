@@ -4,7 +4,11 @@ import { useState } from "react";
 import { Button } from "../atoms/Button";
 import { TextField } from "../atoms/TextField";
 
-export const ProductSearchForm = () => {
+export const ProductSearchForm = ({
+  onSubmit,
+}: {
+  onSubmit: (url: string) => void,
+}) => {
   const [url, setUrl] = useState("");
 
   return (
@@ -17,7 +21,7 @@ export const ProductSearchForm = () => {
         value={url}
         onChange={setUrl}
       />
-      <Button>Search</Button>
-    </form >
+      <Button onClick={() => onSubmit(url)}>Search</Button>
+    </form>
   );
 };
