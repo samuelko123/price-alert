@@ -14,6 +14,9 @@ export default {
         shadow: "var(--shadow)",
         surface: "var(--surface)",
       },
+      maxWidth: {
+        "sm": "48rem",
+      },
     },
   },
   plugins: [],
