@@ -1,8 +1,12 @@
-import { afterAll, afterEach, beforeAll } from 'vitest';
-import { server } from './mocks/server';
+import { setupServer } from "msw/node";
+import { afterAll, afterEach, beforeAll } from "vitest";
 
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+export const server = setupServer();
+
+beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
 
 afterEach(() => server.resetHandlers());
 
 afterAll(() => server.close());
+
+export { HttpResponse, http } from "msw";
