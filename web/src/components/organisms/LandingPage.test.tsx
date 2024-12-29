@@ -4,10 +4,11 @@ import Page from "@/app/page";
 
 describe("Landing Page", () => {
   it("displays Product Search Form", () => {
+    // Act
     render(<Page />);
 
+    // Assert
     const element = screen.getByText("Product URL");
-
     expect(element).toBeVisible();
   });
 });
