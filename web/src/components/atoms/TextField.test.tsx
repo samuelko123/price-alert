@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { TextField } from "./TextField";
 import userEvent from "@testing-library/user-event";
@@ -9,14 +9,51 @@ describe("TextField", () => {
     const user = userEvent.setup();
 
     const labelText = "It is a label";
-    render(<TextField label={labelText} />);
+    render(<TextField
+      label={labelText}
+      value=""
+      onChange={() => { }}
+    />);
 
     // Act
     const label = screen.getByText(labelText);
     await user.click(label);
 
     // Assert
-    const input = screen.getByRole("textbox");
-    expect(input).toHaveFocus();
+    const textbox = screen.getByRole("textbox");
+    expect(textbox).toHaveFocus();
+  });
+
+  it("passes value to the textbox", async () => {
+    // Arrange
+    render(<TextField
+      label=""
+      value="hello"
+      onChange={() => { }}
+    />);
+
+    // Act
+    const textbox = screen.getByRole("textbox");
+
+    // Assert
+    expect(textbox).toHaveAttribute("value", "hello");
+  });
+
+  it("triggers onChange when user inputs", async () => {
+    // Arrange
+    const mockFunction = vi.fn();
+    const user = userEvent.setup();
+    render(<TextField
+      label=""
+      value=""
+      onChange={mockFunction}
+    />);
+
+    // Act
+    const textbox = screen.getByRole("textbox");
+    await user.type(textbox, "Hello");
+
+    // Assert
+    expect(mockFunction).toHaveBeenCalled();
   });
 });
