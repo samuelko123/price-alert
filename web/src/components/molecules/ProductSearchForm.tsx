@@ -11,12 +11,13 @@ import { ErrorMessage } from "../atoms/ErrorMessage";
 
 export const ProductSearchForm = () => {
   const [url, setUrl] = useState("");
-  const [product, setProduct] = useState<Product>();
+  const [product, setProduct] = useState<Product | null>();
   const [error, setError] = useState<Error | null>();
 
   const handleSubmit = async () => {
     try {
       setError(null);
+      setProduct(null);
 
       const data = await getProductByUrl(url);
       setProduct(data);
