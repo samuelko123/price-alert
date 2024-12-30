@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PriceAlert.API.Problems;
 using PriceAlert.Domain;
 using PriceAlert.Domain.Exceptions;
-using PriceAlert.Infrastructure.Woolworths;
+using PriceAlert.Infrastructure.Officeworks;
 
 namespace PriceAlert;
 
@@ -16,8 +16,8 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder();
         builder.Services.AddSingleton<IProductRepository, ProductRepository>();
-        builder.Services.AddSingleton<IWoolworthsApiClient, WoolworthsApiClient>();
-        builder.Services.AddHttpClient<WoolworthsApiClient>();
+        builder.Services.AddSingleton<IOfficeworksApiClient, OfficeworksApiClient>();
+        builder.Services.AddHttpClient<OfficeworksApiClient>();
 
         builder.Services.AddHealthChecks();
         builder.Services.AddProblemDetails(option =>

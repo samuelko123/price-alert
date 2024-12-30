@@ -41,7 +41,7 @@ public class ProductControllerIntegrationTest
     using var client = factory.CreateClient();
 
     // Action
-    var response = await client.GetAsync("/api/products/getByUrl?url=https://google.com");
+    var response = await client.GetAsync("/api/products/getByUrl?url=https://google.com/");
 
     // Assert
     Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -63,7 +63,7 @@ public class ProductControllerIntegrationTest
     using var client = factory.CreateClient();
 
     // Action
-    var response = await client.GetAsync("/api/products/getByUrl?url=https://www.woolworths.com.au/shop/productdetails/123");
+    var response = await client.GetAsync("/api/products/getByUrl?url=https://google.com/");
 
     // Assert
     Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -85,7 +85,7 @@ public class ProductControllerIntegrationTest
     using var client = factory.CreateClient();
 
     // Action
-    var response = await client.GetAsync("/api/products/getByUrl?url=https://www.woolworths.com.au/shop/productdetails/123");
+    var response = await client.GetAsync("/api/products/getByUrl?url=https://google.com/");
 
     // Assert
     Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
@@ -110,7 +110,7 @@ public class ProductControllerIntegrationTest
     using var client = factory.CreateClient();
 
     // Action
-    var response = await client.GetAsync("/api/products/getByUrl?url=https://www.woolworths.com.au/shop/productdetails/123");
+    var response = await client.GetAsync("/api/products/getByUrl?url=https://google.com/");
 
     // Assert
     Assert.Equal(HttpStatusCode.OK, response.StatusCode);
