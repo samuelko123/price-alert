@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ProductSearchForm } from "./ProductSearchForm";
 import userEvent from "@testing-library/user-event";
-import { http, HttpResponse, server } from "../../../tests/setup-server";
+import { delay, http, HttpResponse, server } from "../../../tests/setup-server";
 
 describe("ProductSearchForm", () => {
   it("displays Product Detail after search", async () => {
@@ -120,6 +120,26 @@ describe("ProductSearchForm", () => {
 
     // Assert
     const product = screen.getByText("The url is invalid.");
+    expect(product).toBeVisible();
+  });
+
+  it("displays loading message during API call", async () => {
+    // Arrange
+    server.use(
+      http.get("/api/products/getByUrl", async () => {
+        await delay(5000);
+      }),
+    );
+
+    const user = userEvent.setup();
+    render(<ProductSearchForm />);
+
+    // Act
+    const button = screen.getByRole("button", { name: "Search" });
+    await user.click(button);
+
+    // Assert
+    const product = screen.getByText("We are fetching your item...");
     expect(product).toBeVisible();
   });
 });
