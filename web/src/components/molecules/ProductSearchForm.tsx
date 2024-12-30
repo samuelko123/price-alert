@@ -14,8 +14,8 @@ export const ProductSearchForm = () => {
   const { isError, isPending, data: product, error, mutate } = useProduct({ url });
 
   return (
-    <div className="flex flex-col gap-4">
-      <Surface>
+    <Surface>
+      <div className="flex flex-col gap-4">
         <form
           className="flex flex-col gap-4 items-start"
           onSubmit={(event) => event.preventDefault()}
@@ -28,24 +28,20 @@ export const ProductSearchForm = () => {
           {isPending ?
             <LoadingMessage />
             :
-            <Button
-              onClick={() => mutate()}
-            >
+            <Button onClick={() => mutate()}>
               Search
             </Button>
           }
         </form>
-      </Surface>
-      {isError &&
-        <Surface>
+        {
+          isError &&
           <ErrorMessage error={error} />
-        </Surface>
-      }
-      {product &&
-        <Surface>
+        }
+        {
+          product &&
           <ProductDetail product={product} />
-        </Surface>
-      }
-    </div>
+        }
+      </div>
+    </Surface>
   );
 };
