@@ -1,10 +1,21 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ProductSearchForm } from "./ProductSearchForm";
 import userEvent from "@testing-library/user-event";
 import { delay, http, HttpResponse, server } from "../../../tests/setup-server";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 describe("ProductSearchForm", () => {
+  beforeEach(() => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <ProductSearchForm />
+      </QueryClientProvider>,
+    );
+  });
+
   it("displays Product Detail after search", async () => {
     // Arrange
     server.use(
@@ -23,7 +34,6 @@ describe("ProductSearchForm", () => {
     );
 
     const user = userEvent.setup();
-    render(<ProductSearchForm />);
 
     // Act
     const textbox = screen.getByRole("textbox", { name: "Product URL" });
@@ -45,7 +55,6 @@ describe("ProductSearchForm", () => {
     );
 
     const user = userEvent.setup();
-    render(<ProductSearchForm />);
 
     // Act
     const button = screen.getByRole("button", { name: "Search" });
@@ -76,7 +85,6 @@ describe("ProductSearchForm", () => {
     );
 
     const user = userEvent.setup();
-    render(<ProductSearchForm />);
 
     // Act
     const button = screen.getByRole("button", { name: "Search" });
@@ -112,7 +120,6 @@ describe("ProductSearchForm", () => {
     );
 
     const user = userEvent.setup();
-    render(<ProductSearchForm />);
 
     // Act
     const button = screen.getByRole("button", { name: "Search" });
@@ -132,7 +139,6 @@ describe("ProductSearchForm", () => {
     );
 
     const user = userEvent.setup();
-    render(<ProductSearchForm />);
 
     // Act
     const button = screen.getByRole("button", { name: "Search" });

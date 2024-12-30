@@ -3,33 +3,15 @@
 import { useState } from "react";
 import { Button } from "../atoms/Button";
 import { TextField } from "../atoms/TextField";
-import { getProductByUrl } from "@/api/productApi";
-import { Product } from "@/types/Product";
 import { Surface } from "../atoms/Surface";
 import { ProductDetail } from "./ProductDetail";
 import { ErrorMessage } from "../atoms/ErrorMessage";
 import { LoadingMessage } from "../atoms/LoadingMessage";
+import { useProduct } from "@/hooks/useProduct";
 
 export const ProductSearchForm = () => {
   const [url, setUrl] = useState("");
-  const [product, setProduct] = useState<Product | null>();
-  const [error, setError] = useState<Error | null>();
-  const [isLoading, setLoading] = useState(false);
-
-  const handleSubmit = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      setProduct(null);
-
-      const data = await getProductByUrl(url);
-      setProduct(data);
-    } catch (err) {
-      setError(err as Error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { isError, isPending, data: product, error, mutate } = useProduct({ url });
 
   return (
     <div className="flex flex-col gap-4">
@@ -43,18 +25,18 @@ export const ProductSearchForm = () => {
             value={url}
             onChange={setUrl}
           />
-          {isLoading ?
+          {isPending ?
             <LoadingMessage />
             :
             <Button
-              onClick={() => handleSubmit()}
+              onClick={() => mutate()}
             >
               Search
             </Button>
           }
         </form>
       </Surface>
-      {error &&
+      {isError &&
         <Surface>
           <ErrorMessage error={error} />
         </Surface>
