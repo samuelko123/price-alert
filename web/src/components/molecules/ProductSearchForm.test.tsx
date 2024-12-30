@@ -86,4 +86,40 @@ describe("ProductSearchForm", () => {
     const product = screen.getByText("An error occurred while processing your request.");
     expect(product).toBeVisible();
   });
+
+  it("displays validation message from server status code is 400", async () => {
+    // Arrange
+    server.use(
+      http.get("/api/products/getByUrl", () => {
+        const data = {
+          "type": "https://httpstatuses.io/400",
+          "title": "One or more validation errors occurred.",
+          "status": 400,
+          "errors": [
+            {
+              "message": "The url is invalid.",
+            },
+          ],
+        };
+
+        return HttpResponse.json(data, {
+          status: 400,
+          headers: {
+            "Content-Type": "application/problem+json",
+          },
+        });
+      }),
+    );
+
+    const user = userEvent.setup();
+    render(<ProductSearchForm />);
+
+    // Act
+    const button = screen.getByRole("button", { name: "Search" });
+    await user.click(button);
+
+    // Assert
+    const product = screen.getByText("The url is invalid.");
+    expect(product).toBeVisible();
+  });
 });
