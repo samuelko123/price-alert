@@ -11,8 +11,6 @@ function RunCommand([string]$command) {
   Invoke-Expression $command
 }
 
-
-
 switch ($profile) {
   "dev" {
     $compose = "docker compose --file ./infra/docker/docker-compose.yaml --file ./infra/docker/docker-compose.dev.yaml"
