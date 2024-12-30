@@ -3,9 +3,9 @@ import { render, screen } from "@testing-library/react";
 import { ErrorMessage } from "./ErrorMessage";
 
 describe("ErrorMessage", () => {
-  it("displays text", async () => {
+  it("displays generic error message", async () => {
     // Act
-    render(<ErrorMessage />);
+    render(<ErrorMessage error={new Error()} />);
 
     // Assert
     const message = screen.getByText("Something went wrong.");
