@@ -7,14 +7,21 @@ import { getProductByUrl } from "@/api/productApi";
 import { Product } from "@/types/Product";
 import { Surface } from "../atoms/Surface";
 import { ProductDetail } from "./ProductDetail";
+import { ErrorMessage } from "../atoms/ErrorMessage";
 
 export const ProductSearchForm = () => {
   const [url, setUrl] = useState("");
   const [product, setProduct] = useState<Product>();
+  const [error, setError] = useState<Error | null>();
 
   const handleSubmit = async () => {
-    const data = await getProductByUrl(url);
-    setProduct(data);
+    try {
+      setError(null);
+      const data = await getProductByUrl(url);
+      setProduct(data);
+    } catch (err) {
+      setError(err as Error);
+    }
   };
 
   return (
@@ -36,6 +43,12 @@ export const ProductSearchForm = () => {
           </Button>
         </form>
       </Surface>
+      {
+        error &&
+        <Surface>
+          <ErrorMessage />
+        </Surface>
+      }
       {product &&
         <Surface>
           <ProductDetail product={product} />
