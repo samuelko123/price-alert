@@ -17,6 +17,7 @@ export const ProductSearchForm = () => {
   const handleSubmit = async () => {
     try {
       setError(null);
+
       const data = await getProductByUrl(url);
       setProduct(data);
     } catch (err) {
@@ -43,10 +44,9 @@ export const ProductSearchForm = () => {
           </Button>
         </form>
       </Surface>
-      {
-        error &&
+      {error &&
         <Surface>
-          <ErrorMessage />
+          <ErrorMessage error={error} />
         </Surface>
       }
       {product &&
