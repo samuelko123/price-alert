@@ -1,22 +1,18 @@
-using System.Text.RegularExpressions;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using PriceAlert.Domain.Exceptions;
-using PriceAlert.Infrastructure.Woolworths;
+using PriceAlert.Infrastructure.Officeworks;
 
 namespace PriceAlert.Domain;
 
-public class ProductRepository(IWoolworthsApiClient client) : IProductRepository
+public class ProductRepository(IOfficeworksApiClient client) : IProductRepository
 {
   public async Task<Product> FindProductByUrl(string url)
   {
     var sku = ExtractProductSkuFromUrl(url);
 
     var dto = await client.GetProduct(sku);
-    if (string.IsNullOrWhiteSpace(dto.Name))
-    {
-      throw new ItemNotFoundException($"Unable to find product: {sku}");
-    }
-
     return new Product()
     {
       Sku = dto.Sku,
@@ -26,13 +22,15 @@ public class ProductRepository(IWoolworthsApiClient client) : IProductRepository
 
   private static string ExtractProductSkuFromUrl(string url)
   {
-    var match = Regex.Match(url, @"https://www.woolworths.com.au/shop/productdetails/([0-9]+)", RegexOptions.IgnoreCase);
-    if (!match.Success)
+    if (!url.StartsWith("https://www.officeworks.com.au/shop/officeworks/p/", StringComparison.OrdinalIgnoreCase))
     {
-      throw new DataValidationException("The url is invalid. It should start with 'https://www.woolworths.com.au/shop/productdetails/'.");
+      throw new DataValidationException("The url is invalid. It should start with 'https://www.officeworks.com.au/shop/officeworks/p/'.");
     }
 
-    var sku = match.Groups[1].Value;
+    var uri = new Uri(url);
+    var productSlug = uri.Segments.Last();
+    var sku = productSlug.Split("-").Last().ToUpperInvariant();
+
     return sku;
   }
 }

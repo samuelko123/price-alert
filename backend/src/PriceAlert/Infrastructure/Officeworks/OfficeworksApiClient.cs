@@ -1,24 +1,31 @@
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using PriceAlert.Domain.Exceptions;
 
-namespace PriceAlert.Infrastructure.Woolworths;
+namespace PriceAlert.Infrastructure.Officeworks;
 
-public class WoolworthsApiClient(HttpClient httpClient) : IWoolworthsApiClient
+public class OfficeworksApiClient(HttpClient httpClient) : IOfficeworksApiClient
 {
   private static readonly JsonSerializerOptions _jsonOptions = new()
   {
     RespectNullableAnnotations = true,
   };
 
-  public async Task<WoolworthsProductDto> GetProduct(string sku)
+  public async Task<OfficeworksProductDto> GetProduct(string sku)
   {
-    var url = $"https://www.woolworths.com.au/api/v3/ui/schemaorg/product/{sku}";
+    var url = $"https://www.officeworks.com.au/catalogue-app/api/products/{sku}";
+
     var response = await httpClient.GetAsync(url);
+    if (response.StatusCode == HttpStatusCode.NotFound)
+    {
+      throw new ItemNotFoundException($"Unable to find product: {sku}");
+    }
     response.EnsureSuccessStatusCode();
 
     var content = await response.Content.ReadAsStringAsync();
-    return ParseJson<WoolworthsProductDto>(content);
+    return ParseJson<OfficeworksProductDto>(content);
   }
 
   private static T ParseJson<T>(string content)

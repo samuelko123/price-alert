@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using PriceAlert.API.Controllers;
-using PriceAlert.Infrastructure.Woolworths;
+using PriceAlert.Infrastructure.Officeworks;
 
 namespace PriceAlert.IntegrationTests.Fixtures;
 
@@ -30,7 +30,7 @@ internal class BaseWebApplicationFactory : WebApplicationFactory<Program>
         {
             services.AddControllers().AddApplicationPart(typeof(ProductController).Assembly);
 
-            services.Replace(new ServiceDescriptor(typeof(IWoolworthsApiClient), A.Fake<IWoolworthsApiClient>()));
+            services.Replace(new ServiceDescriptor(typeof(OfficeworksApiClient), A.Fake<IOfficeworksApiClient>()));
             _serviceDescriptors.ForEach(service =>
             {
                 services.Replace(service);

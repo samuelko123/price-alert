@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace PriceAlert.Infrastructure.Woolworths;
+namespace PriceAlert.Infrastructure.Officeworks;
 
-public class WoolworthsProductDto
+public class OfficeworksProductDto
 {
   [JsonPropertyName("sku")]
   public required string Sku { get; init; }

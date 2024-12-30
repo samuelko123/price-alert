@@ -3,14 +3,15 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using FakeItEasy;
-using PriceAlert.Infrastructure.Woolworths;
+using PriceAlert.Domain.Exceptions;
+using PriceAlert.Infrastructure.Officeworks;
 
-namespace PriceAlert.UnitTests.Infrastructure.Woolworths;
+namespace PriceAlert.UnitTests.Infrastructure.Officeworks;
 
-public class WoolworthsApiClientTest
+public class OfficeworksApiClientTest
 {
   [Fact]
-  public async Task GetProduct_ReturnsProduct()
+  public async Task GetProduct_WhenResponseStatusIs200_ReturnsProduct()
   {
     // Arrange
     var response = new HttpResponseMessage
@@ -18,25 +19,46 @@ public class WoolworthsApiClientTest
       StatusCode = HttpStatusCode.OK,
       Content = new StringContent("""
       {
-        "sku": "123",
+        "sku": "ABC123",
         "name": "a product name"
       }
       """),
     };
 
     var httpClient = CreateHttpClient(response);
-    var apiClient = new WoolworthsApiClient(httpClient);
+    var apiClient = new OfficeworksApiClient(httpClient);
 
     // Action
-    var product = await apiClient.GetProduct("123");
+    var product = await apiClient.GetProduct("ABC123");
 
     // Assert
-    Assert.Equal("123", product.Sku);
+    Assert.Equal("ABC123", product.Sku);
     Assert.Equal("a product name", product.Name);
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseStatusIsNotOK_ThrowsHttpRequestException()
+  public async void GetProduct_WhenResponseStatusIs404_ThrowsHttpRequestException()
+  {
+    // Arrange
+    var response = new HttpResponseMessage
+    {
+      StatusCode = HttpStatusCode.NotFound,
+    };
+
+    var httpClient = CreateHttpClient(response);
+    var apiClient = new OfficeworksApiClient(httpClient);
+
+    // Action
+    var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
+
+    // Assert
+    Assert.NotNull(exception);
+    Assert.IsType<ItemNotFoundException>(exception);
+    Assert.Equal("Unable to find product: 123", exception.Message);
+  }
+
+  [Fact]
+  public async void GetProduct_WhenResponseStatusIsNot200_ThrowsHttpRequestException()
   {
     // Arrange
     var response = new HttpResponseMessage
@@ -45,7 +67,7 @@ public class WoolworthsApiClientTest
     };
 
     var httpClient = CreateHttpClient(response);
-    var apiClient = new WoolworthsApiClient(httpClient);
+    var apiClient = new OfficeworksApiClient(httpClient);
 
     // Action
     var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
@@ -57,7 +79,7 @@ public class WoolworthsApiClientTest
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseBodyIsNull_ThrowsJsonException()
+  public async void GetProduct_WhenResponseBodyIsNull_ThrowsJsonException()
   {
     // Arrange
     var response = new HttpResponseMessage
@@ -67,7 +89,7 @@ public class WoolworthsApiClientTest
     };
 
     var httpClient = CreateHttpClient(response);
-    var apiClient = new WoolworthsApiClient(httpClient);
+    var apiClient = new OfficeworksApiClient(httpClient);
 
     // Action
     var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
@@ -79,7 +101,7 @@ public class WoolworthsApiClientTest
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseBodyIsNotJson_ThrowsJsonException()
+  public async void GetProduct_WhenResponseBodyIsNotJson_ThrowsJsonException()
   {
     // Arrange
     var response = new HttpResponseMessage
@@ -89,7 +111,7 @@ public class WoolworthsApiClientTest
     };
 
     var httpClient = CreateHttpClient(response);
-    var apiClient = new WoolworthsApiClient(httpClient);
+    var apiClient = new OfficeworksApiClient(httpClient);
 
     // Action
     var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
@@ -111,7 +133,7 @@ public class WoolworthsApiClientTest
     };
 
     var httpClient = CreateHttpClient(response);
-    var apiClient = new WoolworthsApiClient(httpClient);
+    var apiClient = new OfficeworksApiClient(httpClient);
 
     // Action
     var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));

@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using PriceAlert.Domain;
 using PriceAlert.Domain.Exceptions;
-using PriceAlert.Infrastructure.Woolworths;
+using PriceAlert.Infrastructure.Officeworks;
 
 namespace PriceAlert.UnitTests.Domain;
 
@@ -10,11 +10,11 @@ public class ProductRepositoryTest
 {
   [Theory]
   [InlineData("https://www.coles.com.au/product/123")]
-  [InlineData("https://www.woolworths.com.au/shop/storelocator/123")]
+  [InlineData("https://www.officeworks.com.au/shop/officeworks/c/education/student-stationery/exercise-books")]
   public async Task FindProductByUrl_WithInvalidUrl_ThrowsDataValidationException(string url)
   {
     // Arrange
-    var client = A.Fake<IWoolworthsApiClient>();
+    var client = A.Fake<IOfficeworksApiClient>();
     var repository = new ProductRepository(client);
 
     // Action
@@ -23,23 +23,23 @@ public class ProductRepositoryTest
     // Assert
     Assert.NotNull(exception);
     Assert.IsType<DataValidationException>(exception);
-    Assert.Equal("The url is invalid. It should start with 'https://www.woolworths.com.au/shop/productdetails/'.", exception.Message);
+    Assert.Equal("The url is invalid. It should start with 'https://www.officeworks.com.au/shop/officeworks/p/'.", exception.Message);
   }
 
   [Theory]
-  [InlineData("https://www.woolworths.com.au/shop/productdetails/123")]
-  [InlineData("https://www.WOOLWORTHS.com.au/Shop/productDetails/123")]
-  [InlineData("https://www.woolworths.com.au/shop/productdetails/123?googleshop=true&utm_source=google")]
+  [InlineData("https://www.officeworks.com.au/shop/officeworks/p/some-sort-of-product-abcd1234")]
+  [InlineData("https://www.OFFICEWORKS.com.au/shop/officeworks/p/some-sort-of-product-abcd1234")]
+  [InlineData("https://www.officeworks.com.au/shop/officeworks/p/some-sort-of-product-abcd1234?query=nothing&page=1")]
   public async Task FindProductByUrl_WithValidUrl_ReturnsProduct(string url)
   {
     // Arrange
-    var client = A.Fake<IWoolworthsApiClient>();
-    var dto = new WoolworthsProductDto()
+    var client = A.Fake<IOfficeworksApiClient>();
+    var dto = new OfficeworksProductDto()
     {
-      Sku = "123",
+      Sku = "ABCD1234",
       Name = "a product name",
     };
-    A.CallTo(() => client.GetProduct("123")).Returns(dto);
+    A.CallTo(() => client.GetProduct("ABCD1234")).Returns(dto);
 
     var repository = new ProductRepository(client);
 
@@ -47,30 +47,7 @@ public class ProductRepositoryTest
     var product = await repository.FindProductByUrl(url);
 
     // Assert
-    Assert.Equal("123", product.Sku);
+    Assert.Equal("ABCD1234", product.Sku);
     Assert.Equal("a product name", product.Name);
-  }
-
-  [Fact]
-  public async void FindProductByUrl_WithEmptyProductName_ThrowsItemNotFoundException()
-  {
-    // Arrange
-    var client = A.Fake<IWoolworthsApiClient>();
-    var dto = new WoolworthsProductDto()
-    {
-      Sku = "123",
-      Name = "     ",
-    };
-    A.CallTo(() => client.GetProduct("123")).Returns(dto);
-
-    var repository = new ProductRepository(client);
-
-    // Action
-    var exception = await Record.ExceptionAsync(() => repository.FindProductByUrl("https://www.woolworths.com.au/shop/productdetails/123"));
-
-    // Assert
-    Assert.NotNull(exception);
-    Assert.IsType<ItemNotFoundException>(exception);
-    Assert.Equal("Unable to find product: 123", exception.Message);
   }
 }
