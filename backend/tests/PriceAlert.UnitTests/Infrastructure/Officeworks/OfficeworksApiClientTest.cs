@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using FakeItEasy;
+using PriceAlert.Domain.Exceptions;
 using PriceAlert.Infrastructure.Officeworks;
 
 namespace PriceAlert.UnitTests.Infrastructure.Officeworks;
@@ -10,7 +11,7 @@ namespace PriceAlert.UnitTests.Infrastructure.Officeworks;
 public class OfficeworksApiClientTest
 {
   [Fact]
-  public async Task GetProduct_ReturnsProduct()
+  public async Task GetProduct_WhenResponseStatusIs200_ReturnsProduct()
   {
     // Arrange
     var response = new HttpResponseMessage
@@ -28,7 +29,7 @@ public class OfficeworksApiClientTest
     var apiClient = new OfficeworksApiClient(httpClient);
 
     // Action
-    var product = await apiClient.GetProduct("123");
+    var product = await apiClient.GetProduct("ABC123");
 
     // Assert
     Assert.Equal("ABC123", product.Sku);
@@ -36,7 +37,28 @@ public class OfficeworksApiClientTest
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseStatusIsNotOK_ThrowsHttpRequestException()
+  public async void GetProduct_WhenResponseStatusIs404_ThrowsHttpRequestException()
+  {
+    // Arrange
+    var response = new HttpResponseMessage
+    {
+      StatusCode = HttpStatusCode.NotFound,
+    };
+
+    var httpClient = CreateHttpClient(response);
+    var apiClient = new OfficeworksApiClient(httpClient);
+
+    // Action
+    var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
+
+    // Assert
+    Assert.NotNull(exception);
+    Assert.IsType<ItemNotFoundException>(exception);
+    Assert.Equal("Unable to find product: 123", exception.Message);
+  }
+
+  [Fact]
+  public async void GetProduct_WhenResponseStatusIsNot200_ThrowsHttpRequestException()
   {
     // Arrange
     var response = new HttpResponseMessage
@@ -57,7 +79,7 @@ public class OfficeworksApiClientTest
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseBodyIsNull_ThrowsJsonException()
+  public async void GetProduct_WhenResponseBodyIsNull_ThrowsJsonException()
   {
     // Arrange
     var response = new HttpResponseMessage
@@ -79,7 +101,7 @@ public class OfficeworksApiClientTest
   }
 
   [Fact]
-  public async void GetProduct_WhenHttpResponseBodyIsNotJson_ThrowsJsonException()
+  public async void GetProduct_WhenResponseBodyIsNotJson_ThrowsJsonException()
   {
     // Arrange
     var response = new HttpResponseMessage

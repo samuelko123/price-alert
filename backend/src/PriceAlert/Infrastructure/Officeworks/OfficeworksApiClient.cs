@@ -1,6 +1,8 @@
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using PriceAlert.Domain.Exceptions;
 
 namespace PriceAlert.Infrastructure.Officeworks;
 
@@ -14,7 +16,12 @@ public class OfficeworksApiClient(HttpClient httpClient) : IOfficeworksApiClient
   public async Task<OfficeworksProductDto> GetProduct(string sku)
   {
     var url = $"https://www.officeworks.com.au/catalogue-app/api/products/{sku}";
+
     var response = await httpClient.GetAsync(url);
+    if (response.StatusCode == HttpStatusCode.NotFound)
+    {
+      throw new ItemNotFoundException($"Unable to find product: {sku}");
+    }
     response.EnsureSuccessStatusCode();
 
     var content = await response.Content.ReadAsStringAsync();
