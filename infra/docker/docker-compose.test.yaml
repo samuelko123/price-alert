@@ -1,4 +1,4 @@
-name: price-alert-test
+name: price-alert
 services:
   web-test:
     container_name: web-test

@@ -1,7 +1,7 @@
 #!pwsh
 param(
   [Parameter(Position = 0, Mandatory = $true)]
-  [ValidateSet("dev", "prod", "test", "stop")]
+  [ValidateSet("dev", "prod", "test", "stop", "uninstall")]
   [string]$profile
 )
 
@@ -26,7 +26,7 @@ switch ($profile) {
   }
   "test" {
     $compose = "docker compose --file ./infra/docker/docker-compose.test.yaml"
-    RunCommand("$compose down --rmi all --remove-orphans")
+    RunCommand("$compose down --rmi all")
     RunCommand("$compose up --build")
   }
   "stop" {
@@ -38,5 +38,9 @@ switch ($profile) {
 
     $compose = "docker compose --file ./infra/docker/docker-compose.test.yaml"
     RunCommand("$compose stop")
+  }
+  "uninstall" {
+    $compose = "docker compose --file ./infra/docker/docker-compose.yaml --file ./infra/docker/docker-compose.dev.yaml --file ./infra/docker/docker-compose.test.yaml"
+    RunCommand("$compose down --rmi all --remove-orphans --volume")
   }
 }
