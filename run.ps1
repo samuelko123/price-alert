@@ -1,7 +1,7 @@
 #!pwsh
 param(
   [Parameter(Position = 0, Mandatory = $true)]
-  [ValidateSet("dev", "prod", "test")]
+  [ValidateSet("dev", "prod", "test", "stop")]
   [string]$profile
 )
 
@@ -10,6 +10,8 @@ function RunCommand([string]$command) {
   Write-Host $command
   Invoke-Expression $command
 }
+
+
 
 switch ($profile) {
   "dev" {
@@ -26,5 +28,15 @@ switch ($profile) {
     $compose = "docker compose --file ./infra/docker/docker-compose.test.yaml"
     RunCommand("$compose down --rmi all --remove-orphans")
     RunCommand("$compose up --build")
+  }
+  "stop" {
+    $compose = "docker compose --file ./infra/docker/docker-compose.yaml"
+    RunCommand("$compose stop")
+
+    $compose = "docker compose --file ./infra/docker/docker-compose.dev.yaml"
+    RunCommand("$compose stop")
+
+    $compose = "docker compose --file ./infra/docker/docker-compose.test.yaml"
+    RunCommand("$compose stop")
   }
 }
