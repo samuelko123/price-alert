@@ -35,4 +35,24 @@ describe("ProductSearchForm", () => {
     const product = screen.getByText("A dummy product");
     expect(product).toBeVisible();
   });
+
+  it("displays error when response is not json", async () => {
+    // Arrange
+    server.use(
+      http.get("/api/products/getByUrl", () => {
+        return new HttpResponse("It is not json.");
+      }),
+    );
+
+    const user = userEvent.setup();
+    render(<ProductSearchForm />);
+
+    // Act
+    const button = screen.getByRole("button", { name: "Search" });
+    await user.click(button);
+
+    // Assert
+    const error = screen.getByText("Something went wrong.");
+    expect(error).toBeVisible();
+  });
 });
