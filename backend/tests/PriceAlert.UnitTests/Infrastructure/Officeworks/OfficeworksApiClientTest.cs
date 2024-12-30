@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using FakeItEasy;
-using PriceAlert.Infrastructure.Woolworths;
+using PriceAlert.Infrastructure.Officeworks;
 
 namespace PriceAlert.UnitTests.Infrastructure.Officeworks;
 
@@ -25,7 +25,7 @@ public class OfficeworksApiClientTest
     };
 
     var httpClient = CreateHttpClient(response);
-    var apiClient = new WoolworthsApiClient(httpClient);
+    var apiClient = new OfficeworksApiClient(httpClient);
 
     // Action
     var product = await apiClient.GetProduct("123");
@@ -45,7 +45,7 @@ public class OfficeworksApiClientTest
     };
 
     var httpClient = CreateHttpClient(response);
-    var apiClient = new WoolworthsApiClient(httpClient);
+    var apiClient = new OfficeworksApiClient(httpClient);
 
     // Action
     var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
@@ -67,7 +67,7 @@ public class OfficeworksApiClientTest
     };
 
     var httpClient = CreateHttpClient(response);
-    var apiClient = new WoolworthsApiClient(httpClient);
+    var apiClient = new OfficeworksApiClient(httpClient);
 
     // Action
     var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
@@ -89,7 +89,7 @@ public class OfficeworksApiClientTest
     };
 
     var httpClient = CreateHttpClient(response);
-    var apiClient = new WoolworthsApiClient(httpClient);
+    var apiClient = new OfficeworksApiClient(httpClient);
 
     // Action
     var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
@@ -111,7 +111,7 @@ public class OfficeworksApiClientTest
     };
 
     var httpClient = CreateHttpClient(response);
-    var apiClient = new WoolworthsApiClient(httpClient);
+    var apiClient = new OfficeworksApiClient(httpClient);
 
     // Action
     var exception = await Record.ExceptionAsync(() => apiClient.GetProduct("123"));
