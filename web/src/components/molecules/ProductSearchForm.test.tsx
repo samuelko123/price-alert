@@ -46,7 +46,7 @@ describe("ProductSearchForm", () => {
     expect(product).toBeVisible();
   });
 
-  it("displays error when response is not json", async () => {
+  it("displays generic error message when response is not json", async () => {
     // Arrange
     server.use(
       http.get("/api/products/getByUrl", () => {
@@ -65,7 +65,7 @@ describe("ProductSearchForm", () => {
     expect(error).toBeVisible();
   });
 
-  it("displays error message from server if content-type is problem", async () => {
+  it("displays error message from API response if content-type is problem", async () => {
     // Arrange
     server.use(
       http.get("/api/products/getByUrl", () => {
@@ -95,7 +95,7 @@ describe("ProductSearchForm", () => {
     expect(product).toBeVisible();
   });
 
-  it("displays validation message from server status code is 400", async () => {
+  it("displays validation error message from server status code is 400", async () => {
     // Arrange
     server.use(
       http.get("/api/products/getByUrl", () => {
