@@ -55,4 +55,35 @@ describe("ProductSearchForm", () => {
     const error = screen.getByText("Something went wrong.");
     expect(error).toBeVisible();
   });
+
+  it("displays error message from server if content-type is problem", async () => {
+    // Arrange
+    server.use(
+      http.get("/api/products/getByUrl", () => {
+        const data = {
+          "type": "https://httpstatuses.io/500",
+          "title": "An error occurred while processing your request.",
+          "status": 500,
+        };
+
+        return HttpResponse.json(data, {
+          status: 500,
+          headers: {
+            "Content-Type": "application/problem+json",
+          },
+        });
+      }),
+    );
+
+    const user = userEvent.setup();
+    render(<ProductSearchForm />);
+
+    // Act
+    const button = screen.getByRole("button", { name: "Search" });
+    await user.click(button);
+
+    // Assert
+    const product = screen.getByText("An error occurred while processing your request.");
+    expect(product).toBeVisible();
+  });
 });
