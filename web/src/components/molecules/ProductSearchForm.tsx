@@ -8,6 +8,7 @@ import { ProductDetail } from "./ProductDetail";
 import { ErrorMessage } from "../atoms/ErrorMessage";
 import { LoadingMessage } from "../atoms/LoadingMessage";
 import { useProduct } from "@/hooks/useProduct";
+import { Alert } from "../atoms/Alert";
 
 export const ProductSearchForm = () => {
   const [url, setUrl] = useState("");
@@ -35,7 +36,9 @@ export const ProductSearchForm = () => {
         </form>
         {
           isError &&
-          <ErrorMessage error={error} />
+          <Alert>
+            <ErrorMessage error={error} />
+          </Alert>
         }
         {
           product &&
