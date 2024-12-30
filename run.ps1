@@ -30,13 +30,7 @@ switch ($profile) {
     RunCommand("$compose up --build")
   }
   "stop" {
-    $compose = "docker compose --file ./infra/docker/docker-compose.yaml"
-    RunCommand("$compose stop")
-
-    $compose = "docker compose --file ./infra/docker/docker-compose.dev.yaml"
-    RunCommand("$compose stop")
-
-    $compose = "docker compose --file ./infra/docker/docker-compose.test.yaml"
+    $compose = "docker compose --file ./infra/docker/docker-compose.yaml --file ./infra/docker/docker-compose.dev.yaml --file ./infra/docker/docker-compose.test.yaml"
     RunCommand("$compose stop")
   }
   "uninstall" {
