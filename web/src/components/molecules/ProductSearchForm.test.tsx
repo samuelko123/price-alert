@@ -16,7 +16,7 @@ describe("ProductSearchForm", () => {
     );
   });
 
-  it("displays Product Detail after search", async () => {
+  it("displays product name from API response", async () => {
     // Arrange
     server.use(
       http.get("/api/products/getByUrl", ({ request }) => {
