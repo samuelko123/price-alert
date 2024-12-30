@@ -29,7 +29,8 @@ public class ProductRepository(IOfficeworksApiClient client) : IProductRepositor
 
     var uri = new Uri(url);
     var productSlug = uri.Segments.Last();
-    var sku = productSlug.Split("-").Last();
+    var sku = productSlug.Split("-").Last().ToUpperInvariant();
+
     return sku;
   }
 }
