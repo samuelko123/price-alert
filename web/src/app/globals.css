@@ -4,8 +4,9 @@
 
 :root {
   --background: #dedede;
-  --surface: #bbccee;
   --foreground: #121212;
+  --shadow: #0033ff;
+  --surface: #bbccee;
 }
 
 body {

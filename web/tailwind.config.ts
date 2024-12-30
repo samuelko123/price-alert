@@ -11,7 +11,11 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        shadow: "var(--shadow)",
         surface: "var(--surface)",
+      },
+      maxWidth: {
+        "sm": "48rem",
       },
     },
   },
