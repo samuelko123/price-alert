@@ -19,7 +19,10 @@ export const ProductSearchForm = () => {
       <div className="flex flex-col gap-4">
         <form
           className="flex flex-col gap-4 items-start"
-          onSubmit={(event) => event.preventDefault()}
+          onSubmit={(event) => {
+            event.preventDefault();
+            mutate();
+          }}
         >
           <TextField
             label="Product URL"
@@ -29,7 +32,7 @@ export const ProductSearchForm = () => {
           {isPending ?
             <LoadingMessage />
             :
-            <Button onClick={() => mutate()}>
+            <Button type="submit">
               Search
             </Button>
           }

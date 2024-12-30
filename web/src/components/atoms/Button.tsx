@@ -1,14 +1,14 @@
 export const Button = ({
   children,
-  onClick = () => { },
+  type,
 }: {
   children: string,
-  onClick?: () => void,
+  type?: "submit",
 }) => {
   return (
     <button
       className="rounded-lg text-center text-white bg-blue-700 hover:bg-blue-800 px-4 py-2 focus:outline-none"
-      onClick={onClick}
+      type={type}
     >
       {children}
     </button>
