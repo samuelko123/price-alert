@@ -34,12 +34,17 @@ public class ProductRepositoryTest
   {
     // Arrange
     var client = A.Fake<IOfficeworksApiClient>();
-    var dto = new OfficeworksProductDto()
+    var productDto = new OfficeworksProductDto()
     {
       Sku = "ABCD1234",
       Name = "a product name",
     };
-    A.CallTo(() => client.GetProduct("ABCD1234")).Returns(dto);
+    A.CallTo(() => client.GetProduct("ABCD1234")).Returns(productDto);
+    var priceDto = new OfficeworksProductPriceDto()
+    {
+      PriceInCents = 1000,
+    };
+    A.CallTo(() => client.GetProductPrice("ABCD1234")).Returns(priceDto);
 
     var repository = new ProductRepository(client);
 
@@ -49,5 +54,6 @@ public class ProductRepositoryTest
     // Assert
     Assert.Equal("ABCD1234", product.Sku);
     Assert.Equal("a product name", product.Name);
+    Assert.Equal(1000, product.PriceInCents);
   }
 }

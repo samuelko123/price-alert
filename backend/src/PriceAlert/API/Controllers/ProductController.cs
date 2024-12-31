@@ -17,6 +17,7 @@ public class ProductController(IProductRepository repository) : ControllerBase
     {
       Sku = product.Sku,
       Name = product.Name,
+      PriceInCents = product.PriceInCents,
     };
 
     return Ok(productDto);
