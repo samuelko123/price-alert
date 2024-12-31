@@ -12,11 +12,13 @@ public class ProductRepository(IOfficeworksApiClient client) : IProductRepositor
   {
     var sku = ExtractProductSkuFromUrl(url);
 
-    var dto = await client.GetProduct(sku);
+    var productDto = await client.GetProduct(sku);
+    var priceDto = await client.GetProductPrice(sku);
     return new Product()
     {
-      Sku = dto.Sku,
-      Name = dto.Name
+      Sku = productDto.Sku,
+      Name = productDto.Name,
+      PriceInCents = priceDto.PriceInCents,
     };
   }
 

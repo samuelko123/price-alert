@@ -104,6 +104,7 @@ public class ProductControllerIntegrationTest
     {
       Sku = "123",
       Name = "a product",
+      PriceInCents = 123,
     });
 
     using var factory = new BaseWebApplicationFactory([new ServiceDescriptor(typeof(IProductRepository), repository)]);

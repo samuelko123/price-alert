@@ -170,7 +170,7 @@ public class OfficeworksApiClientTest
     var dto = await apiClient.GetProductPrice("ABC123");
 
     // Assert
-    Assert.Equal(12345, dto.Price);
+    Assert.Equal(12345, dto.PriceInCents);
   }
 
   [Fact]
