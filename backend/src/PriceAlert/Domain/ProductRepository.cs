@@ -19,6 +19,10 @@ public class ProductRepository(IOfficeworksApiClient client) : IProductRepositor
       Sku = productDto.Sku,
       Name = productDto.Name,
       PriceInCents = priceDto.PriceInCents,
+      MainImage = new Image()
+      {
+        Source = productDto.MainImageSource,
+      }
     };
   }
 

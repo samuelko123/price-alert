@@ -104,6 +104,10 @@ public class ProductControllerIntegrationTest
     {
       Sku = "123",
       Name = "a product",
+      MainImage = new Image()
+      {
+        Source = "//s3-ap-southeast-2.amazonaws.com/an-image",
+      },
       PriceInCents = 123,
     });
 
@@ -119,6 +123,7 @@ public class ProductControllerIntegrationTest
     var content = await response.Content.ReadAsStringAsync();
     Assert.Contains("\"sku\":\"123\"", content);
     Assert.Contains("\"name\":\"a product\"", content);
+    Assert.Contains("\"mainImage\":{\"src\":\"//s3-ap-southeast-2.amazonaws.com/an-image\"}", content);
     Assert.Contains("\"priceInCents\":123", content);
   }
 }

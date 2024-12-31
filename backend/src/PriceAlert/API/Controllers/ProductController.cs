@@ -17,6 +17,10 @@ public class ProductController(IProductRepository repository) : ControllerBase
     {
       Sku = product.Sku,
       Name = product.Name,
+      MainImage = new ImageDto()
+      {
+        Source = product.MainImage.Source,
+      },
       PriceInCents = product.PriceInCents,
     };
 

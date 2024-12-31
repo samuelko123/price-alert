@@ -9,4 +9,7 @@ public class OfficeworksProductDto
 
   [JsonPropertyName("name")]
   public required string Name { get; init; }
+
+  [JsonPropertyName("image")]
+  public required string MainImageSource { get; init; }
 }
