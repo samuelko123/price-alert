@@ -1,4 +1,5 @@
 import { Product } from "@/types/Product";
+
 import { Price } from "../atoms/Price";
 
 export const ProductDetail = ({

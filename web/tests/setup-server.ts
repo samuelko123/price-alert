@@ -9,4 +9,4 @@ afterEach(() => server.resetHandlers());
 
 afterAll(() => server.close());
 
-export { HttpResponse, http, delay } from "msw";
+export { delay, http, HttpResponse } from "msw";
