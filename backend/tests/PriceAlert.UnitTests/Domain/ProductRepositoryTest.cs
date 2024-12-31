@@ -55,7 +55,7 @@ public class ProductRepositoryTest
     // Assert
     Assert.Equal("ABCD1234", product.Sku);
     Assert.Equal("a product name", product.Name);
-    Assert.Equal("//s3-ap-southeast-2.amazonaws.com/an-image", product.MainImage.Source);
+    Assert.Equal("https://s3-ap-southeast-2.amazonaws.com/an-image", product.MainImage.Source);
     Assert.Equal(1000, product.PriceInCents);
   }
 }

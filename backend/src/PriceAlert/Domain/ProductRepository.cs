@@ -21,7 +21,7 @@ public class ProductRepository(IOfficeworksApiClient client) : IProductRepositor
       PriceInCents = priceDto.PriceInCents,
       MainImage = new Image()
       {
-        Source = productDto.MainImageSource,
+        Source = "https:" + productDto.MainImageSource,
       }
     };
   }
