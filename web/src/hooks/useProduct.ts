@@ -1,7 +1,8 @@
 "use client";
 
-import { getProductByUrl } from "@/api/productApi";
 import { useMutation } from "@tanstack/react-query";
+
+import { getProductByUrl } from "@/api/productApi";
 
 export const useProduct = ({
   url,
