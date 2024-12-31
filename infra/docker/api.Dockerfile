@@ -13,6 +13,12 @@ COPY --chown=app:app *.sln .
 COPY --chown=app:app ./src ./src
 COPY --chown=app:app ./tests ./tests
 
+RUN mkdir -p /app/src/PriceAlert/bin
+RUN chown app:app /app/src/PriceAlert/bin
+
+RUN mkdir -p /app/src/PriceAlert/obj
+RUN chown app:app /app/src/PriceAlert/obj
+
 ################################################
 
 FROM base AS development
