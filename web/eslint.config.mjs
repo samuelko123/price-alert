@@ -23,6 +23,13 @@ const eslintConfig = [
       "react/no-unknown-property": ["error", { ignore: ["css"] }],
     },
   },
+  {
+    // Server-side image fetching is unavailable due to the lack of mutual TLS support:
+    // https://github.com/vercel/next.js/discussions/35533
+    rules: {
+      "@next/next/no-img-element": "off",
+    },
+  },
 ];
 
 export default eslintConfig;

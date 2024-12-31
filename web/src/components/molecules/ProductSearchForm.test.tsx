@@ -16,7 +16,7 @@ describe("ProductSearchForm", () => {
     );
   });
 
-  it("displays product name from API response", async () => {
+  it("displays product information from API response", async () => {
     // Arrange
     server.use(
       http.get("/api/products/getByUrl", ({ request }) => {
@@ -28,7 +28,11 @@ describe("ProductSearchForm", () => {
 
         return HttpResponse.json({
           sku: "123",
-          name: "A dummy product",
+          name: "a product",
+          priceInCents: 123456,
+          mainImage: {
+            src: "https://google.com/an-image.png",
+          },
         });
       }),
     );
@@ -42,8 +46,10 @@ describe("ProductSearchForm", () => {
     await user.click(button);
 
     // Assert
-    const product = screen.getByText("A dummy product");
-    expect(product).toBeVisible();
+    expect(screen.getByText("123")).toBeVisible();
+    expect(screen.getByText("a product")).toBeVisible();
+    expect(screen.getByText("$1,234.56")).toBeVisible();
+    expect(screen.getByAltText("product image")).toBeVisible();
   });
 
   it("displays generic error message when response is not json", async () => {
