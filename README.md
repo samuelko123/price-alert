@@ -1,45 +1,23 @@
 <h1>Price Alert (WIP)</h1>
 
 <p>A hobbyist project to send email notification on price drop on subscribed items. </p>
-<p>You can visit https://price-alert.samuelko123.dev/.</p>
+<p>It is hosted on https://price-alert.samuelko123.dev/.</p>
 
-<h2>How to Run In Docker</h2>
+<h2>Available Commands</h2>
 
-<p>After running one of the commands, visit http://localhost:4000/</p>
+| Command               | Description                                                                             |
+| ----------------------| --------------------------------------------------------------------------------------- |
+| `./run.ps1 prod`      | Start Docker containers in production mode.                                             |
+| `./run.ps1 dev`       | Start Docker containers in development mode, with Hot Module Replacement enabled.       |
+| `./run.ps1 stop`      | Stop Docker containers.                                                                 |
+| `./run.ps1 uninstall` | Remove all Docker resources related to this project.                                    |
+| `./run.ps1 test`      | Run unit tests.                                                                         |
 
-<h3>Production</h3>
+Both `dev` and `prod` are hosted on http://localhost:4000.
 
-```
-./run.ps1 prod
-```
-
-<h3>Development</h3>
-
-```
-./run.ps1 dev
-```
-
-<h2>How to Run Unit Test</h2>
-
-```
-./run.ps1 test
-```
-
-<h2>How to Stop Docker Containers</h2>
-
-```
-./run.ps1 stop
-```
-
-<h2>How to Remove Docker Resources</h2>
-
-```
-./run.ps1 uninstall
-```
-
-<h2>Further Readings</h2>
+<h2>More Documentations</h2>
 <ul>
   <li>
-    <a href="./infra/README.md">Infrastructure</a>
+    <a href="./infra/README.md">DevOps Infrastructure</a>
   </li>
 <ul>
