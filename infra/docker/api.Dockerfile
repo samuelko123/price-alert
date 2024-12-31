@@ -3,7 +3,7 @@ RUN mkdir /app
 RUN chown app:app /app
 WORKDIR /app
 
-COPY ./zscaler.cer /usr/local/share/ca-certificates/zscalar.crt
+COPY ./zscaler.cer /usr/local/share/ca-certificates/zscaler.crt
 RUN apt-get install --assume-yes ca-certificates
 RUN update-ca-certificates
 
@@ -46,7 +46,7 @@ RUN dotnet publish --configuration Release /app/src/PriceAlert --output ./bin --
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS production
 WORKDIR /app/bin
 
-COPY ./zscaler.cer /usr/local/share/ca-certificates/zscalar.crt
+COPY ./zscaler.cer /usr/local/share/ca-certificates/zscaler.crt
 RUN apt-get install --assume-yes ca-certificates
 RUN update-ca-certificates
 
