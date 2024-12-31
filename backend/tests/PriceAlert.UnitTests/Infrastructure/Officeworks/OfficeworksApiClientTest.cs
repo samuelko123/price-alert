@@ -21,7 +21,8 @@ public class OfficeworksApiClientTest
       Content = new StringContent("""
       {
         "sku": "ABC123",
-        "name": "a product name"
+        "name": "a product name",
+        "image": "//s3-ap-southeast-2.amazonaws.com/an-image"
       }
       """),
     };
@@ -35,6 +36,7 @@ public class OfficeworksApiClientTest
     // Assert
     Assert.Equal("ABC123", product.Sku);
     Assert.Equal("a product name", product.Name);
+    Assert.Equal("//s3-ap-southeast-2.amazonaws.com/an-image", product.MainImageSource);
   }
 
   [Fact]

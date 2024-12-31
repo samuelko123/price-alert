@@ -5,6 +5,7 @@ using FakeItEasy;
 using Microsoft.Extensions.DependencyInjection;
 using PriceAlert.Domain;
 using PriceAlert.Domain.Exceptions;
+using PriceAlert.Infrastructure.Officeworks;
 using PriceAlert.IntegrationTests.Fixtures;
 
 namespace PriceAlert.IntegrationTests.API.Controllers;
@@ -99,26 +100,31 @@ public class ProductControllerIntegrationTest
   public async Task GetByUrl_WithoutExceptions_Returns200()
   {
     // Arrange
-    var repository = A.Fake<IProductRepository>();
-    A.CallTo(() => repository.FindProductByUrl(A<string>._)).Returns(new Product()
+    var officeworksClient = A.Fake<IOfficeworksApiClient>();
+    A.CallTo(() => officeworksClient.GetProduct("ABCD1234")).Returns(new OfficeworksProductDto()
     {
-      Sku = "123",
+      Sku = "ABCD1234",
       Name = "a product",
-      PriceInCents = 123,
+      MainImageSource = "//s3-ap-southeast-2.amazonaws.com/an-image"
+    });
+    A.CallTo(() => officeworksClient.GetProductPrice("ABCD1234")).Returns(new OfficeworksProductPriceDto()
+    {
+      PriceInCents = 1000,
     });
 
-    using var factory = new BaseWebApplicationFactory([new ServiceDescriptor(typeof(IProductRepository), repository)]);
+    using var factory = new BaseWebApplicationFactory([new ServiceDescriptor(typeof(IOfficeworksApiClient), officeworksClient)]);
     using var client = factory.CreateClient();
 
     // Action
-    var response = await client.GetAsync("/api/products/getByUrl?url=https://google.com/");
+    var response = await client.GetAsync("/api/products/getByUrl?url=https://www.officeworks.com.au/shop/officeworks/p/some-sort-of-product-abcd1234");
 
     // Assert
     Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
     var content = await response.Content.ReadAsStringAsync();
-    Assert.Contains("\"sku\":\"123\"", content);
+    Assert.Contains("\"sku\":\"ABCD1234\"", content);
     Assert.Contains("\"name\":\"a product\"", content);
-    Assert.Contains("\"priceInCents\":123", content);
+    Assert.Contains("\"mainImage\":{\"src\":\"https://s3-ap-southeast-2.amazonaws.com/an-image\"}", content);
+    Assert.Contains("\"priceInCents\":1000", content);
   }
 }

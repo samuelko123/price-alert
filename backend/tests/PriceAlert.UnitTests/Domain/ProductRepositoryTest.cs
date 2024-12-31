@@ -38,6 +38,7 @@ public class ProductRepositoryTest
     {
       Sku = "ABCD1234",
       Name = "a product name",
+      MainImageSource = "//s3-ap-southeast-2.amazonaws.com/an-image"
     };
     A.CallTo(() => client.GetProduct("ABCD1234")).Returns(productDto);
     var priceDto = new OfficeworksProductPriceDto()
@@ -54,6 +55,7 @@ public class ProductRepositoryTest
     // Assert
     Assert.Equal("ABCD1234", product.Sku);
     Assert.Equal("a product name", product.Name);
+    Assert.Equal("https://s3-ap-southeast-2.amazonaws.com/an-image", product.MainImage.Source);
     Assert.Equal(1000, product.PriceInCents);
   }
 }
