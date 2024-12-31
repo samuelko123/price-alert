@@ -119,5 +119,6 @@ public class ProductControllerIntegrationTest
     var content = await response.Content.ReadAsStringAsync();
     Assert.Contains("\"sku\":\"123\"", content);
     Assert.Contains("\"name\":\"a product\"", content);
+    Assert.Contains("\"priceInCents\":123", content);
   }
 }
