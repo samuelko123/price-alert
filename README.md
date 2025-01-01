@@ -1,7 +1,9 @@
 <h1>Price Alert</h1>
 
 > [!WARNING]  
-> This project is discontinued.
+> This project is not under active development.
+
+<p>It is hosted on https://price-alert.samuelko123.dev/.</p>
 
 <h2>Available Commands</h2>
 
