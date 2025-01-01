@@ -68,14 +68,6 @@ RUN dotnet publish --configuration Release /app/src/PriceAlert --output ./bin --
 
 ################################################
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS production
+FROM publish AS production
 WORKDIR /app/bin
-
-COPY ./zscaler.cer /usr/local/share/ca-certificates/zscaler.crt
-RUN apt-get install --assume-yes ca-certificates
-RUN update-ca-certificates
-
-USER app
-
-COPY --from=publish /app/bin /app/bin
 ENTRYPOINT ["dotnet", "PriceAlert.dll"]
