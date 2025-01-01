@@ -1,7 +1,7 @@
-<h1>Price Alert (WIP)</h1>
+<h1>Price Alert</h1>
 
-<p>A hobbyist project to send email notification on price drop on subscribed items. </p>
-<p>It is hosted on https://price-alert.samuelko123.dev/.</p>
+> [!WARNING]  
+> This project is discontinued.
 
 <h2>Available Commands</h2>
 
